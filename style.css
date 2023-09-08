@@ -1,0 +1,196 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: url('Admin/images/desktop.jpg ') no-repeat center;
+  background-size: cover;
+  font-family: sans-serif;
+}
+.login-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  padding: 80px 40px 40px;
+  background: rgba(0,0,0,0.7);
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 15px 25px rgba(44, 44, 44, 0.5);
+}
+.form::before {
+  content:'';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255,255,255, 0.08);
+  transform: skewX(-26deg);
+  transform-origin: bottom left;
+  border-radius: 10px;
+  pointer-events: none;
+}
+.form img {
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+  width: 100px;
+  background: rgba(255,255,255, 0.8);
+  border-radius: 60%;
+}
+.form h2 {
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+.form .input-group {
+  position: relative;
+}
+.form .input-group input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+}
+.input-group i {
+    position: absolute; /* Position the icon absolutely within the .input-group container */
+    top: 30%; /* Move it vertically to the middle */
+    left: 92%; /* Adjust the left position to your preference */
+    transform: translateY(-50%); /* Center vertically */
+    cursor: pointer;
+  }
+.form .input-group label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: -10px 0;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: .3s ease-out;
+  color: #fff;
+
+}
+.form .input-group input:focus + label {
+  transform: translateY(-10px);
+  color: #F7E987;
+  font-size: 1rem;
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
+.forgot-pw {
+  color: inherit;
+}
+
+#forgot-pw {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 1;
+  background: #fff;
+  opacity: 0;
+  transition: 0.6s;
+  text-align: right!important;
+}
+#forgot-pw:target {
+  height: 100%;
+  opacity: 1;
+}
+.text-right {
+    text-align: right!important;
+}
+.text-left {
+    text-align: left!important;
+}
+.text-inverse {
+    color: #f5f5f5 !important;
+}
+.f-w-600 {
+    font-weight: 600; }
+.m-t-25 {
+    margin-top: -5px;
+}
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.checkbox-fade {
+    
+    display: inline-block;
+    margin-right: 150px;
+    margin-left: 15px;
+    
+}
+.close {
+  position: absolute;
+  right: 1.5rem;
+  top: 0.5rem;
+  font-size: 2rem;
+  font-weight: 900;
+  text-decoration: none;
+  color: inherit;
+  
+}
+.alert {
+  font-size: 15px;
+  margin-bottom: 1rem;
+  padding: 10px 10px 10px 10px;
+}
+.text-center {
+  text-align: center!important;
+}
+.btn-primary, .sweet-alert button.confirm, .wizard > .actions a {
+    background-color: #0073aa;
+    border-color: #0073aa;
+    color: #fff;
+    cursor: pointer;
+    transition: all ease-in 0.3s; }
+    .btn-primary:hover, .sweet-alert button.confirm:hover, .wizard > .actions a:hover {
+      background-color: #0095dd;
+      border-color: #0095dd; }
+    .btn-primary:active, .sweet-alert button.confirm:active, .wizard > .actions a:active {
+      background-color: #004a6d !important;
+      border-color: #004a6d;
+      box-shadow: none;
+      color: #fff; }
+    .btn-primary:focus, .sweet-alert button.confirm:focus, .wizard > .actions a:focus {
+      box-shadow: none;
+      color: #fff; }
+    .btn-primary.disabled, .sweet-alert button.disabled.confirm, .wizard > .actions a.disabled {
+      background-color: rgba(0, 115, 170, 0.5);
+      border-color: rgba(0, 115, 170, 0.5); }
+      .btn-md {
+        padding: 10px 16px;
+        font-size: 15px;
+        line-height: 23px;
+    }  
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
