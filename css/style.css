@@ -286,7 +286,7 @@ body {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #7e7e7e;
+  color: #3b3b3b;
   text-align: left;
   background-color: #f7f7f7; }
 
@@ -416,7 +416,11 @@ th {
 
 label {
   display: inline-block;
-  margin-bottom: 0.5rem; }
+  margin-bottom: 0.5rem; 
+  color: #000;
+  font-weight: bold;
+
+}
 
 button {
   border-radius: 0; }
@@ -433,7 +437,8 @@ textarea {
   margin: 0;
   font-family: inherit;
   font-size: inherit;
-  line-height: inherit; }
+  line-height: inherit;
+ }
 
 button,
 input {
@@ -533,13 +538,14 @@ h1, h2, h3, h4, h5, h6,
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.2;
-  color: #3d4465; }
+  color: #000000; }
 
 h1, .h1 {
   font-size: 2.25rem; }
 
 h2, .h2 {
-  font-size: 1.875rem; }
+  font-size: 1.875rem; 
+}
 
 h3, .h3 {
   font-size: 1.5rem; }
@@ -1059,7 +1065,7 @@ pre {
 
   .col-md-12 {
     flex: 0 0 100%;
-    max-width: 100%; }
+    max-width: 70%; }
 
   .order-md-first {
     order: -1; }
@@ -1312,8 +1318,8 @@ pre {
     max-width: 41.6666666667%; }
 
   .col-xl-6 {
-    flex: 0 0 50%;
-    max-width: 50%; }
+    flex: 0 0 100%;
+    max-width: 60%; }
 
   .col-xl-7 {
     flex: 0 0 58.3333333333%;
@@ -1336,6 +1342,9 @@ pre {
     max-width: 91.6666666667%; }
 
   .col-xl-12 {
+    flex: 0 0 100%;
+    max-width: 100%; }
+  .col-xl-13 {
     flex: 0 0 100%;
     max-width: 100%; }
 
@@ -1907,7 +1916,8 @@ textarea.form-control {
   height: auto; }
 
 .form-group {
-  margin-bottom: 1rem; }
+  margin-bottom: 0.5rem; 
+}
 
 .form-text {
   display: block;
@@ -1916,7 +1926,7 @@ textarea.form-control {
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -5px;
+  margin-right: -340px;
   margin-left: -5px; }
   .form-row > .col,
   .form-row > [class*="col-"] {
@@ -2227,8 +2237,8 @@ fieldset:disabled a.btn {
 
 .btn-secondary {
   color: #fff;
-  background-color: #6418C3;
-  border-color: #6418C3; }
+  background-color: #a86eee;
+  border-color: #a86eee; }
   .btn-secondary:hover {
     color: #fff;
     background-color: #5314a1;
@@ -2251,7 +2261,7 @@ fieldset:disabled a.btn {
   background-color: #68CF29;
   border-color: #68CF29; }
   .btn-success:hover {
-    color: #fff;
+    color: #000;
     background-color: #58af23;
     border-color: #53a421; }
   .btn-success:focus, .btn-success.focus {
@@ -4521,10 +4531,10 @@ a.close.disabled {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #fff;
+  background-color: #e5e5e5;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 0.3rem;
+  border-radius: 200rem;
   outline: 0; }
 
 .modal-backdrop {
@@ -4545,7 +4555,7 @@ a.close.disabled {
   align-items: flex-start;
   justify-content: space-between;
   padding: 1rem 1rem;
-  border-bottom: 1px solid #EEEEEE;
+  border-bottom: 2px solid #000;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem; }
   .modal-header .close {
@@ -4559,7 +4569,9 @@ a.close.disabled {
 .modal-body {
   position: relative;
   flex: 1 1 auto;
-  padding: 1rem; }
+  padding: 1rem; 
+  width: 100%;
+}
 
 .modal-footer {
   display: flex;
@@ -4583,7 +4595,7 @@ a.close.disabled {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 500px;
+    max-width: 50%;
     margin: 1.75rem auto; }
 
   .modal-dialog-scrollable {
@@ -8538,11 +8550,19 @@ body {
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
   color: #000;
   font-weight: 600; }
+
+h6 {
+  color: #fff;
+  font-weight: 600;
+}
+
+h5 {
+  color: #000;
+  font-weight: 600;
+}
 
 p {
   line-height: 1.8; }
@@ -9359,7 +9379,7 @@ a {
   position: absolute;
   left: 0;
   top: 0;
-  background-color: var(--nav-headbg);
+  background-color: #146C94;
   transition: all .2s ease;
   z-index: 10; }
   .nav-header .logo-abbr {
@@ -12263,7 +12283,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   font-size: 0.75rem;
   letter-spacing: 0.05rem;
   border-top: 1px solid #eaeaea;
-  color: #999999; }
+  color: #c1c1c1; }
   [data-theme-version="dark"] .nav-label {
     border-color: #473F72; }
   .nav-label.first {
@@ -12445,7 +12465,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   top: 4.5rem;
   padding-top: 0;
   z-index: 4;
-  background-color: var(--sidebar-bg);
+  background-color: #212529;
   transition: all .2s ease;
   box-shadow: 0px 15px 30px 0px rgba(0, 0, 0, 0.02); }
   @media only screen and (max-width: 1199px) {
@@ -12540,7 +12560,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
         font-weight: 400;
         display: inline-block;
         font-size: 15px;
-        color: #3f4358; }
+        color: #fff; }
         .deznav .metismenu > li > a i {
           color: #969BA0; }
         .deznav .metismenu > li > a svg {
@@ -12642,7 +12662,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       display: block;
       padding: 0.625rem 1.875rem;
       outline-width: 0;
-      color: #3f4358;
+      color: #ffffff;
       text-decoration: none; }
       @media only screen and (max-width: 767px) {
         .deznav .metismenu a {
@@ -20462,10 +20482,11 @@ svg text {
 
 .form-control {
   background: #fff;
-  border: 1px solid #EEEEEE;
+  border: 1px solid #D9D9D9;
   color: #6e6e6e;
   height: 50px;
-  padding: 10px 20px;
+  width: 100%;
+  padding: 10px 15px;
   border-radius: 0.35rem; }
   @media only screen and (max-width: 1400px) {
     .form-control {
@@ -23468,8 +23489,9 @@ button {
       margin-bottom: 0.938rem;
       height: calc(100% - 0.938rem); } }
   .card-body {
-    padding: 1.875rem; }
-    @media only screen and (max-width: 575px) {
+    padding: 1.875rem; 
+  }
+    @media only screen and (max-width: 600px) {
       .card-body {
         padding: 1rem; } }
   .card-title {
@@ -25582,10 +25604,10 @@ table.dataTable thead th {
     color: #fff; }
   @media only screen and (max-width: 1400px) {
     table.dataTable thead th {
-      font-size: 16px; } }
+      font-size: 15px; } }
 
 table.dataTable tbody td {
-  padding: 18px 15px;
+  padding: 10px 10px;
   font-size: 16px; }
   @media only screen and (max-width: 575px) {
     table.dataTable tbody td {
@@ -25639,7 +25661,7 @@ table.dataTable.style-1 thead th {
     margin: 0 5px;
     border: 0 !important;
     font-weight: 500;
-    font-size: 1.5rem;
+    font-size: 0.7rem;
     color: #000 !important;
     text-align: center;
     line-height: 48px;
