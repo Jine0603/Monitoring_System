@@ -2283,8 +2283,8 @@ fieldset:disabled a.btn {
   border-color: #51A6F5; }
   .btn-info:hover {
     color: #fff;
-    background-color: #2d93f3;
-    border-color: #218df2; }
+    background-color: #0e5da7;
+    border-color: #0e5da7; }
   .btn-info:focus, .btn-info.focus {
     box-shadow: 0 0 0 0.2rem rgba(107, 179, 247, 0.5); }
   .btn-info.disabled, .btn-info:disabled {
@@ -3351,7 +3351,7 @@ input[type="button"].btn-block {
     cursor: default; }
 
 .nav-tabs {
-  border-bottom: 1px solid #dee2e6; }
+  border-bottom: 1px solid #000; }
   .nav-tabs .nav-item {
     margin-bottom: -1px; }
   .nav-tabs .nav-link {
@@ -22782,8 +22782,8 @@ button {
   color: #fff; }
 
 .btn {
-  padding: 0.6rem 0.9rem;
-  border-radius: 0.3rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.5rem;
   font-weight: 500;
   font-size: 0.875rem;
   box-shadow: none; }
@@ -22857,7 +22857,7 @@ button {
       fill: #fff; }
 .light.btn-info {
   background-color: #e2f0fd;
-  border-color: #e2f0fd;
+  border-color: #51A6F5;
   color: #51A6F5; }
   .light.btn-info g [fill] {
     fill: #51A6F5; }
@@ -23490,6 +23490,9 @@ button {
       height: calc(100% - 0.938rem); } }
   .card-body {
     padding: 1.875rem; 
+  }
+  .card-body1 {
+    padding: 0.875rem; 
   }
     @media only screen and (max-width: 600px) {
       .card-body {

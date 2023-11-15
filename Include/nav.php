@@ -117,7 +117,7 @@
 								<?php
 								$emp_id = $_SESSION["id"];
 
-								$prot = " SELECT * FROM accrole_tbl WHERE employeeid='$emp_id' ";
+								$prot = "SELECT * FROM accrole_tbl WHERE employeeid='$emp_id' AND status = 1";
 								$exe = mysqli_query($conn, $prot);
 						
 								while ($h2w = mysqli_fetch_array($exe)) {
@@ -129,11 +129,11 @@
 									}elseif($condtiones == 2){
 										echo '<small>FMC Accounting</small>' ;
 									}elseif($condtiones == 3){
-										echo '<small>Super Admin</small>';
+										echo '<small>MSC Accounting</small>';
 									}elseif($condtiones == 4){
-										echo '<small>Super Admin</small>' ;
+										echo '<small>MBI Accounting</small>' ;
 									}elseif($condtiones == 5){
-										echo '<small>Super Admin</small>' ;
+										echo '<small>EverFirst Accounting</small>' ;
 									}elseif($condtiones == 6){
 
 									}

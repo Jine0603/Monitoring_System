@@ -126,7 +126,7 @@
 
         <ul class="metismenu" id="menu">
             <li class="nav-label first">Main Menu</li>
-            <li><a href="FMC.php" class="ai-icon" aria-expanded="false">
+            <li><a href="user.php" class="ai-icon" aria-expanded="false">
                     <i class="flaticon-144-layout"></i>
                     <span class="nav-text">Dashboard</span>
                 </a>
@@ -157,8 +157,8 @@
                     }
         ?>
         <!-- END HERE -->
-        <li><a href="assignedasset.php">Assigned List</a></li>
-        <li><a href="page-chat.html">Damage List</a></li>
+        <li><a href="assignedlist.php">Assigned List</a></li>
+        <li><a href="damage.php">Damage List</a></li>
         </ul>
         </li>
         <li class="nav-label">Inventory</li>

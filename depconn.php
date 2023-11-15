@@ -1,7 +1,7 @@
 <?php
 require_once "Include/config.php";
 $company = $_POST["company"];
-$result = mysqli_query($conn,"SELECT * FROM dep_tbl where companyid = $company");
+$result = mysqli_query($conn,"SELECT * FROM dep_tbl where companyid = $company AND status = '1'");
 ?>
 <option value="">Select Department</option>
 <?php

@@ -15,22 +15,21 @@ $response = array(
     'message' => 'Form submission failed, please try again.'
 );
 // If form is submitted 
-if (isset($_POST['assetid']) || isset($_FILES['file1']) || isset($_POST['assetname']) || isset($_POST['company']) || isset($_POST['category'])|| isset($_POST['departmentid']) || isset($_POST['date_purchase']) || isset($_POST['locationid']) || isset($_POST['qty'])) {
+if (isset($_FILES['file1']) || isset($_POST['assetname']) || isset($_POST['company']) || isset($_POST['category'])|| isset($_POST['date_purchase']) || isset($_POST['locationid']) || isset($_POST['qty'])) {
     // Get the submitted form data 
 
     $employeeid = $_SESSION['id'];
-    $assetid = $_POST['assetid'];
     $assetname = $_POST['assetname'];
     $company = $_POST['company'];
     $category = $_POST['category'];
-    $departmentid = $_POST['departmentid'];
     $date_purchase = $_POST['date_purchase'];
     $locationid = $_POST['locationid'];
     $qty = $_POST['qty'];
 
 
     // Check whether submitted data is not empty 
-    if (!empty($assetid) && !empty($assetname) && !empty($company) && !empty($category) && !empty($departmentid) && !empty($date_purchase) && !empty($locationid)) { {
+    if (!empty($assetname) && !empty($company) && !empty($category) && !empty($date_purchase) && !empty($locationid)) { 
+        {
             $uploadStatus = 1;
 
             // Upload file 
@@ -59,38 +58,52 @@ if (isset($_POST['assetid']) || isset($_FILES['file1']) || isset($_POST['assetna
             if ($uploadStatus == 1) {
                 // Include the database config file 
                 include_once 'Include/config.php';
+
                 $storageid = array();
-                $storagefile = array();
+                // $storagefile = array();
+
+                $sql2 = "SELECT assetid,categoriesid FROM item_tbl WHERE categoriesid = '$category' ORDER BY assetid DESC";
+                $query1 = mysqli_query($conn, $sql2);
+                $rows = mysqli_fetch_assoc($query1);
+                $lastid = $rows['assetid'];
+                $int = (int)$lastid + 1;
+
 
                 for ($i = 0; $i < $qty; $i++) {
-
-                    $asid = $assetid . $i;
+                    
+                    // $zero1 = 000;
+                    // $asid = $zero1.$last + $i;
+                    $asid = str_pad($int + $i, 4, '0', STR_PAD_LEFT);
 
                     // Insert form data in the database 
-                    $sqlQ = "INSERT INTO item_tbl (assetid,file_name,assetname,companyid,categoriesid,departmentid,date_purchase,locationid,date_created) 
-                VALUES (?,?,?,?,?,?,?,?,?)";
+                    $sqlQ = "INSERT INTO item_tbl (assetid,file_name,assetname,companyid,categoriesid,date_purchase,locationid,date_created) 
+                    VALUES (?,?,?,?,?,?,?,?)";
                     $stmt = $conn->prepare($sqlQ);
-                    $stmt->bind_param("sssssssss", $asid, $uploadedFile, $assetname, $company, $category, $departmentid, $date_purchase, $locationid, $date_now);
+                    $stmt->bind_param("ssssssss", $asid, $uploadedFile, $assetname, $company, $category, $date_purchase, $locationid, $date_now);
                     $insert = $stmt->execute();
-
+                    
                     $last_id = mysqli_insert_id($conn);
                     array_push($storageid, $last_id);
+                    // var_dump($asid);
                 }
                 if ($insert) {
+
+                    $response['status'] = 1;
+                    $response['message'] = 'Form data submitted successfully!';
 
                     $count = count($_FILES['files']['name']);
                     for ($a = 0; $a < $count; $a++) {
                         if (isset($_FILES['files']['name'][$a]) && $_FILES['files']['name'][$a] != '') {
                             $filename = $_FILES['files']['name'][$a];
                             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-                            $valid_ext = array("doc", "docx", "xls", "xlsx");
+                            $valid_ext = array("pdf");
                             //  if (in_array($ext, $valid_ext)) {
                             $path = $uploadDir . $filename;
-                            $e = 1;
+                            $i = 1;
                             $filename_without_ext = pathinfo($filename, PATHINFO_FILENAME);
 
                             while (file_exists($path)) {
-                                $filename = $filename_without_ext . "_" . time() . "_" . $i . "." . $ext;
+                                $filename = $filename_without_ext  . "_" . rand(1, 9999) . "_" . time() . "_" . $i . "." . $ext;
                                 $path = $uploadDir . $filename;
 
                                 $e++;
@@ -98,20 +111,20 @@ if (isset($_POST['assetid']) || isset($_FILES['file1']) || isset($_POST['assetna
                             if (move_uploaded_file($_FILES['files']['tmp_name'][$a], $path)) {
                                 $files_array[] = $path;
 
-                                array_push($storagefile, $filename);
+                                foreach ($storageid as $value) {
+
+                                    // $fie = json_encode($storagefile, JSON_FORCE_OBJECT);
+                                    $sql1 = "INSERT INTO `multfile_tbl`(`employeeid`, `itemid`, `file`,`datecreated`) VALUES
+                                    ('$employeeid','$value','$filename','$date_now')";
+                                    $query = mysqli_query($conn, $sql1);
+                                    
+                                }
+
+                                // array_push($storagefile, $filename);
                             }
                             // }
                         }
                     }
-                    $response['status'] = 1;
-                    $response['message'] = 'Form data submitted successfully!';
-                }
-                foreach ($storageid as $value) {
-
-                    $fie = json_encode($storagefile);
-                    $sql1 = "INSERT INTO `multfile_tbl`(`employeeid`, `itemid`, `file`,`datecreated`) VALUES
-                    ('$employeeid','$value','$fie','$date_now')";
-                    $query = mysqli_query($conn, $sql1);
                 }
             }
         }
@@ -119,5 +132,5 @@ if (isset($_POST['assetid']) || isset($_FILES['file1']) || isset($_POST['assetna
         $response['message'] = 'Please fill all the mandatory fields (name and email).';
     }
 }
-// Return response 
+
 echo json_encode($response);

@@ -117,6 +117,14 @@ include 'seasionindex.php';
                         </ol>
                     </div>
                 </div>
+
+
+                <!-- ADD EMPLOYEE MODAL -->
+                <?php include("fmc_empview.php"); ?>
+                <!-- ADD EMPLOYEE MODAL -->
+                <?php include("fmc_empedit.php"); ?>
+
+
                 <!-- ADD EMPLOYEE MODAL -->
                 <div class="modal fade" id="exampleModalCenter">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -210,12 +218,12 @@ include 'seasionindex.php';
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">ASSET ITEM</h4>
-                                <button type="button" class="btn btn-primary mb-2 align-items-center" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter" id="generateIDButton">ADD ITEM</button>
+                                <button type="button" class="btn btn-primary mb-2 align-items-center" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter" id="generateIDButton">ADD EMPLOYEE</button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="table1" class="display" style="min-width: 845px">
-                                    <thead>
+                                    <table id="table2" class="display" style="min-width: 845px">
+                                        <thead>
                                             <tr>
                                                 <th>No</th>
                                                 <th>EmployeeID</th>
@@ -298,9 +306,24 @@ include 'seasionindex.php';
 
     <script>
         $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
 
-            $('#table1').DataTable({
+        })
+    </script>
+
+
+    <script>
+
+        $('#close_modal1').on('click', function() {
+                $('#edit_data').modal('hide');
+                $("#usertype_edit").val('').trigger('change');
+            });
+
+
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+            $('.js-example-basic-multiple1').select2();
+
+            $('#table2').DataTable({
                 serverside: false,
                 processing: true,
                 "destroy": true,
@@ -342,7 +365,107 @@ include 'seasionindex.php';
         });
     </script>
     <script>
+        $(document).on("click", "#edit", function() {
+
+            const id = $(this).data('id');
+            const employeeid = $("#employeeid_edit").val()
+            const firstname = $("#firstname_edit").val()
+            const lastname = $("#lastname_edit").val()
+            const username = $("#username_edit").val()
+            const password = $("#password_edit").val()
+            const companyid = $("#company_edit").val()
+            const departmentid = $("#departmentid_edit").val()
+            const positionid = $("#positionid_edit").val()
+
+
+            const check = [];
+                $('.userole_edit').each(function() {
+                    if ($(this).is(':checked')) {
+                        check.push($(this).val());
+
+                    }
+
+                })
+
+
+            $.ajax({
+                url: "employee_edit.php",
+                type: "POST",
+                data: {
+                    id:id,
+                    employeeid: employeeid,
+                    firstname: firstname,
+                    lastname: lastname,
+                    username: username,
+                    password: password,
+                    company: companyid,
+                    departmentid: departmentid,
+                    positionid: positionid,
+                    check
+                },
+                success: function(data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated',
+                        text: 'Your Information have been Updated !',
+                    });
+                    $('#table2').DataTable().ajax.reload();
+                    $("#edit-modal").modal("hide")
+
+                }
+
+            });
+        });
+    </script>
+    <script>
         $(document).ready(function() {
+
+            // VIEW FUNCTION FOR EMPLOYEE 
+
+            $('#table2').on("click", ".edit_modal", function() {
+                var id = $(this).data('id');
+                var emp_id = $(this).data('empid');
+                var fname = $(this).data('firstname');
+                var lname = $(this).data('lastname');
+                var user = $(this).data('username');
+                var pass = $(this).data('password');
+                var com = $(this).data('company');
+                var depart = $(this).data('dep');
+                var pos = $(this).data('position');
+                var department = $(this).data('department');
+                var position = $(this).data('pos');
+                let typeuse = $(this).data('user');
+
+
+                $("#edit_data").modal("show")
+
+                $('#id_edit').val(id);
+                $('#employeeid_edit').val(emp_id);
+                $('#firstname_edit').val(fname);
+                $('#lastname_edit').val(lname);
+                $('#username_edit').val(user);
+                $('#password_edit').val(pass);
+                $('#company_edit').val(com);
+                $('#departmentid_edit').html('<option value=' + depart + '>' + department + '</option>');
+                $('#positionid_edit').html('<option value=' + pos + '>' + position + '</option>');
+
+
+
+                var userdata = new String(typeuse);
+
+                var result = userdata.includes(',');
+
+                if(result){
+                    var usercount = typeuse.split(',');
+                    var counter = usercount.length;
+                    $('#usertype_edit').val(usercount);
+                }else{
+                    $('#usertype_edit').val(typeuse);
+                }
+                $('#usertype_edit').trigger('change');
+                // $('#usertype_edit').each(function() {)
+                  
+            });
 
             $('#company').on('change', function() {
                 var company = this.value;
@@ -370,6 +493,38 @@ include 'seasionindex.php';
                     success: function(result) {
                         $("#positionid").empty();
                         $("#positionid").html(result);
+
+
+                    }
+                });
+            });
+
+            $('#company_edit').on('change', function() {
+                var company = this.value;
+                $.ajax({
+                    url: "depconn.php",
+                    type: "POST",
+                    data: {
+                        company: company
+                    },
+                    cache: false,
+                    success: function(result) {
+                        $("#departmentid_edit").html(result);
+                    }
+                });
+            });
+            $('#departmentid_edit').on('change', function() {
+                var departmentid = this.value;
+                $.ajax({
+                    url: "pos.php",
+                    type: "POST",
+                    data: {
+                        departmentid: departmentid
+                    },
+                    cache: false,
+                    success: function(result) {
+                        $("#positionid_edit").empty();
+                        $("#positionid_edit").html(result);
 
 
                     }
@@ -405,12 +560,59 @@ include 'seasionindex.php';
         });
     </script>
     <script>
-        // $(document).on('click', '#submit', function(asd) {
-        // e.preventDefault();
+        // Button for Remove to Update the status
+        $(document).on('click', '.removedata', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
 
+            // Show the confirmation dialog
+            Swal.fire({
+                title: 'Are you sure you want to Inactive the Account?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User confirmed, proceed with the AJAX request
+                    $.ajax({
+                        url: "delete_employee.php",
+                        type: "POST",
+                        cache: false,
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            if (response == '1') {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Data removed successfully",
+                                    icon: "success"
+                                });
+                                $("#table2").DataTable().ajax.reload(null, false);
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Something went wrong",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("AJAX Error: " + error);
+                            Swal.fire({
+                                title: "Error",
+                                text: "An error occurred while removing data",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
         $(document).ready(function() {
-            $('#tested').click(function() {
-
+            $('#tested').click(function(e) {
+            e.preventDefault(e);
 
                 var employeeid = $('#employeeid').val();
                 var firstname = $('#firstname').val();
@@ -421,19 +623,19 @@ include 'seasionindex.php';
                 var departmentid = $('#departmentid').val();
                 var positionid = $('#positionid').val();
                 var usertype = $('#usertype').val();
-                if (employeeid == "" && firstname == "" && lastname == "" && username == "" && password == "" && companyid == 'default'
-                && departmentid == 'default') {
+                if (employeeid == '' || firstname == '' || lastname == '' || username == '' || password == '' || companyid == 'default' ||
+                    departmentid == '' || positionid == '' || usertype == '') {
                     Swal.fire({
-                            position: 'top-center',
-                            icon: 'error',
-                            title: 'Please Fill Up the FORM!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        return;
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Please Fill Up the FORM!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    return;
                 }
-                
-        
+
+
 
 
                 const rolerr = [];
@@ -444,8 +646,6 @@ include 'seasionindex.php';
                     }
 
                 })
-
-                // alert();
                 $.ajax({
                     url: "addemp.php",
                     type: "POST",
@@ -463,16 +663,16 @@ include 'seasionindex.php';
                     },
                     success: function(data) {
                         $('#msg').html(data);
-                        $('#table1').DataTable().ajax.reload();
+                        $('#table2').DataTable().ajax.reload();
                         $('#employeeid').val('');
                         $('#firstname').val('');
                         $('#lastname').val('');
                         $('#username').val('');
                         $('#password').val('');
-                        $('#company').val('');
+                        $('#company').val('default');
                         $('#departmentid').val('');
                         $('#positionid').val('');
-                        $('.user_role').prop("checked", false);
+                        $('#usertype').val('').trigger('change');
                         Swal.fire({
                             position: 'top-center',
                             icon: 'success',

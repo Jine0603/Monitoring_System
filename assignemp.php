@@ -1,15 +1,36 @@
 <?php
 include 'Include/config.php';
 
-if(!isset($_POST['searchTerm'])){ 
-    $fetchData = mysqli_query($conn,"SELECT * FROM emp_tbl order by firstname limit 5");
-}else{ 
-    $search = $_POST['searchTerm'];   
-    $fetchData = mysqli_query($conn,"SELECT * FROM emp_tbl where firstname like '%".$search."%' limit 5");
-} 
+$id = $_POST['id'];
+$id1 = $_POST['assid'];
 
-$data = array();
-while ($row = mysqli_fetch_array($fetchData)) {    
-    $data[] = array("id"=>$row['id'], "text"=>$row['firstname']);
+$status = 0; // Default status
+
+// First update
+$sql1 = "UPDATE assigned_tbl
+        SET
+        status = '0'
+        WHERE id = $id";
+
+$result1 = $conn->query($sql1);
+
+if ($result1) {
+    // First update successful, proceed with the second update
+
+    $sql2 = "UPDATE item_tbl
+        SET
+        assigned_status = '0'
+        WHERE id = $id1";
+
+    $result2 = $conn->query($sql2);
+
+    if ($result2) {
+        $status = 1; // Both updates successful
+    }
+} else {
+    $status = 0; // First update failed
 }
-echo json_encode($data);
+
+echo $status; // Return the appropriate status code
+
+?>
