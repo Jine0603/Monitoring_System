@@ -12,7 +12,7 @@ while($rows = mysqli_fetch_assoc($query)) {
     $categ = $rows['id'];
 
 
-    $sql1 = "SELECT SUM(quantity) as total_stocks,SUM(assetstatus = 2) as total_use FROM item_tbl WHERE categoriesid = '$categ' GROUP BY categoriesid";
+    $sql1 = "SELECT SUM(quantity) as total_stocks,SUM(assetstatus = 2) as total_use FROM item_tbl WHERE  categoriesid = '$categ' GROUP BY categoriesid";
     $query1 = mysqli_query($conn, $sql1);
     $ctotal = mysqli_num_rows($query1);
 

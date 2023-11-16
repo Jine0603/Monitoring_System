@@ -8,8 +8,8 @@
         ***********************************-->
         <div class="main-profile">
             <div class="image-bx">
-                <img src="images/Untitled-1.jpg" alt="">
-                <a href="javascript:void(0);"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                <img src="images/logo1.png" alt="">
+                <!-- <a href="javascript:void(0);"><i class="fa fa-cog" aria-hidden="true"></i></a> -->
             </div>
             <h6 class="name"><span class="font-w400">Hello,</span> <?= strtoupper($_SESSION['username']) ?></h6>
         </div>
@@ -45,7 +45,7 @@
                             <span class="nav-text">Manage Employees</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="employee.php">Employees</a>
+                            <li><a>Employees</a>
                             <ul aria-expanded="false">
                                     <li><a href="fmc_employee.php">FMC</a></li>
                                     <li><a href="msc_employee.php">MSC</a></li>
@@ -148,7 +148,7 @@
                         // echo $h2w['usertype'];
                         $condtiones = $h2w['usertype'];
                         if ($condtiones == 2) { ?>
-                            <li?><a href="sample.php">FMC</a>
+                            <li?><a href="fmc.php">FMC</a>
             </li>
         <?php } else if ($condtiones == 3) { ?>
             <li?><a href="hkak.php">MSC</a></li>
@@ -175,7 +175,7 @@
         <li class="nav-label">Asset View</li>
         <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                 <i class="flaticon-053-heart"></i>
-                <span class="nav-text">Plugins</span>
+                <span class="nav-text">View Asset</span>
             </a>
             <ul aria-expanded="false">
                 <li><a href="uc-select2.html">Assigned Asset</a></li>

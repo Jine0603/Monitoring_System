@@ -12,6 +12,7 @@ $emplo = $_POST['emplo'];
 $company = $_POST['company'];
 $depart = $_POST['depart'];
 $posi = $_POST['posi'];
+$newloc = $_POST['newloc'];
 
 $sql1 = "UPDATE assigned_tbl
     SET 
@@ -21,8 +22,8 @@ $sql1 = "UPDATE assigned_tbl
 
 if ($execute == true) {
 
-    $sql2 = "INSERT INTO assigned_tbl (acc_id, item_id, cateid, employee_assigned, companyid, departmentid, positionid) 
-    VALUES ('$accid','$asset','$categ','$emplo','$company','$depart','$posi')";
+    $sql2 = "INSERT INTO assigned_tbl (acc_id, item_id, cateid, employee_assigned, companyid, departmentid, positionid,locationid) 
+    VALUES ('$accid','$asset','$categ','$emplo','$company','$depart','$posi','$newloc')";
 
     $query = mysqli_query($conn, $sql2);
 }

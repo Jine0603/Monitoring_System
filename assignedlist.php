@@ -29,6 +29,18 @@ include 'seasionindex.php';
 </head>
 
 <body>
+    
+	<style>
+		.hide {
+			display: none;
+		}
+	</style>
+	<script>
+		function toggleImage() {
+        var logo2 = document.getElementById("logo2");
+        logo2.classList.toggle("hide");
+    }
+	</script>
 
     <style>
         .round-image-container {
@@ -75,22 +87,20 @@ include 'seasionindex.php';
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
-                <svg class="logo-abbr" width="50" height="50" viewbox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect class="svg-logo-rect" width="50" height="50" rx="6" fill="#EB8153"></rect>
-                    <path class="svg-logo-path" d="M17.5158 25.8619L19.8088 25.2475L14.8746 11.1774C14.5189 9.84988 15.8701 9.0998 16.8205 9.75055L33.0924 22.2055C33.7045 22.5589 33.8512 24.0717 32.6444 24.3951L30.3514 25.0095L35.2856 39.0796C35.6973 40.1334 34.4431 41.2455 33.3397 40.5064L17.0678 28.0515C16.2057 27.2477 16.5504 26.1205 17.5158 25.8619ZM18.685 14.2955L22.2224 24.6007L29.4633 22.6605L18.685 14.2955ZM31.4751 35.9615L27.8171 25.6886L20.5762 27.6288L31.4751 35.9615Z" fill="white"></path>
-                </svg>
-                <svg class="brand-title" width="74" height="22" viewbox="0 0 74 22" fill="fff" xmlns="http://www.w3.org/2000/svg">
-                    <path class="svg-logo-path" d="M0.784 17.556L10.92 5.152H1.176V1.12H16.436V4.564L6.776 16.968H16.548V21H0.784V17.556ZM25.7399 21.28C24.0785 21.28 22.6599 20.9347 21.4839 20.244C20.3079 19.5533 19.4025 18.6387 18.7679 17.5C18.1519 16.3613 17.8439 15.1293 17.8439 13.804C17.8439 12.3853 18.1519 11.088 18.7679 9.912C19.3839 8.736 20.2799 7.79333 21.4559 7.084C22.6319 6.37467 24.0599 6.02 25.7399 6.02C27.4012 6.02 28.8199 6.37467 29.9959 7.084C31.1719 7.79333 32.0585 8.72667 32.6559 9.884C33.2719 11.0413 33.5799 12.2827 33.5799 13.608C33.5799 14.1493 33.5425 14.6253 33.4679 15.036H22.6039C22.6785 16.0253 23.0332 16.7813 23.6679 17.304C24.3212 17.808 25.0585 18.06 25.8799 18.06C26.5332 18.06 27.1585 17.9013 27.7559 17.584C28.3532 17.2667 28.7639 16.8373 28.9879 16.296L32.7959 17.36C32.2172 18.5173 31.3119 19.46 30.0799 20.188C28.8665 20.916 27.4199 21.28 25.7399 21.28ZM22.4919 12.292H28.8759C28.7825 11.3587 28.4372 10.6213 27.8399 10.08C27.2612 9.52 26.5425 9.24 25.6839 9.24C24.8252 9.24 24.0972 9.52 23.4999 10.08C22.9212 10.64 22.5852 11.3773 22.4919 12.292ZM49.7783 21H45.2983V12.74C45.2983 11.7693 45.1116 11.0693 44.7383 10.64C44.3836 10.192 43.9076 9.968 43.3103 9.968C42.6943 9.968 42.069 10.2107 41.4343 10.696C40.7996 11.1813 40.3516 11.8067 40.0903 12.572V21H35.6103V6.3H39.6423V8.764C40.1836 7.90533 40.949 7.23333 41.9383 6.748C42.9276 6.26267 44.0663 6.02 45.3543 6.02C46.3063 6.02 47.0716 6.19733 47.6503 6.552C48.2476 6.888 48.6956 7.336 48.9943 7.896C49.3116 8.43733 49.517 9.03467 49.6103 9.688C49.7223 10.3413 49.7783 10.976 49.7783 11.592V21ZM52.7548 4.62V0.559999H57.2348V4.62H52.7548ZM52.7548 21V6.3H57.2348V21H52.7548ZM63.4657 6.3L66.0697 10.444L66.3497 10.976L66.6297 10.444L69.2337 6.3H73.8537L68.9257 13.608L73.9657 21H69.3457L66.6017 16.884L66.3497 16.352L66.0977 16.884L63.3537 21H58.7337L63.7737 13.692L58.8457 6.3H63.4657Z" fill="black"></path>
-                </svg>
-            </a>
+			<a href="user.php" class="brand-logo">
+				<img src="images/logo1.jpg" alt="Your Brand Name">
+				&nbsp;
+				&nbsp;
+				&nbsp;
+				<img id="logo2" src="images/name.png" alt="Your Brand Name" style="width: 60%; height: 60%;">
+			</a>
 
-            <div class="nav-control">
-                <div class="hamburger">
-                    <span class="line"></span><span class="line"></span><span class="line"></span>
-                </div>
-            </div>
-        </div>
+			<div class="nav-control" onclick="toggleImage()">
+				<div class="hamburger">
+					<span class="line"></span><span class="line"></span><span class="line"></span>
+				</div>
+			</div>
+		</div>
         <!--**********************************
             Nav header end
         ***********************************-->
@@ -140,12 +150,19 @@ include 'seasionindex.php';
                                                 <label>Asset Description</label>
                                                 <input type="text" class="form-control" id="ass" name="ass" disabled>
                                             </div>
-                                            <div class="form-group col-md-12">
-                                                <label>Asset Assigned</label>
-                                                <select class="assigned_emp" name="employee" id="employee">
+                                            <div class="form-group col-md-6">
+                                            <input type="radio" name="type" id="showdepart" onChange="showdep();">Department</input>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                            <input type="radio" name="type" id="showlocat" onClick="showloc();">Location</input>
+                                            </div>
+                                            <div class="form-group col-md-12" id="showmeme" style="display: none;">
+                                                <input type="text" class="form-control" id="assigned_id" name="assigned_id" hidden>
+                                                <label>Asset Name</label>
+                                                <select class="js-example-basic-single" name="employee" id="employee">
                                                     <option value="default" selected>Select Employee</option>
                                                     <?php
-                                                    $result = mysqli_query($conn, "SELECT * FROM employee_tbl WHERE companyid = '1'");
+                                                    $result = mysqli_query($conn, "SELECT * FROM employee_tbl WHERE companyid = '1' AND status = '1'");
                                                     while ($row = mysqli_fetch_array($result)) {
                                                     ?>
                                                         <option value="<?php echo $row['id']; ?>">
@@ -154,14 +171,12 @@ include 'seasionindex.php';
                                                     }
                                                     ?>
                                                 </select>
-                                            </div>
-                                            <div class="form-group col-md-6">
-
+                                                <br>
                                                 <label>Department</label>
                                                 <select id="departmentid" name="departmentid" class="form-control default-select">
                                                     <option value="default" selected>Select Department</option>
                                                     <?php
-                                                    $result = mysqli_query($conn, "SELECT * FROM dep_tbl WHERE companyid = 1");
+                                                    $result = mysqli_query($conn, "SELECT * FROM dep_tbl WHERE companyid = 1 AND status = 1");
                                                     while ($row = mysqli_fetch_array($result)) {
                                                     ?>
                                                         <option value="<?php echo $row['id']; ?>">
@@ -170,13 +185,29 @@ include 'seasionindex.php';
                                                     }
                                                     ?>
                                                 </select>
-                                            </div>
-                                            <div class="form-group col-md-6">
+                                                &nbsp;
                                                 <label>Position</label>
-                                                <select id="positionid" name="positionid" class="form-control default-select">
+                                                <select id="positionid" name="positionid" class="form-control default-select" placeholder="Select Position">
                                                     <option selected="">Select Department
                                                     </option>
                                                 </select>
+                                            </div>
+                                            <div class="form-group col-md-12" id="memeshow" style="display: none;">
+                                            <label>Assigned Location</label>
+                                            <select id="newloc" name="newloc" class="form-control default-select">
+                                            <option value="default" selected>Select Location</option>
+                                                    <?php
+                                                    $result = mysqli_query($conn, "SELECT * FROM location_assigned");
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                    ?>
+                                                        <option value="<?php echo $row['id']; ?>">
+                                                            <?php echo $row["location"]; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
                                                 <select id="companyid" name="companyid" class="form-control default-select" hidden>
                                                     <?php
                                                     $result = mysqli_query($conn, "SELECT * FROM com_tbl WHERE id = 1");
@@ -211,10 +242,10 @@ include 'seasionindex.php';
                                 <div class="default-tab">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="tab" href="#home"><i class="la la-home mr-2"></i> Home</a>
+                                            <a class="nav-link active" data-toggle="tab" href="#home"><i class="la la-home mr-2"></i>Asset Details</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-toggle="tab" href="#profile"><i class="la la-user mr-2"></i> Profile</a>
+                                            <a class="nav-link" data-toggle="tab" href="#profile"><i class="la la-user mr-2"></i> Asset History</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content">
@@ -228,6 +259,11 @@ include 'seasionindex.php';
                                                     <div class="form-group col-md-4">
                                                         <label>Asset Description</label>
                                                         <input type="text" class="form-control" id="ass_desc" name="ass_desc" disabled>
+                                                    </div>
+                                                    &nbsp;
+                                                    <div class="form-group col-md-4">
+                                                        <label>Location</label>
+                                                        <input type="text" class="form-control" id="loc" name="loc" disabled>
                                                     </div>
                                                     &nbsp;
                                                     <div class="form-group col-md-4">
@@ -258,6 +294,7 @@ include 'seasionindex.php';
                                                             <thead>
                                                                 <tr>
                                                                     <th>No</th>
+                                                                    <th>Location</th>
                                                                     <th>EmployeeID</th>
                                                                     <th>Employee Assigned</th>
                                                                     <th>Department</th>
@@ -270,6 +307,7 @@ include 'seasionindex.php';
                                                             <tfoot>
                                                                 <tr>
                                                                 <th>No</th>
+                                                                <th>Location</th>
                                                                     <th>EmployeeID</th>
                                                                     <th>Employee Assigned</th>
                                                                     <th>Department</th>
@@ -304,7 +342,7 @@ include 'seasionindex.php';
                                                 <th>Employee</th>
                                                 <th>Department</th>
                                                 <th>Position</th>
-                                                <th>Assigned Date</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -320,7 +358,7 @@ include 'seasionindex.php';
                                                 <th>Employee</th>
                                                 <th>Department</th>
                                                 <th>Position</th>
-                                                <th>Assigned Date</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
@@ -378,6 +416,35 @@ include 'seasionindex.php';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        //your checkbox
+        var checkbox = document.getElementById("showdepart");
+        var check = document.getElementById("showlocat");
+
+        //your div
+        var inputDiv = document.getElementById("showmeme");
+        var input = document.getElementById("memeshow");
+
+        //function that will show hidden inputs when clicked
+        function showdep() {
+            if (checkbox.checked === true) {
+                inputDiv.style.display = "block";
+                input.style.display = "none";
+            }else{
+                inputDiv.style.display = "none";
+            }
+        }
+
+        //function that will hide the inputs when another checkbox is clicked
+        function showloc() {
+            if (check.checked === true) {
+                input.style.display = "block";
+                inputDiv.style.display = "none"
+            }else {
+                input.style.display = "none";
+            }
+        }
+    </script>
+    <script>
         $(document).ready(function() {
 
             $('#tablel').DataTable({
@@ -415,7 +482,7 @@ include 'seasionindex.php';
                         "data": "pos"
                     },
                     {
-                        "data": "date"
+                        "data": "sta"
                     },
                     {
                         "data": "act"
@@ -437,11 +504,7 @@ include 'seasionindex.php';
             var asset = $(this).data('ass');
             var orig = $(this).data('ids');
             var nameass = $(this).data('name');
-            var emplo = $(this).data('emp');
             var company = $(this).data('com');
-            var depart = $(this).data('department');
-            var positionid = $(this).data('position');
-            var post = $(this).data('pos');
             var categ = $(this).data('ca');
 
             $("#edit_assigned").modal("show")
@@ -451,10 +514,7 @@ include 'seasionindex.php';
             $('#ida').val(orig);
             $('#ass').val(nameass);
             $('#cat').val(categ);
-            $('#employee').val(emplo).trigger('change');
             $('#companyid').val(company);
-            $('#departmentid').val(depart);
-            $('#positionid').html('<option value=' + positionid + '>' + post + '</option>');
         });
 
         $(document).on("click", ".view", function() {
@@ -469,6 +529,7 @@ include 'seasionindex.php';
             var positionid = $(this).data('position');
             var post = $(this).data('pos');
             var dat = $(this).data('da');
+            var location = $(this).data('loca');
 
             $("#view_assigned").modal("show")
 
@@ -480,6 +541,7 @@ include 'seasionindex.php';
             $('#dep').val(depart);
             $('#pos').val(post);
             $('#date').val(dat);
+            $('#loc').val(location);
 
             $('#tablew').DataTable({
                 serverside: false,
@@ -493,8 +555,11 @@ include 'seasionindex.php';
                 "columns": [{
 
                         "data": "no"
-                    }, {
-
+                    }, 
+                    {
+                        "data": "loc"
+                    },
+                    {
                         "data": "emp"
                     },
                     {
@@ -560,6 +625,7 @@ include 'seasionindex.php';
             const company = $('#companyid').val();
             const depart = $('#departmentid').val();
             const posi = $('#positionid').val();
+            const newloc = $('#newloc').val();
 
             
             $.ajax({
@@ -573,6 +639,7 @@ include 'seasionindex.php';
                     company: company,
                     depart: depart,
                     posi: posi,
+                    newloc:newloc,
 
                 },
                 success: function(data) {
@@ -583,7 +650,10 @@ include 'seasionindex.php';
                     });
                     $("#edit_assigned").modal("hide");
                     $('#tablel').DataTable().ajax.reload();
-
+                    $('#employee').val('default');
+                    $('#departmentid').val('default');
+                    $('#positionid').val('');
+                    $('#newloc').val('default');
                 }
 
             });
@@ -599,7 +669,7 @@ include 'seasionindex.php';
 
             // Show the confirmation dialog
             Swal.fire({
-                title: 'Are you sure you want to Inactive the Account?',
+                title: 'Are you sure you want to Unassigned Asset?',
                 showDenyButton: true,
                 confirmButtonText: 'Yes',
             }).then((result) => {

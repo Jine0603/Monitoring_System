@@ -3921,12 +3921,13 @@ input[type="button"].btn-block {
   display: inline-block;
   padding: 0.25em 0.4em;
   font-size: 75%;
-  font-weight: 700;
+  font-weight: 900;
   line-height: 1;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.75rem;
+  color: #fff;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
   @media (prefers-reduced-motion: reduce) {
     .badge {
@@ -9379,7 +9380,7 @@ a {
   position: absolute;
   left: 0;
   top: 0;
-  background-color: #146C94;
+  background-color: #fff;
   transition: all .2s ease;
   z-index: 10; }
   .nav-header .logo-abbr {
