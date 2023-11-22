@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2023 at 10:20 AM
+-- Generation Time: Nov 17, 2023 at 04:57 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -66,7 +66,9 @@ CREATE TABLE `accrole_tbl` (
 
 INSERT INTO `accrole_tbl` (`id`, `employeeid`, `usertype`, `status`, `datecreated`) VALUES
 (1, '2', '1', '1', '2023-11-08 00:08:43'),
-(2, '3', '2', '1', '2023-11-03 09:01:37');
+(2, '3', '2', '1', '2023-11-03 09:01:37'),
+(3, '4', '2', '1', '2023-11-14 22:26:00'),
+(4, '5', '2', '1', '2023-11-14 23:53:00');
 
 -- --------------------------------------------------------
 
@@ -81,20 +83,22 @@ CREATE TABLE `assigned_tbl` (
   `cateid` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `employee_assigned` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `companyid` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `locationid` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `departmentid` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `positionid` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `status` varchar(50) CHARACTER SET latin1 DEFAULT '1',
-  `assigned_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `update_date` datetime DEFAULT NULL
+  `assigned_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `assigned_tbl`
 --
 
-INSERT INTO `assigned_tbl` (`id`, `acc_id`, `item_id`, `cateid`, `employee_assigned`, `companyid`, `departmentid`, `positionid`, `status`, `assigned_date`, `update_date`) VALUES
-(42, '3', '19', 'OE', '3', '1', '2', '1', '1', '2023-11-09 00:27:16', NULL),
-(43, '3', '76', 'CE', '2', '1', '3', '3', '1', '2023-11-10 07:51:36', NULL);
+INSERT INTO `assigned_tbl` (`id`, `acc_id`, `item_id`, `cateid`, `employee_assigned`, `companyid`, `locationid`, `departmentid`, `positionid`, `status`, `assigned_date`) VALUES
+(67, '3', '94', 'CE', '3', '1', 'default', '3', '2', '0', '2023-11-16 03:47:58'),
+(68, '3', '99', 'FF', '2', '1', 'default', '4', '12', '1', '2023-11-16 03:46:34'),
+(69, '3', '100', 'FF', 'default', '1', '4', 'default', 'Select Department', '1', '2023-11-16 03:47:07'),
+(70, '3', '94', 'CE', 'default', '1', '1', 'default', 'Select Department', '0', '2023-11-16 03:49:05');
 
 -- --------------------------------------------------------
 
@@ -233,8 +237,9 @@ INSERT INTO `dep_tbl` (`id`, `companyid`, `department`, `status`, `datecreated`)
 (59, '1', 'General', '1', '2023-10-24 02:36:53'),
 (60, 'default', '', '1', '2023-10-24 07:25:48'),
 (61, '2', 'GENERAL', '1', '2023-10-24 08:38:16'),
-(62, 'default', '', '1', '2023-10-24 08:38:26'),
-(63, '1', 'GENERAL', '1', '2023-10-24 08:50:41');
+(62, 'default', '', '0', '2023-11-15 05:27:38'),
+(63, '1', 'GENERAL', '1', '2023-11-15 07:16:56'),
+(64, '5', 'GENERAL', '0', '2023-11-15 05:27:33');
 
 -- --------------------------------------------------------
 
@@ -263,7 +268,9 @@ CREATE TABLE `employee_tbl` (
 INSERT INTO `employee_tbl` (`id`, `employeeid`, `firstname`, `lastname`, `username`, `password`, `companyid`, `departmentid`, `positionid`, `status`, `datecreated`) VALUES
 (1, '000', 'GENERAL', NULL, NULL, NULL, '1', NULL, NULL, '1', '2023-11-03 07:35:40'),
 (2, '361', 'Reygine', 'Ellorico', 'jine', '060300', '1', '4', '12', '1', '2023-11-03 07:32:09'),
-(3, '001', 'Louice', 'Sanford', 'san', '123', '1', '3', '5', '1', '2023-11-08 00:14:43');
+(3, '001', 'Louice', 'Sanford', 'san', '123', '1', '3', '5', '1', '2023-11-08 00:14:43'),
+(4, '123', 'sadsad', 'dsadsa', 'ako', '123', '1', '2', '1', '0', '2023-11-15 05:26:35'),
+(5, '001', 'Louice', 'O', 'ako', '123', '1', '4', '12', '1', '2023-11-14 23:53:00');
 
 -- --------------------------------------------------------
 
@@ -304,28 +311,50 @@ CREATE TABLE `item_tbl` (
   `assigned_status` varchar(255) CHARACTER SET latin1 DEFAULT '0',
   `quantity` int(255) DEFAULT 1,
   `status` varchar(50) CHARACTER SET latin1 DEFAULT '1',
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `update_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `item_tbl`
 --
 
-INSERT INTO `item_tbl` (`id`, `assetid`, `file_name`, `assetname`, `categoriesid`, `companyid`, `date_purchase`, `locationid`, `assigned_status`, `quantity`, `status`, `date_created`) VALUES
-(76, '0001', '9228_55261_ivoryboucl_01.jpg', 's', 'CE', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-10 07:07:34'),
-(77, '0002', '9589_55261_ivoryboucl_01.jpg', 'sx', 'CE', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-10 07:13:14'),
-(78, '0003', '8948_55261_ivoryboucl_01.jpg', 'sx', 'CE', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-10 07:15:56'),
-(79, '0004', '319_140622072805-160720123421-01.jpeg', 's', 'CE', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-10 07:16:18'),
-(80, '0005', '7311_6505040_sd.jpg', 'e', 'CE', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-10 07:28:41'),
-(81, '0006', '575_140622072805-160720123421-01.jpeg', 'fv', 'CE', '1', '2023-10-29', '3', '0', 1, '1', '2023-11-10 07:32:10'),
-(82, '0007', '5801_cb0030c2-a029-47dc-9f37-c2cbc940bef0.jpg', 'df', 'CE', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-10 07:35:00'),
-(83, '0008', '9708_202603-6-10PEI1.png', 'd', 'CE', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-10 07:35:43'),
-(84, '0001', '1291_6505040_sd.jpg', 'ssss', 'FF', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-10 07:41:42'),
-(85, '0001', '505_55261_ivoryboucl_01.jpg', 'fgdf', 'BI', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-10 07:42:29'),
-(86, '0002', '8105_55261_ivoryboucl_01.jpg', 'fgdf', 'BI', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-10 07:42:35'),
-(87, '0009', '5147_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'asd', 'CE', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-10 07:43:19'),
-(88, '0002', '6229_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'as', 'FF', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-10 07:44:50'),
-(89, '0010', '4682_redragon-predator.jpg', 'scs', 'CE', '1', '2023-10-29', '3', '0', 1, '1', '2023-11-10 07:54:22');
+INSERT INTO `item_tbl` (`id`, `assetid`, `file_name`, `assetname`, `categoriesid`, `companyid`, `date_purchase`, `locationid`, `assigned_status`, `quantity`, `status`, `date_created`, `update_date`) VALUES
+(94, '0001', '1619_redragon-predator.jpg', 'aaa', 'CE', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-16 03:49:05', NULL),
+(95, '0001', '6973_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'acaaaa', 'CE', '1', '2023-10-29', '3', '0', 1, '1', '2023-11-16 03:44:11', NULL),
+(96, '0002', '7862_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'trest', 'FF', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-16 00:22:26', NULL),
+(97, '0003', '7862_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'trest', 'FF', '1', '2023-10-29', '1', '0', 1, '0', '2023-11-15 05:34:12', NULL),
+(98, '0004', '6979_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'Chair', 'FF', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-16 03:39:00', NULL),
+(99, '0005', '249_55261_ivoryboucl_01.jpg', 'chair2', 'FF', '1', '2023-10-29', '2', '1', 1, '1', '2023-11-16 03:46:34', NULL),
+(100, '0006', '249_55261_ivoryboucl_01.jpg', 'chair2', 'FF', '1', '2023-10-29', '2', '1', 1, '1', '2023-11-16 03:47:07', NULL),
+(101, '0007', '249_55261_ivoryboucl_01.jpg', 'chair2', 'FF', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-16 03:40:18', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `location_assigned`
+--
+
+CREATE TABLE `location_assigned` (
+  `id` int(11) NOT NULL,
+  `location` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `status` varchar(50) CHARACTER SET latin1 DEFAULT '1',
+  `datecreated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `location_assigned`
+--
+
+INSERT INTO `location_assigned` (`id`, `location`, `status`, `datecreated`) VALUES
+(1, 'Baesa Warehouse', '1', '2023-11-15 03:03:59'),
+(2, 'Cebu Office', '1', '2023-11-15 03:03:59'),
+(3, 'TRAGG', '1', '2023-11-15 03:04:51'),
+(4, 'MINDANAO WAREHOUSE', '1', '2023-11-15 03:04:51'),
+(5, 'Royal Pines', '1', '2023-11-15 03:05:21'),
+(6, 'TWIN OAKS', '1', '2023-11-15 03:05:21'),
+(7, 'Viera Residence', '1', '2023-11-15 03:06:15'),
+(8, 'BLUE ROOM/ ADMIN', '1', '2023-11-15 03:06:15');
 
 -- --------------------------------------------------------
 
@@ -348,7 +377,8 @@ INSERT INTO `location_tbl` (`id`, `location`, `status`, `datecreated`) VALUES
 (1, 'Imuss', '1', '2023-10-24 08:55:38'),
 (2, 'Baysa', '1', '2023-11-07 00:17:10'),
 (3, 'Cebu', '1', '2023-11-07 00:17:28'),
-(4, 'Davao', '1', '2023-11-07 00:17:43');
+(4, 'Davao', '1', '2023-11-07 00:17:43'),
+(9, 'test', '0', '2023-11-15 05:31:29');
 
 -- --------------------------------------------------------
 
@@ -370,69 +400,26 @@ CREATE TABLE `multfile_tbl` (
 --
 
 INSERT INTO `multfile_tbl` (`id`, `employeeid`, `itemid`, `file`, `status`, `datecreated`) VALUES
-(20, '3', '22', '{\"0\":\"Fixed Asset Monitoring System with Barcode_3476_1699512362_1.pdf\",\"1\":\"SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_450_1699512362_1.pdf\"}', '1', '2023-11-09 06:46:02'),
-(21, '3', '23', 'Fixed Asset Monitoring System with Barcode_2553_1699581540_1.pdf', '1', '2023-11-10 01:59:00'),
-(22, '3', '23', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_9802_1699581540_1.pdf', '1', '2023-11-10 01:59:00'),
-(23, '3', '24', 'Fixed Asset Monitoring System with Barcode_2258_1699582499_2.pdf', '1', '2023-11-10 02:14:59'),
-(24, '3', '25', 'Fixed Asset Monitoring System with Barcode_2258_1699582499_2.pdf', '1', '2023-11-10 02:14:59'),
-(25, '3', '26', 'Fixed Asset Monitoring System with Barcode_3379_1699583326_1.pdf', '1', '2023-11-10 02:28:46'),
-(26, '3', '27', 'Fixed Asset Monitoring System with Barcode_9123_1699583522_1.pdf', '1', '2023-11-10 02:32:02'),
-(27, '3', '28', 'Fixed Asset Monitoring System with Barcode_3075_1699583864_1.pdf', '1', '2023-11-10 02:37:44'),
-(28, '3', '33', '800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', '1', '2023-11-10 03:18:26'),
-(29, '3', '35', 'Fixed Asset Monitoring System with Barcode_6369_1699587041_1.pdf', '1', '2023-11-10 03:30:41'),
-(30, '3', '36', 'Fixed Asset Monitoring System with Barcode_2478_1699587190_1.pdf', '1', '2023-11-10 03:33:10'),
-(31, '3', '37', 'Fixed Asset Monitoring System with Barcode_1796_1699587266_1.pdf', '1', '2023-11-10 03:34:26'),
-(32, '3', '38', 'Fixed Asset Monitoring System with Barcode_5447_1699587353_1.pdf', '1', '2023-11-10 03:35:53'),
-(33, '3', '39', 'Fixed Asset Monitoring System with Barcode_2823_1699587465_1.pdf', '1', '2023-11-10 03:37:45'),
-(34, '3', '40', 'Fixed Asset Monitoring System with Barcode.docx', '1', '2023-11-10 03:42:30'),
-(35, '3', '41', 'Fixed Asset Monitoring System with Barcode_4350_1699589112_1.pdf', '1', '2023-11-10 04:05:12'),
-(36, '3', '43', 'Fixed Asset Monitoring System with Barcode_9843_1699589341_1.pdf', '1', '2023-11-10 04:09:01'),
-(37, '3', '44', 'Fixed Asset Monitoring System with Barcode_2059_1699592927_1.pdf', '1', '2023-11-10 05:08:47'),
-(38, '3', '45', 'Fixed Asset Monitoring System with Barcode_3975_1699592995_1.pdf', '1', '2023-11-10 05:09:55'),
-(39, '3', '46', 'Fixed Asset Monitoring System with Barcode_1214_1699593050_1.pdf', '1', '2023-11-10 05:10:50'),
-(40, '3', '47', 'Fixed Asset Monitoring System with Barcode_2283_1699593689_1.pdf', '1', '2023-11-10 05:21:29'),
-(41, '3', '48', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_2114_1699595311_1.pdf', '1', '2023-11-10 05:48:31'),
-(42, '3', '49', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1563_1699595449_1.pdf', '1', '2023-11-10 05:50:49'),
-(43, '3', '50', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_8004_1699595591_1.pdf', '1', '2023-11-10 05:53:11'),
-(44, '3', '51', 'Fixed Asset Monitoring System with Barcode_8321_1699596006_1.pdf', '1', '2023-11-10 06:00:06'),
-(45, '3', '52', 'Fixed Asset Monitoring System with Barcode_5283_1699596015_1.pdf', '1', '2023-11-10 06:00:15'),
-(46, '3', '53', 'Fixed Asset Monitoring System with Barcode_8447_1699596367_1.pdf', '1', '2023-11-10 06:06:07'),
-(47, '3', '54', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_4525_1699596457_1.pdf', '1', '2023-11-10 06:07:37'),
-(48, '3', '55', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1427_1699596472_1.pdf', '1', '2023-11-10 06:07:52'),
-(49, '3', '56', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_3194_1699596472_1.pdf', '1', '2023-11-10 06:07:52'),
-(50, '3', '57', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_9103_1699596472_1.pdf', '1', '2023-11-10 06:07:52'),
-(51, '3', '58', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1844_1699596473_1.pdf', '1', '2023-11-10 06:07:53'),
-(52, '3', '59', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_5685_1699596473_1.pdf', '1', '2023-11-10 06:07:53'),
-(53, '3', '60', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_3336_1699596473_1.pdf', '1', '2023-11-10 06:07:53'),
-(54, '3', '61', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_8160_1699596473_1.pdf', '1', '2023-11-10 06:07:53'),
-(55, '3', '62', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_9709_1699596474_1.pdf', '1', '2023-11-10 06:07:54'),
-(56, '3', '63', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1540_1699596474_1.pdf', '1', '2023-11-10 06:07:54'),
-(57, '3', '64', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_2061_1699596603_1.pdf', '1', '2023-11-10 06:10:03'),
-(58, '3', '65', 'Fixed Asset Monitoring System with Barcode_3571_1699596673_1.pdf', '1', '2023-11-10 06:11:13'),
-(59, '3', '66', 'Fixed Asset Monitoring System with Barcode_3713_1699596681_1.pdf', '1', '2023-11-10 06:11:21'),
-(60, '3', '67', 'Fixed Asset Monitoring System with Barcode_7284_1699596748_1.pdf', '1', '2023-11-10 06:12:28'),
-(61, '3', '68', 'Fixed Asset Monitoring System with Barcode_619_1699596791_1.pdf', '1', '2023-11-10 06:13:11'),
-(62, '3', '69', 'Fixed Asset Monitoring System with Barcode_7332_1699596801_1.pdf', '1', '2023-11-10 06:13:21'),
-(63, '3', '70', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_2616_1699596900_1.pdf', '1', '2023-11-10 06:15:00'),
-(64, '3', '71', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_6231_1699596987_1.pdf', '1', '2023-11-10 06:16:27'),
-(65, '3', '72', 'Fixed Asset Monitoring System with Barcode_7698_1699597334_1.pdf', '1', '2023-11-10 06:22:14'),
-(66, '3', '73', 'Fixed Asset Monitoring System with Barcode_8348_1699597526_1.pdf', '1', '2023-11-10 06:25:25'),
-(67, '3', '74', 'Fixed Asset Monitoring System with Barcode_2080_1699597640_1.pdf', '1', '2023-11-10 06:27:20'),
-(68, '3', '75', 'Fixed Asset Monitoring System with Barcode_8914_1699597781_1.pdf', '1', '2023-11-10 06:29:41'),
-(69, '3', '76', 'Fixed Asset Monitoring System with Barcode_553_1699600054_1.pdf', '1', '2023-11-10 07:07:34'),
-(70, '3', '77', 'Fixed Asset Monitoring System with Barcode_8439_1699600394_1.pdf', '1', '2023-11-10 07:13:14'),
-(71, '3', '78', 'Fixed Asset Monitoring System with Barcode_5323_1699600556_1.pdf', '1', '2023-11-10 07:15:56'),
-(72, '3', '79', 'Fixed Asset Monitoring System with Barcode_1433_1699600578_1.pdf', '1', '2023-11-10 07:16:18'),
-(73, '3', '80', 'Fixed Asset Monitoring System with Barcode_8720_1699601321_1.pdf', '1', '2023-11-10 07:28:41'),
-(74, '3', '81', 'Fixed Asset Monitoring System with Barcode_6972_1699601530_1.pdf', '1', '2023-11-10 07:32:10'),
-(75, '3', '82', 'Fixed Asset Monitoring System with Barcode_9479_1699601700_1.pdf', '1', '2023-11-10 07:35:00'),
-(76, '3', '83', 'Fixed Asset Monitoring System with Barcode_3063_1699601743_1.pdf', '1', '2023-11-10 07:35:43'),
-(77, '3', '84', 'Fixed Asset Monitoring System with Barcode_4968_1699602102_1.pdf', '1', '2023-11-10 07:41:42'),
-(78, '3', '85', 'Fixed Asset Monitoring System with Barcode_7848_1699602149_1.pdf', '1', '2023-11-10 07:42:29'),
-(79, '3', '86', 'Fixed Asset Monitoring System with Barcode_4469_1699602155_1.pdf', '1', '2023-11-10 07:42:35'),
-(80, '3', '87', 'Fixed Asset Monitoring System with Barcode_4199_1699602199_1.pdf', '1', '2023-11-10 07:43:19'),
-(81, '3', '88', 'Fixed Asset Monitoring System with Barcode_1845_1699602290_1.pdf', '1', '2023-11-10 07:44:50'),
-(82, '3', '89', 'Fixed Asset Monitoring System with Barcode_5717_1699602862_1.pdf', '1', '2023-11-10 07:54:22');
+(89, '3', '94', 'Fixed Asset Monitoring System with Barcode_4555_1699941233_1.pdf', '0', '2023-11-16 01:01:19'),
+(90, '3', '94', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_9242_1699941233_1.pdf', '1', '2023-11-15 00:53:18'),
+(91, '3', '95', 'Fixed Asset Monitoring System with Barcode_79_1699941345_1.pdf', '0', '2023-11-16 03:43:45'),
+(92, '3', '94', 'Fixed Asset Monitoring System with Barcode_9737_1699949569_.pdf', '1', '2023-11-14 08:12:49'),
+(93, '3', '95', 'Fixed Asset Monitoring System with Barcode_6742_1699949686_.pdf', '1', '2023-11-15 01:20:10'),
+(94, '3', '95', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_2770_1700009618_.pdf', '1', '2023-11-15 01:20:14'),
+(95, '3', '94', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_4611_1700009792_.pdf', '1', '2023-11-15 00:56:32'),
+(96, '3', '94', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_6032_1700009830_.pdf', '1', '2023-11-15 00:57:10'),
+(97, '3', '96', 'Fixed Asset Monitoring System with Barcode_7442_1700026374_1.pdf', '1', '2023-11-15 05:32:54'),
+(98, '3', '97', 'Fixed Asset Monitoring System with Barcode_7442_1700026374_1.pdf', '1', '2023-11-15 05:32:54'),
+(99, '3', '96', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_6829_1700026374_1.pdf', '1', '2023-11-15 05:32:54'),
+(100, '3', '97', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_6829_1700026374_1.pdf', '1', '2023-11-15 05:32:54'),
+(101, '3', '98', 'Fixed Asset Monitoring System with Barcode_4247_1700105940_1.pdf', '1', '2023-11-16 03:39:00'),
+(102, '3', '98', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1292_1700105940_1.pdf', '1', '2023-11-16 03:39:00'),
+(103, '3', '99', 'Fixed Asset Monitoring System with Barcode_3701_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
+(104, '3', '100', 'Fixed Asset Monitoring System with Barcode_3701_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
+(105, '3', '101', 'Fixed Asset Monitoring System with Barcode_3701_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
+(106, '3', '99', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1869_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
+(107, '3', '100', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1869_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
+(108, '3', '101', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1869_1700106018_1.pdf', '1', '2023-11-16 03:40:18');
 
 -- --------------------------------------------------------
 
@@ -467,7 +454,8 @@ INSERT INTO `position_tbl` (`id`, `companyid`, `departmentid`, `position`, `stat
 (11, '1', '4', 'JUNIOR SYSTEMS PROGRAMMER', '1', '2023-10-27 13:52:34'),
 (12, '1', '4', 'SYSTEMS PROGRAMMER', '1', '2023-10-27 13:52:34'),
 (13, '1', '4', 'SYSTEMS PROGRAMMER SUPERVISOR', '1', '2023-10-27 13:52:34'),
-(14, '1', '4', 'SYSTEMS SUPPORTS STAFF', '1', '2023-10-27 13:52:34');
+(14, '1', '4', 'SYSTEMS SUPPORTS STAFF', '1', '2023-10-27 13:52:34'),
+(15, '1', '1', 'test', '0', '2023-11-15 13:29:33');
 
 --
 -- Indexes for dumped tables
@@ -528,6 +516,12 @@ ALTER TABLE `item_tbl`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `location_assigned`
+--
+ALTER TABLE `location_assigned`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `location_tbl`
 --
 ALTER TABLE `location_tbl`
@@ -559,13 +553,13 @@ ALTER TABLE `access_tbl`
 -- AUTO_INCREMENT for table `accrole_tbl`
 --
 ALTER TABLE `accrole_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `assigned_tbl`
 --
 ALTER TABLE `assigned_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `categ_tbl`
@@ -583,13 +577,13 @@ ALTER TABLE `com_tbl`
 -- AUTO_INCREMENT for table `dep_tbl`
 --
 ALTER TABLE `dep_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `employee_tbl`
 --
 ALTER TABLE `employee_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `itemstatus_tbl`
@@ -601,25 +595,31 @@ ALTER TABLE `itemstatus_tbl`
 -- AUTO_INCREMENT for table `item_tbl`
 --
 ALTER TABLE `item_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+
+--
+-- AUTO_INCREMENT for table `location_assigned`
+--
+ALTER TABLE `location_assigned`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `location_tbl`
 --
 ALTER TABLE `location_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `multfile_tbl`
 --
 ALTER TABLE `multfile_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `position_tbl`
 --
 ALTER TABLE `position_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

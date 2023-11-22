@@ -24,7 +24,7 @@
         <!-- FOR SUPER ADMIN ACCESS ROLE -->
         <?php
         $emp_id = $_SESSION["id"];
-        $prot = " SELECT * FROM accrole_tbl WHERE employeeid='$emp_id' ";
+        $prot = " SELECT * FROM accrole_tbl WHERE employeeid='$emp_id' AND status='1'";
         $exe = mysqli_query($conn, $prot);
 
         while ($h2w = mysqli_fetch_array($exe)) {
@@ -83,7 +83,7 @@
                             <span class="nav-text">Manage View</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="555.php">Assigned View</a></li>
+                            <li><a href="view_assigned.php">Assigned View</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -102,7 +102,7 @@
                             <span class="nav-text">Manage View</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="employee.php">View Assigned</a></li>
+                            <li><a href="view_assigned.php">Assigned View</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -115,14 +115,14 @@
 
 
         <!-- FOR ACCOUNTING ACCESS ROLE ONLY -->
-        <?php
-        $emp_id = $_SESSION["id"];
-        $prot = " SELECT * FROM accrole_tbl WHERE employeeid='$emp_id' ";
-        $exe = mysqli_query($conn, $prot);
-        while ($h2w = mysqli_fetch_array($exe)) {
-            $condtiones = $h2w['usertype'];
+                    <?php
+                    $emp_id = $_SESSION["id"];
+                    $prot = " SELECT * FROM accrole_tbl WHERE employeeid='$emp_id' AND status='1'";
+                    $exe = mysqli_query($conn, $prot);
+                    while ($h2w = mysqli_fetch_array($exe)) {
+                        $condtiones = $h2w['usertype'];
 
-        if ($condtiones !=1 && $condtiones !=6  ) { ?>
+                    if ($condtiones !=1 && $condtiones !=6  ) { ?>
 
         <ul class="metismenu" id="menu">
             <li class="nav-label first">Main Menu</li>
@@ -142,45 +142,55 @@
 
                     <?php
                     $emp_id = $_SESSION["id"];
-                    $prot = " SELECT * FROM accrole_tbl WHERE employeeid='$emp_id' ";
+                    $prot = " SELECT * FROM accrole_tbl WHERE employeeid='$emp_id'AND status='1'";
                     $exe = mysqli_query($conn, $prot);
                     while ($h2w = mysqli_fetch_array($exe)) {
                         // echo $h2w['usertype'];
                         $condtiones = $h2w['usertype'];
                         if ($condtiones == 2) { ?>
-                            <li?><a href="fmc.php">FMC</a>
-            </li>
-        <?php } else if ($condtiones == 3) { ?>
-            <li?><a href="hkak.php">MSC</a></li>
-            <?php } ?>
-        <?php
-                    }
-        ?>
-        <!-- END HERE -->
-        <li><a href="assignedlist.php">Assigned List</a></li>
-        <li><a href="damage.php">Damage List</a></li>
+                            <li><a href="fmc.php">FMC</a></li>
+                    <?php } else if ($condtiones == 3) { ?>
+                        <li?><a href="hkak.php">MSC</a></li>
+                        <?php } ?>
+                    <?php
+                                }
+                    ?>
+                <!-- END HERE -->
+                    <li><a href="assignedlist.php">Assigned List</a></li>
+                    <li><a href="damage.php">Damage List</a></li>
         </ul>
         </li>
-        <li class="nav-label">Inventory</li>
-        <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                <i class="flaticon-003-diamond"></i>
-                <span class="nav-text">Manage Inventory</span>
-            </a>
-            <ul aria-expanded="false">
-                <li><a href="stockdata.php">Asset Count</a></li>
-                <li><a href="ui-alert.html">Barcode</a></li>
-                <li><a href="ui-badge.html">Reader</a></li>
-            </ul>
-        </li>
-        <li class="nav-label">Asset View</li>
-        <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                <i class="flaticon-053-heart"></i>
-                <span class="nav-text">View Asset</span>
-            </a>
-            <ul aria-expanded="false">
-                <li><a href="uc-select2.html">Assigned Asset</a></li>
-            </ul>
-        </li>
+            <li class="nav-label">Inventory</li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-003-diamond"></i>
+                    <span class="nav-text">Manage Inventory</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="stockdata.php">Asset Count</a></li>
+                    <li><a href="barcode.php">Barcode</a></li>
+                    <li><a href="ui-badge.html">Reader</a></li>
+                </ul>
+            </li>
+            <li class="nav-label">Report</li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-003-diamond"></i>
+                    <span class="nav-text">Manage Report</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="asset_report.php">Asset Report</a></li>
+                    <li><a href="assigned_report.php">Assigned Report</a></li>
+                    <li><a href="damage_report.php">Damage Report</a></li>
+                </ul>
+            </li>
+            <li class="nav-label">Asset View</li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-053-heart"></i>
+                    <span class="nav-text">Manage View</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="view_assigned.php">Assigned Asset</a></li>
+                </ul>
+            </li>
         </ul>        
         <?php } ?>
         <?php

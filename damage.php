@@ -29,17 +29,17 @@ include 'seasionindex.php';
 </head>
 
 <body>
-<style>
-		.hide {
-			display: none;
-		}
-	</style>
-	<script>
-		function toggleImage() {
-        var logo2 = document.getElementById("logo2");
-        logo2.classList.toggle("hide");
-    }
-	</script>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleImage() {
+            var logo2 = document.getElementById("logo2");
+            logo2.classList.toggle("hide");
+        }
+    </script>
 
     <style>
         .round-image-container {
@@ -86,20 +86,20 @@ include 'seasionindex.php';
             Nav header start
         ***********************************-->
         <div class="nav-header">
-			<a href="user.php" class="brand-logo">
-				<img src="images/logo1.jpg" alt="Your Brand Name">
-				&nbsp;
-				&nbsp;
-				&nbsp;
-				<img id="logo2" src="images/name.png" alt="Your Brand Name" style="width: 60%; height: 60%;">
-			</a>
+            <a href="user.php" class="brand-logo">
+                <img src="images/logo1.jpg" alt="Your Brand Name">
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <img id="logo2" src="images/name.png" alt="Your Brand Name" style="width: 60%; height: 60%;">
+            </a>
 
-			<div class="nav-control" onclick="toggleImage()">
-				<div class="hamburger">
-					<span class="line"></span><span class="line"></span><span class="line"></span>
-				</div>
-			</div>
-		</div>
+            <div class="nav-control" onclick="toggleImage()">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
         <!--**********************************
             Nav header end
         ***********************************-->
@@ -134,13 +134,13 @@ include 'seasionindex.php';
                                 <div class="table-responsive">
                                     <table id="tablel" class="display" style="min-width: 845px">
                                         <thead>
-                                        <tr>
+                                            <tr>
                                                 <th>No</th>
                                                 <th>Image</th>
                                                 <th>Item No</th>
-                                                <th>Name</th>
-                                                <th>Category</th>
-                                                <th>Item Status</th>
+                                                <th>Description</th>
+                                                <th>Asset Status</th>
+                                                <th>Warehouse Location</th>
                                                 <th>Date Created</th>
                                                 <th>Action</th>
                                             </tr>
@@ -152,9 +152,9 @@ include 'seasionindex.php';
                                                 <th>No</th>
                                                 <th>Image</th>
                                                 <th>Item No</th>
-                                                <th>Name</th>
-                                                <th>Category</th>
-                                                <th>Item Status</th>
+                                                <th>Description</th>
+                                                <th>Asset Status</th>
+                                                <th>Warehouse Location</th>
                                                 <th>Date Created</th>
                                                 <th>Action</th>
                                             </tr>
@@ -224,7 +224,7 @@ include 'seasionindex.php';
                 },
                 "columns": [{
 
-                    "data": "no"
+                        "data": "no"
                     }, {
 
                         "data": "flname"
@@ -236,10 +236,10 @@ include 'seasionindex.php';
                         "data": "itemname"
                     },
                     {
-                        "data": "cat"
+                        "data": "stas"
                     },
                     {
-                        "data": "item"
+                        "data": "locat"
                     },
                     {
                         "data": "datep"

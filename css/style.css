@@ -473,7 +473,13 @@ button::-moz-focus-inner,
 input[type="radio"],
 input[type="checkbox"] {
   box-sizing: border-box;
-  padding: 0; }
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    font-size: 12px; ; }
 
 input[type="date"],
 input[type="time"],

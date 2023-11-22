@@ -129,10 +129,7 @@ include 'seasionindex.php';
                                     <table id="tablea" class="table table-bordered table-striped verticle-middle table-responsive-sm">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Category</th>
-                                                <th scope="col">Assigned Item</th>
-                                                <th scope="col">Available Stock</th>
-                                                <th scope="col">Total</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -229,118 +226,122 @@ include 'seasionindex.php';
         <script>
             $(document).ready(function() {
 
+                // $('#tablea').DataTable({
+                //     serverside: false,
+                //     processing: true,
+                //     "destroy": true,
+                //     "ajax": {
+                //         "url": "stockjson.php",
+                //         "dataSrc": "",
+
+                //     },
+                //     "columns": [{
+                //             "data": "cat"
+                //         },
+                //     ]
+                // });
                 $('#tablea').DataTable({
                     serverside: false,
                     processing: true,
                     "destroy": true,
                     "ajax": {
-                        "url": "stockjson.php",
+                        "url": "depjson.php",
                         "dataSrc": "",
-
                     },
                     "columns": [{
-                            "data": "cat"
+                            "data": "dep",
+                            "data": ""
                         },
-                        {
-                            "data": "use"
-                        },
-                        {
-                            "data": "stock"
-                        },
-                        {
-                            "data": "total"
-                        },
-
                     ]
                 });
 
-                $(document).on("click", ".total_all", function() {
+                // $(document).on("click", ".total_all", function() {
 
-                    var id = $(this).data('id');
+                //     var id = $(this).data('id');
 
-                    $('#tableo').DataTable({
-                        serverside: false,
-                        processing: true,
-                        "destroy": true,
-                        "ajax": {
-                            "url": `infomodal.php?totalall=${id}`,
-                            "dataSrc": "",
+                //     $('#tableo').DataTable({
+                //         serverside: false,
+                //         processing: true,
+                //         "destroy": true,
+                //         "ajax": {
+                //             "url": `infomodal.php?totalall=${id}`,
+                //             "dataSrc": "",
 
-                        },
-                        "columns": [{
-                                "data": "no"
-                            },
-                            {
-                                "data": "astid"
-                            },
-                            {
-                                "data": "name"
-                            },
-                            {
-                                "data": "assign"
-                            },
-                        ]
-                    });
-                });
+                //         },
+                //         "columns": [{
+                //                 "data": "no"
+                //             },
+                //             {
+                //                 "data": "astid"
+                //             },
+                //             {
+                //                 "data": "name"
+                //             },
+                //             {
+                //                 "data": "assign"
+                //             },
+                //         ]
+                //     });
+                // });
 
-                $(document).on("click", ".total_use", function() {
+                // $(document).on("click", ".total_use", function() {
 
-                    var id = $(this).data('id');
+                //     var id = $(this).data('id');
 
-                    $('#tableo').DataTable({
-                        serverside: false,
-                        processing: true,
-                        "destroy": true,
-                        "ajax": {
-                            "url": `assignclass.php?use=${id}`,
-                            "dataSrc": "",
+                //     $('#tableo').DataTable({
+                //         serverside: false,
+                //         processing: true,
+                //         "destroy": true,
+                //         "ajax": {
+                //             "url": `assignclass.php?use=${id}`,
+                //             "dataSrc": "",
 
-                        },
-                        "columns": [{
-                                "data": "no"
-                            },
-                            {
-                                "data": "astid"
-                            },
-                            {
-                                "data": "name"
-                            },
-                            {
-                                "data": "assign"
-                            },
+                //         },
+                //         "columns": [{
+                //                 "data": "no"
+                //             },
+                //             {
+                //                 "data": "astid"
+                //             },
+                //             {
+                //                 "data": "name"
+                //             },
+                //             {
+                //                 "data": "assign"
+                //             },
 
-                        ]
-                    });
-                });
-                $(document).on("click", ".total_stock", function() {
+                //         ]
+                //     });
+                // });
+                // $(document).on("click", ".total_stock", function() {
 
-                    var id = $(this).data('id');
+                //     var id = $(this).data('id');
 
-                    $('#tableo').DataTable({
-                        serverside: false,
-                        processing: true,
-                        "destroy": true,
-                        "ajax": {
-                            "url": `stockclass.php?stock=${id}`,
-                            "dataSrc": "",
+                //     $('#tableo').DataTable({
+                //         serverside: false,
+                //         processing: true,
+                //         "destroy": true,
+                //         "ajax": {
+                //             "url": `stockclass.php?stock=${id}`,
+                //             "dataSrc": "",
 
-                        },
-                        "columns": [{
-                                "data": "no"
-                            },
-                            {
-                                "data": "astid"
-                            },
-                            {
-                                "data": "name"
-                            },
-                            {
-                                "data": "assign"
-                            },
+                //         },
+                //         "columns": [{
+                //                 "data": "no"
+                //             },
+                //             {
+                //                 "data": "astid"
+                //             },
+                //             {
+                //                 "data": "name"
+                //             },
+                //             {
+                //                 "data": "assign"
+                //             },
 
-                        ]
-                    });
-                });
+                //         ]
+                //     });
+                // });
             });
         </script>
 

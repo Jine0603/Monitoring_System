@@ -32,18 +32,18 @@ include 'seasionindex.php';
 </head>
 
 <body>
-    
-	<style>
-		.hide {
-			display: none;
-		}
-	</style>
-	<script>
-		function toggleImage() {
-        var logo2 = document.getElementById("logo2");
-        logo2.classList.toggle("hide");
-    }
-	</script>
+
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleImage() {
+            var logo2 = document.getElementById("logo2");
+            logo2.classList.toggle("hide");
+        }
+    </script>
 
     <style>
         .round-image-container {
@@ -90,20 +90,20 @@ include 'seasionindex.php';
             Nav header start
         ***********************************-->
         <div class="nav-header">
-			<a href="user.php" class="brand-logo">
-				<img src="images/logo1.jpg" alt="Your Brand Name">
-				&nbsp;
-				&nbsp;
-				&nbsp;
-				<img id="logo2" src="images/name.png" alt="Your Brand Name" style="width: 60%; height: 60%;">
-			</a>
+            <a href="user.php" class="brand-logo">
+                <img src="images/logo1.jpg" alt="Your Brand Name">
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <img id="logo2" src="images/name.png" alt="Your Brand Name" style="width: 60%; height: 60%;">
+            </a>
 
-			<div class="nav-control" onclick="toggleImage()">
-				<div class="hamburger">
-					<span class="line"></span><span class="line"></span><span class="line"></span>
-				</div>
-			</div>
-		</div>
+            <div class="nav-control" onclick="toggleImage()">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
         <!--**********************************
             Nav header end
         ***********************************-->
@@ -152,7 +152,7 @@ include 'seasionindex.php';
                                             </div>
                                             <!-- <svg id="barcode"></svg> -->
                                             <div class="form-group col-sm-6">
-                                            <div id="imagine"></div>
+                                                <div id="imagine"></div>
                                                 <label>Item Image </label>
                                                 <input type="file" class="form-control" id="file1" name="file1" onchange="ImagePreview(event)">
                                                 <div class="alert alert-danger alert-dismissible fade show" role="alert" id="wrn_file" style="display:none;font-size:12px;">
@@ -401,10 +401,10 @@ include 'seasionindex.php';
                                                 <input type="text" class="form-control" id="assid" name="assid" disabled>
                                             </div>
                                             <div class="form-group col-md-6">
-                                            <input type="radio" name="type" id="showdepart" onChange="showdep();">Department</input>
+                                                <input type="radio" name="type" id="showdepart" onChange="showdep();">Department</input>
                                             </div>
                                             <div class="form-group col-md-6">
-                                            <input type="radio" name="type" id="showlocat" onClick="showloc();">Location</input>
+                                                <input type="radio" name="type" id="showlocat" onClick="showloc();">Location</input>
                                             </div>
                                             <div class="form-group col-md-12" id="showmeme" style="display: none;">
                                                 <input type="text" class="form-control" id="assigned_id" name="assigned_id" hidden>
@@ -443,7 +443,7 @@ include 'seasionindex.php';
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                            <select id="companyid" name="companyid" class="form-control default-select" hidden>
+                                                <select id="companyid" name="companyid" class="form-control default-select" hidden>
                                                     <?php
                                                     $result = mysqli_query($conn, "SELECT * FROM com_tbl WHERE id = 1");
                                                     while ($row = mysqli_fetch_array($result)) {
@@ -457,9 +457,9 @@ include 'seasionindex.php';
                                                 <input type="text" class="form-control" id="cat" name="cat" hidden>
                                             </div>
                                             <div class="form-group col-md-12" id="memeshow" style="display: none;">
-                                            <label>Assigned Location</label>
-                                            <select id="newloc" name="newloc" class="form-control default-select">
-                                            <option value="default" selected>Select Location</option>
+                                                <label>Assigned Location</label>
+                                                <select id="newloc" name="newloc" class="form-control default-select">
+                                                    <option value="default" selected>Select Location</option>
                                                     <?php
                                                     $result = mysqli_query($conn, "SELECT * FROM location_assigned");
                                                     while ($row = mysqli_fetch_array($result)) {
@@ -523,35 +523,35 @@ include 'seasionindex.php';
                                                     </div>
                                                     &nbsp;
                                                     <div class="form-group col-md-4">
-                                                    <label>Date Created</label>
-                                                    <input type="text" class="form-control" id="datepurchases" name="datepurchases" disabled>
+                                                        <label>Date Created</label>
+                                                        <input type="text" class="form-control" id="datepurchases" name="datepurchases" disabled>
                                                     </div>
                                                     <div class="form-group col-md-12">
-                                                    <label>FILES DETAILS</label>
+                                                        <label>FILES DETAILS</label>
                                                     </div>
                                                     <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="table-responsive">
-                                                                    <table id="tabas" class="display" style="min-width: 845px">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>NO</th>
-                                                                                <th>File Name</th>
-                                                                                <th>FILES</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        </tbody>
-                                                                        <tfoot>
-                                                                            <tr>
-                                                                                <th>NO</th>
-                                                                                <th>File Name</th>
-                                                                                <th>FILES</th>
-                                                                        </tfoot>
-                                                                    </table>
-                                                                </div>
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table id="tabas" class="display" style="min-width: 845px">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>NO</th>
+                                                                            <th>File Name</th>
+                                                                            <th>FILES</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                        <tr>
+                                                                            <th>NO</th>
+                                                                            <th>File Name</th>
+                                                                            <th>FILES</th>
+                                                                    </tfoot>
+                                                                </table>
                                                             </div>
                                                         </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -609,10 +609,10 @@ include 'seasionindex.php';
                                             <tr>
                                                 <th>No</th>
                                                 <th>Image</th>
-                                                <th>Item No</th>
-                                                <th>Name</th>
-                                                <th>Category</th>
-                                                <th>Item Status</th>
+                                                <th>Asset No</th>
+                                                <th>Description</th>
+                                                <th>Asset Status</th>
+                                                <th>Warehouse Location</th>
                                                 <th>Date Created</th>
                                                 <th>Action</th>
                                             </tr>
@@ -623,10 +623,10 @@ include 'seasionindex.php';
                                             <tr>
                                                 <th>No</th>
                                                 <th>Image</th>
-                                                <th>Item No</th>
-                                                <th>Name</th>
-                                                <th>Category</th>
-                                                <th>Item Status</th>
+                                                <th>Asset No</th>
+                                                <th>Description</th>
+                                                <th>Asset Status</th>
+                                                <th>Warehouse Location</th>
                                                 <th>Date Created</th>
                                                 <th>Action</th>
                                             </tr>
@@ -735,8 +735,8 @@ include 'seasionindex.php';
                 "columns": [{
 
                         "data": "no"
-                    }, {
-
+                    },
+                    {
                         "data": "flname"
                     },
                     {
@@ -746,13 +746,13 @@ include 'seasionindex.php';
                         "data": "itemname"
                     },
                     {
-                        "data": "cat"
-                    },
-                    {
-                        "data": "item"
-                    },
-                    {
                         "data": "sta"
+                    },
+                    {
+                        "data": "locat"
+                    },
+                    {
+                        "data": "da"
                     },
                     {
                         "data": "act"
@@ -798,6 +798,7 @@ include 'seasionindex.php';
             // const aa = $('#imaginary').val();
             $('#file2').attr('src', image);
         }
+
         function ImagePreview(event) {
             var image = URL.createObjectURL(event.target.files[0]);
             var imagediv = document.getElementById('imagine');
@@ -810,8 +811,8 @@ include 'seasionindex.php';
             $('#file1').attr('src', image);
         }
 
-         //your checkbox
-         var checkbox = document.getElementById("showdepart");
+        //your checkbox
+        var checkbox = document.getElementById("showdepart");
         var check = document.getElementById("showlocat");
 
         //your div
@@ -823,7 +824,7 @@ include 'seasionindex.php';
             if (checkbox.checked === true) {
                 inputDiv.style.display = "block";
                 input.style.display = "none";
-            }else{
+            } else {
                 inputDiv.style.display = "none";
             }
         }
@@ -833,7 +834,7 @@ include 'seasionindex.php';
             if (check.checked === true) {
                 input.style.display = "block";
                 inputDiv.style.display = "none"
-            }else {
+            } else {
                 input.style.display = "none";
             }
         }
@@ -1171,7 +1172,7 @@ include 'seasionindex.php';
                     "columns": [{
 
                             "data": "no"
-                        }, 
+                        },
                         {
                             "data": "name"
                         },
@@ -1235,7 +1236,7 @@ include 'seasionindex.php';
                     "columns": [{
 
                             "data": "no"
-                        }, 
+                        },
                         {
                             "data": "loc"
                         },
@@ -1268,7 +1269,7 @@ include 'seasionindex.php';
                     "columns": [{
 
                             "data": "no"
-                        }, 
+                        },
                         {
                             "data": "name"
                         },
@@ -1292,7 +1293,7 @@ include 'seasionindex.php';
                 var companyid = $('#companyid').val();
                 var department_id = $('#department_id').val();
                 var position = $('#position').val();
-                var newloc= $('#newloc').val();
+                var newloc = $('#newloc').val();
 
                 $.ajax({
                     url: "add_assign.php",
@@ -1304,7 +1305,7 @@ include 'seasionindex.php';
                         companyid: companyid,
                         department_id: department_id,
                         position: position,
-                        newloc:newloc,
+                        newloc: newloc,
 
                     },
                     success: function(data) {
@@ -1337,7 +1338,7 @@ include 'seasionindex.php';
 
             // Show the confirmation dialog
             Swal.fire({
-                title: 'Are you sure you want to Inactive the Account?',
+                title: 'Do you want to Dispose Damage Asset?',
                 showDenyButton: true,
                 confirmButtonText: 'Yes',
             }).then((result) => {

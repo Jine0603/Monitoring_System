@@ -132,7 +132,7 @@ include 'seasionindex.php';
                     <div class="modal-dialog modal-dialog-centered" role="dialog" tabindex="-1">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Assign Employee</h5>
+                                <h5 class="modal-title">Re-Assigned Employee</h5>
                                 <button type="button" id="close1" class="close" data-dismiss="modal"><span>&times;</span></button>
                             </div>
                             <div class="modal-body">
