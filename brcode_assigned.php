@@ -54,8 +54,8 @@ $pdf->SetFont('helvetica', '', 10);
 
 // define barcode style
 $style = array(
-    'position' => 'C',
-    'align' => 'C',
+    // 'position' => 'L',
+    // 'align' => 'L',
     'stretch' => true,
     'fitwidth' => true,
     'cellfitalign' => '',
@@ -94,9 +94,6 @@ $rows = mysqli_fetch_assoc($query);
     $assigned = $rows['firstname'].' '.$rows['lastname'];
 
 
-    $pdf->Text(100, 94, $ref_num);
-
-
 // output the barcode as HTML object
 // set font
 $pdf->SetFont('helvetica', 'B', 5);
@@ -104,26 +101,29 @@ $pdf->SetFont('helvetica', 'B', 5);
 // add a page
 $pdf->AddPage();
 // Start Transformation
-$pdf->write1DBarcode($assetid, 'C128', 10, 108.5, '', 11, 0.5, $style, 'N');
 $pdf->StartTransform();
-// Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
-$pdf->SetXY(111, 46.5);
-$pdf->Image('images/logome.jpg', '', '', 70, 10, '', '', 'T', false, 300, '', false, false, array(0, 0, 0, 0.5), false, false, false);
-
-$pdf->SetLineWidth(0.1);
-$pdf->Line(107, 58, 185, 58); // Adjust the coordinates as needed
-
-// New Text below the line
-$pdf->SetFont('helvetica', 'B', 10); // Set the new font
-$pdf->Text(108, 59, '827 EDSA, Quezon City . 410-1155 . 929-9911');
 
 // Reset font to previous settings
 $pdf->SetFont('helvetica', '', 5);
 
 // FORM 
 $pdf->ScaleXY(170, -15, 73);
-$pdf->Rect(48, 55.5, 63.5, 45, 'D');
+$pdf->Rect(48, 55.5, 63.5, 47, 'D');
+
+// Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
+$pdf->SetXY(58.5, 57);
+$pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+
+$pdf->SetLineWidth(0.1);
+$pdf->Line(58, 63.5, 99, 63.5); // Adjust the coordinates as needed
+
+// New Text below the line
+$pdf->SetFont('helvetica', 'B', 5); // Set the new font
+$pdf->Text(59, 64, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+$pdf->write1DBarcode($assetid, 'C128', 51, 93.5, '', 9, 0.4, $style, 'N');
 // 1st Column
+$pdf->SetFont('helvetica', '', 5);
 $pdf->Text(50, 70.3, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(50, 70, 38, 6.5, 'D');

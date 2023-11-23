@@ -185,6 +185,9 @@ include 'seasionindex.php';
                                     <table id="table2" class="display" style="min-width: 845px">
                                         <thead>
                                             <tr>
+                                                <th>
+                                                    <input type="checkbox" name="" id="checkAll">
+                                                </th>
                                                 <th>No</th>
                                                 <th>Description</th>
                                                 <th>AssetID</th>
@@ -195,6 +198,7 @@ include 'seasionindex.php';
                                         </tbody>
                                         <tfoot>
                                             <tr>
+                                                <th></th>
                                                 <th>No</th>
                                                 <th>Description</th>
                                                 <th>AssetID</th>
@@ -273,7 +277,7 @@ include 'seasionindex.php';
             });
 
             $('#table2').DataTable({
-                serverside: false,
+                serverSide: false,
                 processing: true,
                 "destroy": true,
                 "ajax": {
@@ -282,6 +286,10 @@ include 'seasionindex.php';
                     "type": 'POST',
                 },
                 "columns": [{
+
+                        "data": "checkbox"
+                    },
+                    {
 
                         "data": "no"
                     },
@@ -338,7 +346,7 @@ include 'seasionindex.php';
 
                 } else if (startDate != '' && endDate != '') {
                     $('#table2').DataTable({
-                        serverside: false,
+                        serverSide: false,
                         processing: true,
                         "destroy": true,
                         "ajax": {
@@ -368,7 +376,7 @@ include 'seasionindex.php';
                     });
                 } else if (cat != 'default') {
                     $('#table2').DataTable({
-                        serverside: false,
+                        serverSide: false,
                         processing: true,
                         "destroy": true,
                         "ajax": {
@@ -410,6 +418,31 @@ include 'seasionindex.php';
                 $('#cat').val(catt);
                 $('#ass').val(assid);
                 $('#assid').val(names);
+
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#print').click(function() {
+                const check = [];
+                $('.get_value:checked').each(function() {
+                    check.push($(this).val());
+                });
+
+                $.ajax({
+                    url: "url_array.php",
+                    type: "POST",
+                    data: {
+                        check
+                    },
+                    success: function(e) {
+                        window.location = `brcode_all.php?try=${e}`;
+
+                    }
+                });
+
+
 
             });
         });
