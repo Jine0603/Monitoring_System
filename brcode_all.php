@@ -151,8 +151,8 @@ if ($employee_assigned == ''){
     $pdf->ScaleXY(94, 50, 70);
     $pdf->Rect(48.7, 54, 28.3, 7.5, 'D');
     $pdf->Text(48.5, 54.5, 'LOCATION');
-    $pdf->SetFont('helvetica', 'B', 5.7);
-    $pdf->Text(50, 58, $location);
+    $pdf->SetFont('helvetica', 'B', 6);
+    $pdf->Text(49, 58, $location);
     
     // 2nd column
     $pdf->SetFont('helvetica', '', 5);
@@ -365,8 +365,8 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(124, 54, 28.3, 7.5, 'D');
 $pdf->Text(124, 54.5, 'LOCATION');
-$pdf->SetFont('helvetica', 'B', 5.7);
-$pdf->Text(125, 58, $location);
+$pdf->SetFont('helvetica', 'B', 6);
+$pdf->Text(124, 58, $location);
 
 // 2nd column
 $pdf->SetFont('helvetica', '', 5);
@@ -577,8 +577,8 @@ $pdf->StopTransform();
         $pdf->ScaleXY(94, 50, 70);
         $pdf->Rect(48.7, 113, 28.3, 7.5, 'D');
         $pdf->Text(48.5, 113.5, 'LOCATION');
-        $pdf->SetFont('helvetica', 'B', 5.6);
-        $pdf->Text(50, 117, $location);
+        $pdf->SetFont('helvetica', 'B', 6);
+        $pdf->Text(49, 117, $location);
         
         // 2nd column
         $pdf->SetFont('helvetica', '', 5);
@@ -790,7 +790,7 @@ $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(124, 113, 28.3, 7.5, 'D');
 $pdf->Text(124, 113.5, 'LOCATION');
 $pdf->SetFont('helvetica', 'B', 6);
-$pdf->Text(125, 117, $location);
+$pdf->Text(124, 117, $location);
 
 // 2nd column
 $pdf->SetFont('helvetica', '', 5);
