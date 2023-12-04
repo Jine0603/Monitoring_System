@@ -116,15 +116,9 @@ include 'seasionindex.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Hi, Welcome Back!</h4>
-                            <span><?= $_SESSION['username'] ?></span>
+                            <h4>Assigned List</h4>
+                            <span>Viewing Assigned Asset Or Re-Assigned the Asset</span>
                         </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Manage Asset</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Asset Item</a></li>
-                        </ol>
                     </div>
                 </div>
                 <!-- ASSIGN MODAL -->
@@ -186,7 +180,7 @@ include 'seasionindex.php';
                                                     ?>
                                                 </select>
                                                 &nbsp;
-                                                <label>Position</label>
+                                                <label id="Position">Position</label>
                                                 <select id="positionid" name="positionid" class="form-control default-select" placeholder="Select Position">
                                                     <option selected="">Select Department
                                                     </option>
@@ -416,30 +410,40 @@ include 'seasionindex.php';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        //your checkbox
-        var checkbox = document.getElementById("showdepart");
+                // your checkbox
+                var checkbox = document.getElementById("showdepart");
         var check = document.getElementById("showlocat");
 
-        //your div
+        // your div
         var inputDiv = document.getElementById("showmeme");
         var input = document.getElementById("memeshow");
+        var employeeSelect = $("#employee");
+        var departmentIdSelect = document.getElementById("departmentid");
+        var positionSelect = document.getElementById("positionid");
+        var newLocSelect = document.getElementById("newloc");
 
-        //function that will show hidden inputs when clicked
+        // function that will show hidden inputs when clicked
         function showdep() {
             if (checkbox.checked === true) {
                 inputDiv.style.display = "block";
                 input.style.display = "none";
-            }else{
+                // Clear values when switching to showdep
+                employeeSelect.val(null).trigger("change");
+                departmentIdSelect.selectedIndex = 0;
+                positionSelect.selectedIndex = 0;
+            } else {
                 inputDiv.style.display = "none";
             }
         }
 
-        //function that will hide the inputs when another checkbox is clicked
+        // function that will hide the inputs when another checkbox is clicked
         function showloc() {
             if (check.checked === true) {
                 input.style.display = "block";
-                inputDiv.style.display = "none"
-            }else {
+                inputDiv.style.display = "none";
+                // Clear values when switching to showloc
+                newLocSelect.selectedIndex = 0;
+            } else {
                 input.style.display = "none";
             }
         }
@@ -581,9 +585,27 @@ include 'seasionindex.php';
         });
     </script>
     <script>
-        $('#employee').select2({
+        var employeeSelect = $('#employee').select2({
             dropdownParent: $('#edit_assigned')
         });
+            // Initial hide/show based on selected value
+            togglePositionVisibility();
+
+            // Bind change event to the employee_assigned select
+            employeeSelect.on('change', function() {
+                togglePositionVisibility();
+            });
+
+            // Function to toggle visibility based on the selected value
+            function togglePositionVisibility() {
+                var selectedValue = $('#employee').find(':selected').val();
+
+                if (selectedValue === '1') {
+                    $('#Position, #positionid').hide();
+                } else {
+                    $('#Position, #positionid').show();
+                }
+            }
         $('#close1').on('click', function() {
             $('#edit_assigned').modal('hide');
         });
@@ -627,8 +649,9 @@ include 'seasionindex.php';
             const posi = $('#positionid').val();
             const newloc = $('#newloc').val();
 
-            
-            $.ajax({
+
+                if (newloc != 'default') {
+                    $.ajax({
                 url: "edit_assigned.php",
                 type: "POST",
                 data: {
@@ -650,13 +673,77 @@ include 'seasionindex.php';
                     });
                     $("#edit_assigned").modal("hide");
                     $('#tablel').DataTable().ajax.reload();
-                    $('#employee').val('default');
+                    employeeSelect.val('default').trigger('change');
                     $('#departmentid').val('default');
                     $('#positionid').val('');
                     $('#newloc').val('default');
                 }
 
             });
+                }
+                else if(emplo == '1' && depart != 'default') {
+                    $.ajax({
+                url: "edit_assigned.php",
+                type: "POST",
+                data: {
+                    idassign: idassign,
+                    asset: asset,
+                    categ: categ,
+                    emplo: emplo,
+                    company: company,
+                    depart: depart,
+                    posi: posi,
+                    newloc:newloc,
+
+                },
+                success: function(data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated',
+                        text: 'Your Information have been Updated !',
+                    });
+                    $("#edit_assigned").modal("hide");
+                    $('#tablel').DataTable().ajax.reload();
+                    employeeSelect.val('default').trigger('change');
+                    $('#departmentid').val('default');
+                    $('#positionid').val('');
+                    $('#newloc').val('default');
+                }
+
+            });
+                }else if(emplo != '1' && depart != 'default' && posi != ''){
+                    $.ajax({
+                url: "edit_assigned.php",
+                type: "POST",
+                data: {
+                    idassign: idassign,
+                    asset: asset,
+                    categ: categ,
+                    emplo: emplo,
+                    company: company,
+                    depart: depart,
+                    posi: posi,
+                    newloc:newloc,
+
+                },
+                success: function(data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated',
+                        text: 'Your Information have been Updated !',
+                    });
+                    $("#edit_assigned").modal("hide");
+                    $('#tablel').DataTable().ajax.reload();
+                    employeeSelect.val('default').trigger('change');
+                    $('#departmentid').val('default');
+                    $('#positionid').val('');
+                    $('#newloc').val('default');
+                }
+
+            });
+                }
+
+            
         });
     });
     </script>

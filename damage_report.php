@@ -16,13 +16,14 @@ include 'seasionindex.php';
     <meta property="og:description" content="Zenix - Crypto Admin Dashboard">
     <meta property="og:image" content="https://zenix.dexignzone.com/xhtml/social-image.png">
     <meta name="format-detection" content="telephone=no">
-    <title>Zenix - Crypto Admin Dashboard </title>
+    <title>FILIPINAS MULTI-CORPORATION</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <!-- Datatable -->
     <link href="vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
     <link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -117,14 +118,9 @@ include 'seasionindex.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Hi, welcome back!</h4>
+                            <h4>Damage Report</h4>
+                            <span>Export All Damage Asset Report</span>
                         </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Form</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Element</a></li>
-                        </ol>
                     </div>
                 </div>
                 <!-- row -->
@@ -163,14 +159,9 @@ include 'seasionindex.php';
                                                     ?>
                                                 </select>
                                             </div>
-                                            <div class="form-group col-sm-4">
-                                                <label></label>
-                                                <br>
-                                                <button type="button" class="btn btn-primary form-contro" id="submitBtn">FILTER</button>
-                                            </div>
                                         </div>
                                         <br>
-                                        <button type="button" name="print" id="print" class="btn btn-primary">PRINT</button>
+                                                <button type="button" class="btn btn-primary form-contro" id="submitBtn">FILTER</button>
                                     </form>
                                 </div>
                             </div>
@@ -264,6 +255,12 @@ include 'seasionindex.php';
     <script src="js/custom.min.js"></script>
     <script src="js/deznav-init.js"></script>
     <script src="js/demo.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script>
         $(document).ready(function() {
             // Initialize Bootstrap Datepicker
@@ -281,6 +278,37 @@ include 'seasionindex.php';
                     "dataSrc": "",
                     "type": 'POST',
                 },
+                dom: 'Bfrtip',
+    buttons: [
+        {
+            extend: 'excel',
+            text: 'Excel',
+            filename: function(){
+                // Generate a dynamic filename based on the current date and time
+                var currentDate = new Date();
+                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
+                return 'MULTI-LINE DAMAGE REPORT' + formattedDate + '_' + formattedTime;
+            },
+            customize: function (xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                // Add header information
+                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
+                             '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
+                $(sheet).find('sheetData').prepend(header);
+                
+                // Loop through each row in the sheet and customize as needed
+                $('row c', sheet).each(function () {
+                    // Add custom styling or modify data
+                    // For example, change the font color to red for all cells in column 'B'
+                    if ($(this).attr('r') > 3) {
+                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                    }
+                });
+            }
+        },
+    ],
                 "columns": [{
 
                         "data": "no"
@@ -320,6 +348,37 @@ include 'seasionindex.php';
                             },
 
                         },
+                        dom: 'Bfrtip',
+    buttons: [
+        {
+            extend: 'excel',
+            text: 'Excel',
+            filename: function(){
+                // Generate a dynamic filename based on the current date and time
+                var currentDate = new Date();
+                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
+                return 'MULTI-LINE DAMAGE REPORT' + formattedDate + '_' + formattedTime;
+            },
+            customize: function (xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                // Add header information
+                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
+                             '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
+                $(sheet).find('sheetData').prepend(header);
+                
+                // Loop through each row in the sheet and customize as needed
+                $('row c', sheet).each(function () {
+                    // Add custom styling or modify data
+                    // For example, change the font color to red for all cells in column 'B'
+                    if ($(this).attr('r') > 3) {
+                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                    }
+                });
+            }
+        },
+    ],
                         "columns": [{
 
                                 "data": "no"
@@ -351,6 +410,37 @@ include 'seasionindex.php';
                             },
 
                         },
+                        dom: 'Bfrtip',
+    buttons: [
+        {
+            extend: 'excel',
+            text: 'Excel',
+            filename: function(){
+                // Generate a dynamic filename based on the current date and time
+                var currentDate = new Date();
+                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
+                return 'MULTI-LINE DAMAGE REPORT' + formattedDate + '_' + formattedTime;
+            },
+            customize: function (xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                // Add header information
+                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
+                             '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
+                $(sheet).find('sheetData').prepend(header);
+                
+                // Loop through each row in the sheet and customize as needed
+                $('row c', sheet).each(function () {
+                    // Add custom styling or modify data
+                    // For example, change the font color to red for all cells in column 'B'
+                    if ($(this).attr('r') > 3) {
+                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                    }
+                });
+            }
+        },
+    ],
                         "columns": [{
 
                                 "data": "no"
@@ -379,6 +469,37 @@ include 'seasionindex.php';
                                 cat: cat
                             },
                         },
+                        dom: 'Bfrtip',
+    buttons: [
+        {
+            extend: 'excel',
+            text: 'Excel',
+            filename: function(){
+                // Generate a dynamic filename based on the current date and time
+                var currentDate = new Date();
+                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
+                return 'MULTI-LINE DAMAGE REPORT' + formattedDate + '_' + formattedTime;
+            },
+            customize: function (xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                // Add header information
+                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
+                             '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
+                $(sheet).find('sheetData').prepend(header);
+                
+                // Loop through each row in the sheet and customize as needed
+                $('row c', sheet).each(function () {
+                    // Add custom styling or modify data
+                    // For example, change the font color to red for all cells in column 'B'
+                    if ($(this).attr('r') > 3) {
+                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                    }
+                });
+            }
+        },
+    ],
                         "columns": [{
 
                                 "data": "no"

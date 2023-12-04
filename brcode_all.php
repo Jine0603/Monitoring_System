@@ -1,6 +1,6 @@
 <?php
 include 'Include/config.php';
-$how = json_decode($_GET['try']);
+$br_id = json_decode($_GET['try']);
 //============================================================+
 // File name   : example_1d_html.php
 // Version     : 1.0.000
@@ -76,7 +76,7 @@ $style = array(
 
 $counter = 0;
 
-foreach ($how as $something){
+foreach ($br_id as $barcode){
 
 
 $sql = "SELECT assigned_tbl.id,categ_tbl.description,location_assigned.location,item_tbl.file_name,item_tbl.assetid,item_tbl.assetname,item_tbl.date_purchase,employee_tbl.employeeid,employee_tbl.firstname,employee_tbl.lastname,com_tbl.company,
@@ -90,16 +90,19 @@ LEFT  JOIN com_tbl ON com_tbl.id                     = assigned_tbl.companyid
 LEFT  JOIN dep_tbl ON dep_tbl.id                     = assigned_tbl.departmentid
 LEFT  JOIN position_tbl ON position_tbl.id           = assigned_tbl.positionid
 LEFT  JOIN item_tbl ON item_tbl.id                   = assigned_tbl.item_id
-WHERE assigned_tbl.id = '$something'";
+WHERE assigned_tbl.id = '$barcode'";
 
 $query = mysqli_query($conn, $sql);
 $rows = mysqli_fetch_assoc($query);
     $company = $rows['company'];
-    $assetid = $rows['cateid'] . ' - ' . $rows['assetid'];
+    $assetid = $rows['cateid'].'-'.$rows['assetid'];
     $department = $rows['department'];
     $assetname = $rows['assetname'];
     $date_purchase = $rows['date_purchase'];
     $assigned = $rows['firstname'].' '.$rows['lastname'];
+    $employee_assigned = $rows['employee_assigned'];
+    $loca = $rows['locationid'];
+    $location = $rows['location'];
 
 
 // output the barcode as HTML object
@@ -111,16 +114,84 @@ $counter++;
 
 if($counter == 1){
     
-// add a page
+// Add a page
 $pdf->AddPage();
 // Start Transformation
+
+if ($employee_assigned == ''){
+    $pdf->StartTransform();
+    // // Reset font to previous settings
+    $pdf->SetFont('helvetica', '', 5);
+    
+    // FORM 
+    $pdf->ScaleXY(150, -15, 73);
+    $pdf->Rect(14, 40, 63.5, 49, 'D');
+    
+    // Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
+    $pdf->SetXY(26, 42);
+    $pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+    
+    $pdf->SetLineWidth(0.1);
+    $pdf->Line(24.8, 49, 66.8, 49); // Adjust the coordinates as needed
+    
+    // New Text below the line
+    $pdf->SetFont('helvetica', 'B', 5); // Set the new font
+    $pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+    
+    $pdf->write1DBarcode($assetid, 'C128', 21, 80.5, '', 9, 0.4, $style, 'N');
+    // 1st Column
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->Text(15.5, 55.3, 'COMPANY');
+    $pdf->ScaleXY(100, 50, 80);
+    $pdf->Rect(15.8, 55, 33, 7, 'D');
+    $pdf->SetFont('helvetica', 'B', 7);
+    $pdf->Text(17, 58.5, $company);
+    
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(94, 50, 70);
+    $pdf->Rect(48.7, 54, 28.3, 7.5, 'D');
+    $pdf->Text(48.5, 54.5, 'LOCATION');
+    $pdf->SetFont('helvetica', 'B', 5.7);
+    $pdf->Text(50, 58, $location);
+    
+    // 2nd column
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(100, 50, 80);
+    $pdf->Rect(13.6, 61.5, 41.7, 7, 'D');
+    $pdf->Text(13.5, 62, 'TAG NO/ASSET NO');
+    $pdf->SetFont('helvetica', 'B', 8);
+    $pdf->Text(15, 64.6, $assetid);
+    
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(94, 50, 70);
+    $pdf->Rect(55.6, 61, 23.1, 7.4, 'D');
+    $pdf->Text(55.5, 61.5, 'DATE PURCHASE');
+    $pdf->SetFont('helvetica', 'B', 8);
+    $pdf->Text(56.5, 64.5, $date_purchase);
+    
+    // 3rd Column
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(100, 50, 80);
+    $pdf->Rect(11.3, 68.4, 67.4, 7, 'D');
+    $pdf->Text(11.4, 69, 'SERIAL NO');
+    
+    // 4th Column
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(100, 50, 80);
+    $pdf->Rect(11.3, 75.4, 67.5, 7, 'D');
+    $pdf->Text(11.4, 76, 'ASSET NAME');
+    $pdf->SetFont('helvetica', 'B', 9);
+    $pdf->Text(13, 78.2, $assetname);
+    
+    $pdf->StopTransform();
+}else if ($employee_assigned != 1){
 $pdf->StartTransform();
 
 // // Reset font to previous settings
 $pdf->SetFont('helvetica', '', 5);
 
 // FORM 
-$pdf->ScaleXY(165, -15, 73);
+$pdf->ScaleXY(150, -15, 73);
 $pdf->Rect(14, 40, 63.5, 47, 'D');
 
 // Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
@@ -135,14 +206,15 @@ $pdf->SetFont('helvetica', 'B', 5); // Set the new font
 $pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 16.5, 78.2, '', 9, 0.4, $style, 'N');
+
 // 1st Column
 $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(15.5, 55.3, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(15.8, 55, 38, 6.5, 'D');
-
 $pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(17, 58, $company);
+
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(54, 54, 23, 7, 'D');
@@ -150,9 +222,9 @@ $pdf->Text(53.8, 54.5, 'TAG NO');
 
 // 2nd column
 $pdf->SetFont('helvetica', '', 5);
+$pdf->Text(13.5, 61.5, 'DEPARTMENT');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(13.6, 61, 40.4, 6.5, 'D');
-$pdf->Text(13.5, 61.5, 'DEPARTMENT');
 $pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(15, 64, $department);
 
@@ -192,13 +264,357 @@ $pdf->SetFont('helvetica', 'B', 7.8);
 $pdf->Text(27, 77, $assigned);
 
 $pdf->StopTransform();
+}else if ($employee_assigned == 1){
+ $pdf->StartTransform();
+// // Reset font to previous settings
+$pdf->SetFont('helvetica', '', 5);
+
+// FORM 
+$pdf->ScaleXY(150, -15, 73);
+$pdf->Rect(14, 40, 63.5, 49, 'D');
+
+// Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
+$pdf->SetXY(26, 42);
+$pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+
+$pdf->SetLineWidth(0.1);
+$pdf->Line(24.8, 49, 66.8, 49); // Adjust the coordinates as needed
+
+// New Text below the line
+$pdf->SetFont('helvetica', 'B', 5); // Set the new font
+$pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+$pdf->write1DBarcode($assetid, 'C128', 21, 80.5, '', 9, 0.4, $style, 'N');
+// 1st Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->Text(15.5, 55.3, 'COMPANY');
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(15.8, 55, 33, 7, 'D');
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(17, 58.5, $company);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(48.7, 54, 28.3, 7.5, 'D');
+$pdf->Text(48.5, 54.5, 'DEPARTMENT');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(51, 57.5, $department);
+
+// 2nd column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(13.6, 61.5, 41.7, 7, 'D');
+$pdf->Text(13.5, 62, 'TAG NO/ASSET NO');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(15, 64.6, $assetid);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(55.6, 61, 23.1, 7.4, 'D');
+$pdf->Text(55.5, 61.5, 'DATE PURCHASE');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(56.5, 64.5, $date_purchase);
+
+// 3rd Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(11.3, 68.4, 67.4, 7, 'D');
+$pdf->Text(11.4, 69, 'SERIAL NO');
+
+// 4th Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(11.3, 75.4, 67.5, 7, 'D');
+$pdf->Text(11.4, 76, 'ASSET NAME');
+$pdf->SetFont('helvetica', 'B', 9);
+$pdf->Text(13, 78.2, $assetname);
+
+$pdf->StopTransform();
+}
+
 }elseif($counter == 2){
-// $pdf->Cell(0, 0, '---------------------------------------------------------------------------CUT HERE------------------------------------------------------------------------------', 0, 1);
+// $pdf->Cell(0, 0, '---------------------------------------------------------------------------CUT 2------------------------------------------------------------------------------', 0, 1);
+if ($employee_assigned == ''){
+    $pdf->StartTransform();
+
+// FORM 
+$pdf->ScaleXY(150, -15, 73);
+$pdf->Rect(85, 40, 63.5, 49, 'D');
+
+$pdf->SetXY(96, 42);
+$pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+
+$pdf->SetLineWidth(0.1);
+$pdf->Line(95, 49, 137, 49); // Adjust the coordinates as needed
+
+// New Text below the line
+$pdf->SetFont('helvetica', 'B', 5); // Set the new font
+$pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+$pdf->write1DBarcode($assetid, 'C128', 92, 80.5, '', 9, 0.4, $style, 'N');
+
+// 1st Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->Text(86.3, 55.3, 'COMPANY');
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(86.6, 55, 33, 7, 'D');
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(87.5, 58, $company);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(124, 54, 28.3, 7.5, 'D');
+$pdf->Text(124, 54.5, 'LOCATION');
+$pdf->SetFont('helvetica', 'B', 5.7);
+$pdf->Text(125, 58, $location);
+
+// 2nd column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(89, 61.5, 41.7, 7, 'D');
+$pdf->Text(88.7, 62, 'TAG NO/ASSET NO');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(90, 64.6, $assetid);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(135.8, 61, 23.1, 7.4, 'D');
+$pdf->Text(135.7, 61.5, 'DATE PURCHASE');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(136.7, 64.5, $date_purchase);
+
+// 3rd Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 68.4, 67.4, 7, 'D');
+$pdf->Text(91.4, 69, 'SERIAL NO');
+
+// 4th Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 75.4, 67.4, 7, 'D');
+$pdf->Text(91.5, 76, 'ASSET NAME');
+$pdf->SetFont('helvetica', 'B', 9);
+$pdf->Text(92.9, 78.2, $assetname);
 
 
-// 2ND FORM
+$pdf->StopTransform();
+
+}else if ($employee_assigned != 1){
+
+    $pdf->StartTransform();
+    $pdf->ScaleXY(150, -15, 73);
+    $pdf->Rect(85, 40, 63.5, 47, 'D');
+    
+    $pdf->SetXY(96, 42);
+    $pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+    
+    $pdf->SetLineWidth(0.1);
+    $pdf->Line(95, 49, 137, 49); // Adjust the coordinates as needed
+    
+    // New Text below the line
+    $pdf->SetFont('helvetica', 'B', 5); // Set the new font
+    $pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+    
+    $pdf->write1DBarcode($assetid, 'C128', 87.5, 78.2, '', 9, 0.4, $style, 'N');
+    // 1st Column
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->Text(86.3, 55.3, 'COMPANY');
+    $pdf->ScaleXY(100, 50, 80);
+    $pdf->Rect(86.6, 55, 38, 6.5, 'D');
+    $pdf->SetFont('helvetica', 'B', 7);
+    $pdf->Text(87.5, 58, $company);
+    
+    
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(94, 50, 70);
+    $pdf->Rect(129.4, 54, 23, 7, 'D');
+    $pdf->Text(129, 54.5, 'TAG NO');
+    
+    // 2nd column
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(100, 50, 80);
+    $pdf->Rect(89, 61, 40.4, 6.5, 'D');
+    $pdf->Text(88.7, 61.5, 'DEPARTMENT');
+    $pdf->SetFont('helvetica', 'B', 7);
+    $pdf->Text(90, 64, $department);
+    
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(94, 50, 70);
+    $pdf->Rect(134.5, 60.4, 24.4, 6.9, 'D');
+    $pdf->Text(134.1, 61, 'ASSET NO');
+    $pdf->SetFont('helvetica', 'B', 7);
+    $pdf->Text(135, 64, $assetid);
+    
+    // 3rd Column
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(100, 50, 80);
+    $pdf->Rect(91.5, 67.3, 43, 6.5, 'D');
+    $pdf->Text(91.3, 67.8, 'ASSET DESCRIPTION');
+    $pdf->SetFont('helvetica', 'B', 7.8);
+    $pdf->Text(93, 70, $assetname);
+    
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(94, 50, 70);
+    $pdf->Rect(139.9, 67.1, 26, 7, 'D');
+    $pdf->Text(139.5, 67.7, 'SERIAL NO');
+    
+    // 4th Column
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(100, 50, 80);
+    $pdf->Rect(94.2, 74, 18, 6.5, 'D');
+    $pdf->Text(94, 74.5, 'DATE PURCHASE');
+    $pdf->SetFont('helvetica', 'B', 7);
+    $pdf->Text(95, 77, $date_purchase);
+    
+    $pdf->SetFont('helvetica', '', 5);
+    $pdf->ScaleXY(94, 50, 70);
+    $pdf->Rect(116.2, 74.3, 57.1, 6.9, 'D');
+    $pdf->Text(116, 74.8, 'ASSIGNED TO');
+    $pdf->SetFont('helvetica', 'B', 7.8);
+    $pdf->Text(118, 77, $assigned);
+    
+    $pdf->StopTransform();
+    }else if ($employee_assigned == 1){
+    $pdf->StartTransform();
+
+// FORM 
+$pdf->ScaleXY(150, -15, 73);
+$pdf->Rect(85, 40, 63.5, 49, 'D');
+
+$pdf->SetXY(96, 42);
+$pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+
+$pdf->SetLineWidth(0.1);
+$pdf->Line(95, 49, 137, 49); // Adjust the coordinates as needed
+
+// New Text below the line
+$pdf->SetFont('helvetica', 'B', 5); // Set the new font
+$pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+$pdf->write1DBarcode($assetid, 'C128', 91, 80.5, '', 9, 0.4, $style, 'N');
+
+// 1st Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->Text(86.3, 55.3, 'COMPANY');
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(86.6, 55, 33, 7, 'D');
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(87.5, 58, $company);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(124, 54, 28.3, 7.5, 'D');
+$pdf->Text(124, 54.5, 'DEPARTMENT');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(126, 57.3, $department);
+
+// 2nd column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(89, 61.5, 41.7, 7, 'D');
+$pdf->Text(88.7, 62, 'TAG NO/ASSET NO');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(90, 64.6, $assetid);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(135.8, 61, 23.1, 7.4, 'D');
+$pdf->Text(135.7, 61.5, 'DATE PURCHASE');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(136.7, 64.5, $date_purchase);
+
+// 3rd Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 68.4, 67.4, 7, 'D');
+$pdf->Text(91.4, 69, 'SERIAL NO');
+
+// 4th Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 75.4, 67.4, 7, 'D');
+$pdf->Text(91.5, 76, 'ASSET NAME');
+$pdf->SetFont('helvetica', 'B', 9);
+$pdf->Text(92.9, 78.2, $assetname);
+
+
+$pdf->StopTransform();
+}
+
+}elseif($counter == 3){
+
+    // $pdf->Cell(0, 0, '---------------------------------------------------------------------------CUT HERE------------------------------------------------------------------------------', 0, 1);
+    if ($employee_assigned == ''){
+        $pdf->StartTransform();
+
+        // FORM 
+        $pdf->ScaleXY(150, -15, 73);
+        $pdf->Rect(14, 95, 63.5, 49, 'D');
+        
+        // Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
+        $pdf->SetXY(26, 97);
+        $pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+        
+        $pdf->SetLineWidth(0.1);
+        $pdf->Line(24.8, 104, 66.8, 104); // Adjust the coordinates as needed
+        
+        // New Text below the line
+        $pdf->SetFont('helvetica', 'B', 5); // Set the new font
+        $pdf->Text(25.8, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+        $pdf->write1DBarcode($assetid, 'C128', 21, 135.5, '', 9, 0.4, $style, 'N');
+        
+        // 1st Column
+        $pdf->SetFont('helvetica', '', 5);
+        $pdf->Text(15.5, 110.7, 'COMPANY');
+        $pdf->ScaleXY(100, 50, 80);
+        $pdf->Rect(15.8, 110.5, 33, 7, 'D');
+        $pdf->SetFont('helvetica', 'B', 7);
+        $pdf->Text(17, 113.8, $company);
+        
+        $pdf->SetFont('helvetica', '', 5);
+        $pdf->ScaleXY(94, 50, 70);
+        $pdf->Rect(48.7, 113, 28.3, 7.5, 'D');
+        $pdf->Text(48.5, 113.5, 'LOCATION');
+        $pdf->SetFont('helvetica', 'B', 5.6);
+        $pdf->Text(50, 117, $location);
+        
+        // 2nd column
+        $pdf->SetFont('helvetica', '', 5);
+        $pdf->ScaleXY(100, 50, 80);
+        $pdf->Rect(13.6, 120.5, 41.7, 7, 'D');
+        $pdf->Text(13.5, 121, 'TAG NO/ASSET NO');
+        $pdf->SetFont('helvetica', 'B', 8);
+        $pdf->Text(15, 123.8, $assetid);
+        
+        $pdf->SetFont('helvetica', '', 5);
+        $pdf->ScaleXY(94, 50, 70);
+        $pdf->Rect(55.6, 123.7, 23.1, 7.5, 'D');
+        $pdf->Text(55.5, 124, 'DATE PURCHASE');
+        $pdf->SetFont('helvetica', 'B', 8);
+        $pdf->Text(56.5, 127.5, $date_purchase);
+        
+        // 3rd Column
+        $pdf->SetFont('helvetica', '', 5);
+        $pdf->ScaleXY(100, 50, 80);
+        $pdf->Rect(11.3, 131.2, 67.4, 7, 'D');
+        $pdf->Text(11.4, 131.5, 'SERIAL NO');
+        
+        // 4th Column
+        $pdf->SetFont('helvetica', '', 5);
+        $pdf->ScaleXY(100, 50, 80);
+        $pdf->Rect(11.3, 138.2, 67.4, 7, 'D');
+        $pdf->Text(11.4, 138.5, 'ASSET NAME');
+        $pdf->SetFont('helvetica', 'B', 9);
+        $pdf->Text(13, 141, $assetname);
+        
+        $pdf->StopTransform();
+    
+    }else if ($employee_assigned != 1){
+// 3ND FORM
 $pdf->StartTransform();
-$pdf->ScaleXY(165, -15, 73);
+$pdf->ScaleXY(150, -15, 73);
 $pdf->Rect(14, 95, 63.5, 47, 'D');
 
 // Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
@@ -230,7 +646,6 @@ $pdf->Text(53.8, 113.5, 'TAG NO');
 
 // 2nd column
 $pdf->SetFont('helvetica', '', 5);
-
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(13.6, 120, 40.4, 6.5, 'D');
 $pdf->Text(13.5, 120.5, 'DEPARTMENT');
@@ -259,88 +674,308 @@ $pdf->Text(54.6, 134.4, 'SERIAL NO');
 
 // 4th Column
 $pdf->SetFont('helvetica', '', 5);
-
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(8.8, 140.9, 18, 6.5, 'D');
-
 $pdf->Text(9, 141.5, 'DATE PURCHASE');
-
 $pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(10, 144, $date_purchase);
 
 $pdf->SetFont('helvetica', '', 5);
-
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(25.3, 145.4, 57.3, 6.9, 'D');
-
 $pdf->Text(25.2, 146, 'ASSIGNED TO');
-
 $pdf->SetFont('helvetica', 'B', 7.8);
 $pdf->Text(27, 148.5, $assigned);
 
 $pdf->StopTransform();
 
-}elseif($counter == 3){
+}else if ($employee_assigned == 1){
+    $pdf->StartTransform();
 
-    // $pdf->Cell(0, 0, '---------------------------------------------------------------------------CUT HERE------------------------------------------------------------------------------', 0, 1);
+// FORM 
+$pdf->ScaleXY(150, -15, 73);
+$pdf->Rect(14, 95, 63.5, 49, 'D');
 
-$pdf->StartTransform();
-$pdf->ScaleXY(165, -15, 73);
-$pdf->Rect(85, 40, 63.5, 47, 'D');
-
-$pdf->SetXY(96, 42);
+// Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
+$pdf->SetXY(26, 97);
 $pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
 
 $pdf->SetLineWidth(0.1);
-$pdf->Line(95, 49, 137, 49); // Adjust the coordinates as needed
+$pdf->Line(24.8, 104, 66.8, 104); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(25.8, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+$pdf->write1DBarcode($assetid, 'C128', 21, 135.5, '', 9, 0.4, $style, 'N');
 
 // 1st Column
 $pdf->SetFont('helvetica', '', 5);
-$pdf->Text(86, 55.3, 'COMPANY');
+$pdf->Text(15.5, 110.7, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
-$pdf->Rect(86.6, 55, 38, 6.5, 'D');
+$pdf->Rect(15.8, 110.5, 33, 7, 'D');
 $pdf->SetFont('helvetica', 'B', 7);
-$pdf->Text(87.5, 58, $company);
-
+$pdf->Text(17, 113.8, $company);
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
-$pdf->Rect(129.4, 54, 23, 7, 'D');
-$pdf->Text(129, 54.5, 'TAG NO');
+$pdf->Rect(48.7, 113, 28.3, 7.5, 'D');
+$pdf->Text(48.5, 113.5, 'DEPARTMENT');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(51, 116.4, $department);
 
 // 2nd column
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
-$pdf->Rect(89, 61, 40.4, 6.5, 'D');
-$pdf->Text(89, 61.5, 'DEPARTMENT');
-$pdf->SetFont('helvetica', 'B', 7);
-$pdf->Text(91, 64, $department);
+$pdf->Rect(13.6, 120.5, 41.7, 7, 'D');
+$pdf->Text(13.5, 121, 'TAG NO/ASSET NO');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(15, 123.8, $assetid);
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
-$pdf->Rect(134.5, 60.4, 24.4, 6.9, 'D');
-$pdf->Text(140, 61, 'ASSET NO');
-$pdf->SetFont('helvetica', 'B', 7);
-$pdf->Text(135, 64, $assetid);
+$pdf->Rect(55.6, 123.7, 23.1, 7.5, 'D');
+$pdf->Text(55.5, 124, 'DATE PURCHASE');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(56.5, 127.5, $date_purchase);
+
+// 3rd Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(11.3, 131.2, 67.4, 7, 'D');
+$pdf->Text(11.4, 131.5, 'SERIAL NO');
+
+// 4th Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(11.3, 138.2, 67.4, 7, 'D');
+$pdf->Text(11.4, 138.5, 'ASSET NAME');
+$pdf->SetFont('helvetica', 'B', 9);
+$pdf->Text(13, 141, $assetname);
 
 $pdf->StopTransform();
+}
 
+}elseif($counter == 4){
+// $pdf->Cell(0, 0, '---------------------------------------------------------------------------CUT HERE------------------------------------------------------------------------------', 0, 1);
+if ($employee_assigned == ''){
+    $pdf->StartTransform();
+
+// FORM 
+$pdf->ScaleXY(150, -15, 73);
+$pdf->Rect(85, 95, 63.5, 49, 'D');
+
+$pdf->SetXY(96, 97);
+$pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+
+$pdf->SetLineWidth(0.1);
+$pdf->Line(95, 104, 137, 104); // Adjust the coordinates as needed
+
+// New Text below the line
+$pdf->SetFont('helvetica', 'B', 5); // Set the new font
+$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+$pdf->write1DBarcode($assetid, 'C128', 92, 135.7, '', 9, 0.4, $style, 'N');
+
+// 1st Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->Text(86.3, 110.7, 'COMPANY');
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(86.6, 110.5, 33, 7, 'D');
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(87.5, 113.8, $company);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(124, 113, 28.3, 7.5, 'D');
+$pdf->Text(124, 113.5, 'LOCATION');
+$pdf->SetFont('helvetica', 'B', 6);
+$pdf->Text(125, 117, $location);
+
+// 2nd column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(89, 120.5, 41.7, 7, 'D');
+$pdf->Text(88.7, 121, 'TAG NO/ASSET NO');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(90, 123.8, $assetid);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(135.8, 123.7, 23.1, 7.4, 'D');
+$pdf->Text(135.7, 124, 'DATE PURCHASE');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(136.7, 127.5, $date_purchase);
+
+// 3rd Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 131.2, 67.4, 7, 'D');
+$pdf->Text(91.4, 131.5, 'SERIAL NO');
+
+// 4th Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 138.2, 67.4, 7, 'D');
+$pdf->Text(91.5, 138.5, 'ASSET NAME');
+$pdf->SetFont('helvetica', 'B', 9);
+$pdf->Text(92.9, 141, $assetname);
+
+$pdf->StopTransform();
+}else if ($employee_assigned != 1){
 
 $pdf->StartTransform();
-$pdf->ScaleXY(165, -15, 73);
+$pdf->ScaleXY(150, -15, 73);
 $pdf->Rect(85, 95, 63.5, 47, 'D');
-$pdf->StopTransform();
 
-// $pdf->Cell(0, 0, '---------------------------------------------------------------------------CUT HERE------------------------------------------------------------------------------', 0, 1);
+$pdf->SetXY(96, 97);
+$pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+
+$pdf->SetLineWidth(0.1);
+$pdf->Line(95, 104, 137, 104); // Adjust the coordinates as needed
+
+// New Text below the line
+$pdf->SetFont('helvetica', 'B', 5); // Set the new font
+$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+$pdf->write1DBarcode($assetid, 'C128', 87.5, 133.5, '', 9, 0.4, $style, 'N');
+// 1st Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->Text(86.3, 110.7, 'COMPANY');
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(86.6, 110.5, 38, 6.5, 'D');
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(87.5, 113.5, $company);
+
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(129.4, 113, 23, 7, 'D');
+$pdf->Text(129, 113.5, 'TAG NO');
+
+// 2nd column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(89, 120, 40.4, 6.5, 'D');
+$pdf->Text(88.7, 120.5, 'DEPARTMENT');
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(90, 123, $department);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(134.5, 123.2, 24.4, 6.9, 'D');
+$pdf->Text(134.1, 123.5, 'ASSET NO');
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(135, 126.5, $assetid);
+
+// 3rd Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 130.1, 43, 6.5, 'D');
+$pdf->Text(91.3, 130.5, 'ASSET DESCRIPTION');
+$pdf->SetFont('helvetica', 'B', 7.8);
+$pdf->Text(93, 132.8, $assetname);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(139.9, 134, 26, 7, 'D');
+$pdf->Text(139.5, 134.4, 'SERIAL NO');
+
+// 4th Column
+$pdf->SetFont('helvetica', '', 5);
+
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(94.2, 140.9, 18, 6.5, 'D');
+
+$pdf->Text(94, 141.5, 'DATE PURCHASE');
+
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(95, 144, $date_purchase);
+
+
+
+$pdf->SetFont('helvetica', '', 5);
+
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(116.2, 145.4, 57.1, 6.9, 'D');
+
+$pdf->Text(116, 146, 'ASSIGNED TO');
+
+$pdf->SetFont('helvetica', 'B', 7.8);
+$pdf->Text(118, 148.5, $assigned);
+
+$pdf->StopTransform();
+}else if ($employee_assigned == 1){
+    
+    $pdf->StartTransform();
+
+// FORM 
+$pdf->ScaleXY(150, -15, 73);
+$pdf->Rect(85, 95, 63.5, 49, 'D');
+
+$pdf->SetXY(96, 97);
+$pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+
+$pdf->SetLineWidth(0.1);
+$pdf->Line(95, 104, 137, 104); // Adjust the coordinates as needed
+
+// New Text below the line
+$pdf->SetFont('helvetica', 'B', 5); // Set the new font
+$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+
+$pdf->write1DBarcode($assetid, 'C128', 92, 135.7, '', 9, 0.4, $style, 'N');
+
+// 1st Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->Text(86.3, 110.7, 'COMPANY');
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(86.6, 110.5, 33, 7, 'D');
+$pdf->SetFont('helvetica', 'B', 7);
+$pdf->Text(87.5, 113.8, $company);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(124, 113, 28.3, 7.5, 'D');
+$pdf->Text(124, 113.5, 'DEPARTMENT');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(126, 116.4, $department);
+
+// 2nd column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(89, 120.5, 41.7, 7, 'D');
+$pdf->Text(88.7, 121, 'TAG NO/ASSET NO');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(90, 123.8, $assetid);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(135.8, 123.7, 23.1, 7.4, 'D');
+$pdf->Text(135.7, 124, 'DATE PURCHASE');
+$pdf->SetFont('helvetica', 'B', 8);
+$pdf->Text(136.7, 127.5, $date_purchase);
+
+// 3rd Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 131.2, 67.4, 7, 'D');
+$pdf->Text(91.4, 131.5, 'SERIAL NO');
+
+// 4th Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(91.5, 138.2, 67.4, 7, 'D');
+$pdf->Text(91.5, 138.5, 'ASSET NAME');
+$pdf->SetFont('helvetica', 'B', 9);
+$pdf->Text(92.9, 141, $assetname);
+
+$pdf->StopTransform();
+}
 
 unset($counter);
 
 $counter = 0;
-
 
 }
 

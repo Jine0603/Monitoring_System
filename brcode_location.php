@@ -87,12 +87,12 @@ WHERE assigned_tbl.id = '$ref_num'";
 $query = mysqli_query($conn, $sql);
 $rows = mysqli_fetch_assoc($query);
     $company = $rows['company'];
-    $assetid = $rows['cateid'] . ' - ' . $rows['assetid'];
+    $assetid = $rows['cateid'].'-'.$rows['assetid'];
     $department = $rows['department'];
     $assetname = $rows['assetname'];
     $date_purchase = $rows['date_purchase'];
     $assigned = $rows['firstname'].' '.$rows['lastname'];
-
+    $location = $rows['location'];
 
     $pdf->Text(100, 94, $ref_num);
 
@@ -133,9 +133,9 @@ $pdf->Text(51, 73, $company);
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(85.1, 70, 28.3, 7.5, 'D');
-$pdf->Text(85, 70.4, 'DEPARTMENT');
+$pdf->Text(85, 70.4, 'Location');
 $pdf->SetFont('helvetica', 'B', 8);
-$pdf->Text(87, 73, $department);
+$pdf->Text(87, 73, $location);
 
 // // 2nd column
 $pdf->SetFont('helvetica', '', 5);

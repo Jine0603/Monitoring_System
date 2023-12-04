@@ -117,14 +117,9 @@ include 'seasionindex.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Hi, welcome back!</h4>
+                            <h4>Barcode</h4>
+                            <span>Display All Barcode</span>
                         </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Form</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Element</a></li>
-                        </ol>
                     </div>
                 </div>
                 <!-- row -->
@@ -132,7 +127,7 @@ include 'seasionindex.php';
                     <div class="col-xl-13 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">BARCODE </h4>
+                                <h4 class="card-title">Filter</h4>
                             </div>
                             <div class="card-body">
                                 <div class="basic-form">
@@ -189,8 +184,11 @@ include 'seasionindex.php';
                                                     <input type="checkbox" name="" id="checkAll">
                                                 </th>
                                                 <th>No</th>
-                                                <th>Description</th>
                                                 <th>AssetID</th>
+                                                <th>Description</th>
+                                                <th>Employee</th>
+                                                <th>Department</th>
+                                                <th>Location</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -200,8 +198,11 @@ include 'seasionindex.php';
                                             <tr>
                                                 <th></th>
                                                 <th>No</th>
-                                                <th>Description</th>
                                                 <th>AssetID</th>
+                                                <th>Description</th>
+                                                <th>Employee</th>
+                                                <th>Department</th>
+                                                <th>Location</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
@@ -290,14 +291,22 @@ include 'seasionindex.php';
                         "data": "checkbox"
                     },
                     {
-
                         "data": "no"
+                    },
+                    {
+                        "data": "asset"
                     },
                     {
                         "data": "name"
                     },
                     {
-                        "data": "asset"
+                        "data": "emp"
+                    },
+                    {
+                        "data": "dep"
+                    },
+                    {
+                        "data": "loc"
                     },
                     {
                         "data": "btn"
@@ -330,13 +339,25 @@ include 'seasionindex.php';
                         },
                         "columns": [{
 
+                                "data": "checkbox"
+                            },
+                            {
                                 "data": "no"
+                            },
+                            {
+                                "data": "asset"
                             },
                             {
                                 "data": "name"
                             },
                             {
-                                "data": "asset"
+                                "data": "emp"
+                            },
+                            {
+                                "data": "dep"
+                            },
+                            {
+                                "data": "loc"
                             },
                             {
                                 "data": "btn"
@@ -361,13 +382,25 @@ include 'seasionindex.php';
                         },
                         "columns": [{
 
+                                "data": "checkbox"
+                            },
+                            {
                                 "data": "no"
+                            },
+                            {
+                                "data": "asset"
                             },
                             {
                                 "data": "name"
                             },
                             {
-                                "data": "asset"
+                                "data": "emp"
+                            },
+                            {
+                                "data": "dep"
+                            },
+                            {
+                                "data": "loc"
                             },
                             {
                                 "data": "btn"
@@ -389,13 +422,25 @@ include 'seasionindex.php';
                         },
                         "columns": [{
 
+                                "data": "checkbox"
+                            },
+                            {
                                 "data": "no"
+                            },
+                            {
+                                "data": "asset"
                             },
                             {
                                 "data": "name"
                             },
                             {
-                                "data": "asset"
+                                "data": "emp"
+                            },
+                            {
+                                "data": "dep"
+                            },
+                            {
+                                "data": "loc"
                             },
                             {
                                 "data": "btn"
@@ -424,7 +469,14 @@ include 'seasionindex.php';
     </script>
     <script>
         $(document).ready(function() {
+            // $('.get_value').click(function() {
+            // alert();
+
+            // });
+
             $('#print').click(function() {
+
+
                 const check = [];
                 $('.get_value:checked').each(function() {
                     check.push($(this).val());
@@ -437,8 +489,9 @@ include 'seasionindex.php';
                         check
                     },
                     success: function(e) {
-                        window.location = `brcode_all.php?try=${e}`;
-
+                        window.open(`brcode_all.php?try=${e}`, '_blank');
+                        $('.get_value').prop('checked', false);
+                        $('#checkAll').prop('checked', false);
                     }
                 });
 

@@ -119,15 +119,9 @@ include 'seasionindex.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Hi, Welcome Back!</h4>
-                            <span><?= $_SESSION['username'] ?></span>
+                            <h4>FMC</h4>
+                            <span>Insert the Information of Asset</span>
                         </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Manage Asset</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Asset Item</a></li>
-                        </ol>
                     </div>
                 </div>
                 <!-- ADD ITEM MODAL -->
@@ -197,7 +191,7 @@ include 'seasionindex.php';
                                                 <input type="number" id="qty" name="qty" class="form-control" value="1">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label>Location</label>
+                                                <label>Warehouse Location</label>
                                                 <select name="locationid" id="locationid" class="form-control default-select">
                                                     <option value="default" selected>Select Location</option>
                                                     <?php
@@ -367,7 +361,7 @@ include 'seasionindex.php';
 
                                                     </div>
                                                     <br>
-                                                    <button type="submit" name="submit" class="btn btn-primary" id="uploadme">UPLOAD</button>
+                                                    <button type="submit" name="submit" class="btn btn-primary clearme" id="uploadme">UPLOAD</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -408,9 +402,10 @@ include 'seasionindex.php';
                                             </div>
                                             <div class="form-group col-md-12" id="showmeme" style="display: none;">
                                                 <input type="text" class="form-control" id="assigned_id" name="assigned_id" hidden>
+
                                                 <label>Asset Name</label>
                                                 <select class="js-example-basic-single" name="employee_assigned" id="employee_assigned">
-                                                    <option value="default" selected>Select Employee</option>
+                                                    <option value="" selected>Assigned Employee</option>
                                                     <?php
                                                     $result = mysqli_query($conn, "SELECT * FROM employee_tbl WHERE companyid = '1' AND status = '1'");
                                                     while ($row = mysqli_fetch_array($result)) {
@@ -421,7 +416,6 @@ include 'seasionindex.php';
                                                     }
                                                     ?>
                                                 </select>
-                                                <br>
                                                 <label>Department</label>
                                                 <select id="department_id" name="department_id" class="form-control default-select">
                                                     <option value="default" selected>Select Department</option>
@@ -435,10 +429,11 @@ include 'seasionindex.php';
                                                     }
                                                     ?>
                                                 </select>
+                                                <br>
                                                 &nbsp;
-                                                <label>Position</label>
+                                                <label id="Position">Position</label>
                                                 <select id="position" name="position" class="form-control default-select">
-                                                    <option selected="">Select Department
+                                                    <option selected="">Select Position
                                                     </option>
                                                 </select>
                                             </div>
@@ -473,7 +468,7 @@ include 'seasionindex.php';
                                             </div>
                                         </div>
                                         <br>
-                                        <button type="submit" name="btn_assigned" class="btn btn-primary" id="btn_assigned">Assign Employee</button>
+                                        <button type="submit" name="btn_assigned" class="btn btn-primary clearme" id="btn_assigned">Assign Employee</button>
                                     </form>
                                 </div>
                             </div>
@@ -563,11 +558,10 @@ include 'seasionindex.php';
                                                             <thead>
                                                                 <tr>
                                                                     <th>No</th>
-                                                                    <th>Location</th>
                                                                     <th>EmployeeID</th>
                                                                     <th>Employee Assigned</th>
                                                                     <th>Department</th>
-                                                                    <th>Position</th>
+                                                                    <th>Location</th>
                                                                     <th>Date of Assigned</th>
                                                                 </tr>
                                                             </thead>
@@ -576,11 +570,10 @@ include 'seasionindex.php';
                                                             <tfoot>
                                                                 <tr>
                                                                     <th>No</th>
-                                                                    <th>Location</th>
                                                                     <th>EmployeeID</th>
                                                                     <th>Employee Assigned</th>
                                                                     <th>Department</th>
-                                                                    <th>Position</th>
+                                                                    <th>Location</th>
                                                                     <th>Date of Assigned</th>
                                                             </tfoot>
                                                         </table>
@@ -691,9 +684,30 @@ include 'seasionindex.php';
 
     <script>
         $(document).ready(function() {
-            $('#employee_assigned').select2({
+            var employeeAssignedSelect = $('#employee_assigned').select2({
                 dropdownParent: $('#assignmodal')
             });
+
+            // Initial hide/show based on selected value
+            togglePositionVisibility();
+
+            // Bind change event to the employee_assigned select
+            employeeAssignedSelect.on('change', function() {
+                togglePositionVisibility();
+            });
+
+            // Function to toggle visibility based on the selected value
+            function togglePositionVisibility() {
+                var selectedValue = $('#employee_assigned').find(':selected').val();
+
+                if (selectedValue === '1') {
+                    $('#Position, #position').hide();
+                } else {
+                    $('#Position, #position').show();
+                }
+            }
+
+
             $('#close1').on('click', function() {
                 $('#assignmodal').modal('hide');
             });
@@ -767,6 +781,21 @@ include 'seasionindex.php';
         FilePond.registerPlugin(FilePondPluginImagePreview);
         const pond = FilePond.create(inputElement);
 
+        pond.on('addfile', (error, file) => {
+            const allowedFileTypes = ['application/pdf'];
+
+            if (!allowedFileTypes.includes(file.fileType)) {
+                pond.removeFile(file.id);
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Only PDF Files are Allowed.',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        });
+
         const inputElement1 = document.querySelector('#filess');
         FilePond.registerPlugin(FilePondPluginImagePreview);
         const pondme = FilePond.create(inputElement1);
@@ -779,7 +808,7 @@ include 'seasionindex.php';
                 Swal.fire({
                     position: 'top-center',
                     icon: 'error',
-                    title: 'Only PDF, Word, Excel, and PowerPoint files are allowed.',
+                    title: 'Only PDF Files are Allowed.',
                     showConfirmButton: false,
                     timer: 2000
                 });
@@ -811,29 +840,46 @@ include 'seasionindex.php';
             $('#file1').attr('src', image);
         }
 
-        //your checkbox
+        function clearImagePreview() {
+            var imagediv = document.getElementById('imagine');
+            imagediv.innerHTML = '';
+            // Additionally, you can reset the source of the '#file1' element if needed
+            $('#file1').attr('src', '');
+        }
+
+        // your checkbox
         var checkbox = document.getElementById("showdepart");
         var check = document.getElementById("showlocat");
 
-        //your div
+        // your div
         var inputDiv = document.getElementById("showmeme");
         var input = document.getElementById("memeshow");
+        var employeeAssignedSelect = $("#employee_assigned");
+        var departmentIdSelect = document.getElementById("department_id");
+        var positionSelect = document.getElementById("position");
+        var newLocSelect = document.getElementById("newloc");
 
-        //function that will show hidden inputs when clicked
+        // function that will show hidden inputs when clicked
         function showdep() {
             if (checkbox.checked === true) {
                 inputDiv.style.display = "block";
                 input.style.display = "none";
+                // Clear values when switching to showdep
+                employeeAssignedSelect.val(null).trigger("change");
+                departmentIdSelect.selectedIndex = 0;
+                positionSelect.selectedIndex = 0;
             } else {
                 inputDiv.style.display = "none";
             }
         }
 
-        //function that will hide the inputs when another checkbox is clicked
+        // function that will hide the inputs when another checkbox is clicked
         function showloc() {
             if (check.checked === true) {
                 input.style.display = "block";
-                inputDiv.style.display = "none"
+                inputDiv.style.display = "none";
+                // Clear values when switching to showloc
+                newLocSelect.selectedIndex = 0;
             } else {
                 input.style.display = "none";
             }
@@ -923,6 +969,7 @@ include 'seasionindex.php';
                 form_data.append("locationid_edit", locationid_edit);
 
                 // console.log(orig);
+
 
                 // Submit form data via Ajax
                 for (var index = 0; index < files.length; index++) {
@@ -1056,6 +1103,34 @@ include 'seasionindex.php';
                 var date_purchase = $('#date_purchase').val();
                 var locationid = $('#locationid').val();
                 var qty = $('#qty').val();
+
+                if (assetname == '' || company == '' || category == '' || file1 == undefined || date_purchase == '' || locationid == 'default') {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Please Fill Up the FORM!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+
+                $("#file1").change(function() {
+                    var file1 = this.files[0];
+                    var file1Type = file1.type;
+                    var match = ["image/jpeg", "image/png", "image/jpg"];
+                    if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'error',
+                            title: 'Please select a valid image file (JPEG/JPG/PNG).',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $("#file1").val('');
+                        return;
+                    }
+                });
+
                 var form_data = new FormData();
                 form_data.append("assetname", assetname);
                 form_data.append("company", company);
@@ -1065,24 +1140,14 @@ include 'seasionindex.php';
                 form_data.append("locationid", locationid);
                 form_data.append("qty", qty);
 
+                // console.log(file1);
+
 
                 // Submit form data via Ajax
                 for (var index = 0; index < files.length; index++) {
                     var picture = files[index].file;
                     form_data.append("files[]", picture);
                 }
-
-                // File type validation
-                $("#file1").change(function() {
-                    var file1 = this.files[0];
-                    var file1Type = file1.type;
-                    var match = ["image/jpeg", "image/png", "image/jpg"];
-                    if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
-                        alert('Please select a valid image file (JPEG/JPG/PNG).');
-                        $("#file1").val('');
-                        return false;
-                    }
-                });
 
                 $.ajax({
                     type: 'POST',
@@ -1099,14 +1164,13 @@ include 'seasionindex.php';
                             showConfirmButton: false,
                             timer: 1500
                         })
-
-
                         $('#submitForm')[0].reset();
-
+                        clearImagePreview();
                         for (var i = 0; i < files.length; i++) {
                             pond.removeFile(files[i]);
                         }
                         $('#tablee').DataTable().ajax.reload();
+                        $("#exampleModalCenter").modal("hide");
                     },
 
                 });
@@ -1114,8 +1178,23 @@ include 'seasionindex.php';
 
             $(document).on('click', '.clearme', function(e) {
 
+                // ADD BUTTON
                 $('.statusMsg').html('');
+                $('#assetname').val('');
+                $('#category').val('');
+                clearImagePreview();
+                $('#file1').val('');
+                $('#date_purchase').val('');
+                $('#locationid').val('default');
+                $('#qty').val('1');
+                pond.removeFiles();
+                pondme.removeFiles();
 
+                // ASSIGNED BUTTON
+                $('#employee_assigned').val('').trigger('change');
+                $('#department_id').val('default');
+                $('#position').val('');
+                $('#newloc').val('default');
 
             });
 
@@ -1238,9 +1317,6 @@ include 'seasionindex.php';
                             "data": "no"
                         },
                         {
-                            "data": "loc"
-                        },
-                        {
                             "data": "emp"
                         },
                         {
@@ -1250,7 +1326,7 @@ include 'seasionindex.php';
                             "data": "dep"
                         },
                         {
-                            "data": "pos"
+                            "data": "loc"
                         },
                         {
                             "data": "date"
@@ -1295,38 +1371,130 @@ include 'seasionindex.php';
                 var position = $('#position').val();
                 var newloc = $('#newloc').val();
 
-                $.ajax({
-                    url: "add_assign.php",
-                    type: "POST",
-                    data: {
-                        itemid: itemid,
-                        categories: categories,
-                        employee_assigned: employee_assigned,
-                        companyid: companyid,
-                        department_id: department_id,
-                        position: position,
-                        newloc: newloc,
 
-                    },
-                    success: function(data) {
-                        $('#msg').html(data);
-                        $('#tablee').DataTable().ajax.reload();
-                        $('#employee_assigned').val('');
-                        $('#companyid').val('');
-                        $('#department_id').val('');
-                        $('#position').val('');
+                if (newloc != 'default') {
+                    $.ajax({
+                        url: "add_assign.php",
+                        type: "POST",
+                        data: {
+                            itemid: itemid,
+                            categories: categories,
+                            employee_assigned: employee_assigned,
+                            companyid: companyid,
+                            department_id: department_id,
+                            position: position,
+                            newloc: newloc,
 
-                        Swal.fire({
-                            position: 'top-center',
-                            icon: 'success',
-                            title: 'Success!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        $("#assignmodal").modal("hide");
-                    }
-                });
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Success!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#msg').html(data);
+                            $('#tablee').DataTable().ajax.reload();
+                            $("#assignmodal").modal("hide");
 
+                            employeeAssignedSelect.val('default').trigger('change');
+                            $('#department_id').val('default');
+                            $('#position').val('');
+                        }
+                    });
+                }
+                else if(employee_assigned == '1' && department_id != 'default') {
+                    $.ajax({
+                        url: "add_assign.php",
+                        type: "POST",
+                        data: {
+                            itemid: itemid,
+                            categories: categories,
+                            employee_assigned: employee_assigned,
+                            companyid: companyid,
+                            department_id: department_id,
+                            position: position,
+                            newloc: newloc,
+
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Success!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#msg').html(data);
+                            $('#tablee').DataTable().ajax.reload();
+                            $("#assignmodal").modal("hide");
+
+                            employeeAssignedSelect.val('default').trigger('change');
+                            $('#department_id').val('default');
+                            $('#position').val('');
+                        }
+                    });
+                }else if(employee_assigned != '1' && department_id != 'default' && position != ''){
+                    $.ajax({
+                        url: "add_assign.php",
+                        type: "POST",
+                        data: {
+                            itemid: itemid,
+                            categories: categories,
+                            employee_assigned: employee_assigned,
+                            companyid: companyid,
+                            department_id: department_id,
+                            position: position,
+                            newloc: newloc,
+
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Success!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#msg').html(data);
+                            $('#tablee').DataTable().ajax.reload();
+                            $("#assignmodal").modal("hide");
+
+                            employeeAssignedSelect.val('default').trigger('change');
+                            $('#department_id').val('default');
+                            $('#position').val('');
+                        }
+                    });
+                }
+                // if(employee_assigned == 'default' && department_id == 'default' && position == ''){
+                //     Swal.fire({
+                //         position: 'top-center',
+                //         icon: 'error',
+                //         title: 'Please Choose between Department and Locationiiiiiiiiiiiiiii!',
+                //         showConfirmButton: false,
+
+                //     })
+                //     $('#companyid').val('');
+                //     $('#department_id').val('default');
+                //     $('#position').val('');
+                //     $('#newloc').val('default');
+                //     employeeAssignedSelect.val('default').trigger('change');
+                // }
+                // else{
+                //     Swal.fire({
+                //         position: 'top-center',
+                //         icon: 'error',
+                //         title: 'Please Choose between Department and Locationiiiiiiiiiiiiiii!',
+                //         showConfirmButton: false,
+
+                //     })
+                //     $('#companyid').val('');
+                //     $('#department_id').val('default');
+                //     $('#position').val('');
+                //     $('#newloc').val('default');
+                //     employeeAssignedSelect.val('default').trigger('change');
+                // }
             });
         });
     </script>

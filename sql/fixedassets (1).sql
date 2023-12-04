@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2023 at 04:57 AM
+-- Generation Time: Dec 01, 2023 at 10:20 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -66,9 +66,21 @@ CREATE TABLE `accrole_tbl` (
 
 INSERT INTO `accrole_tbl` (`id`, `employeeid`, `usertype`, `status`, `datecreated`) VALUES
 (1, '2', '1', '1', '2023-11-08 00:08:43'),
-(2, '3', '2', '1', '2023-11-03 09:01:37'),
+(2, '3', '2', '0', '2023-11-20 08:14:59'),
 (3, '4', '2', '1', '2023-11-14 22:26:00'),
-(4, '5', '2', '1', '2023-11-14 23:53:00');
+(4, '5', '2', '0', '2023-11-20 08:18:13'),
+(5, '3', '6', '0', '2023-11-20 08:15:28'),
+(6, '3', '6', '0', '2023-11-20 08:16:32'),
+(7, '', '6', '0', '2023-11-20 08:17:13'),
+(8, '3', '6', '0', '2023-11-20 08:18:33'),
+(9, '', '2', '0', '2023-11-20 08:17:27'),
+(10, '', '2', '1', '2023-11-20 01:17:00'),
+(11, '5', '2', '0', '2023-11-20 08:18:49'),
+(12, '3', '2', '0', '2023-11-20 08:19:41'),
+(13, '5', '6', '0', '2023-11-20 08:19:15'),
+(14, '5', '5', '0', '2023-11-20 08:26:08'),
+(15, '3', '2', '1', '2023-11-20 01:19:00'),
+(16, '5', '6', '1', '2023-11-20 01:26:00');
 
 -- --------------------------------------------------------
 
@@ -87,18 +99,51 @@ CREATE TABLE `assigned_tbl` (
   `departmentid` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `positionid` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `status` varchar(50) CHARACTER SET latin1 DEFAULT '1',
-  `assigned_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `assigned_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `quantity` int(11) NOT NULL DEFAULT 1,
+  `scan_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `assigned_tbl`
 --
 
-INSERT INTO `assigned_tbl` (`id`, `acc_id`, `item_id`, `cateid`, `employee_assigned`, `companyid`, `locationid`, `departmentid`, `positionid`, `status`, `assigned_date`) VALUES
-(67, '3', '94', 'CE', '3', '1', 'default', '3', '2', '0', '2023-11-16 03:47:58'),
-(68, '3', '99', 'FF', '2', '1', 'default', '4', '12', '1', '2023-11-16 03:46:34'),
-(69, '3', '100', 'FF', 'default', '1', '4', 'default', 'Select Department', '1', '2023-11-16 03:47:07'),
-(70, '3', '94', 'CE', 'default', '1', '1', 'default', 'Select Department', '0', '2023-11-16 03:49:05');
+INSERT INTO `assigned_tbl` (`id`, `acc_id`, `item_id`, `cateid`, `employee_assigned`, `companyid`, `locationid`, `departmentid`, `positionid`, `status`, `assigned_date`, `quantity`, `scan_date`) VALUES
+(160, '3', '113', 'CE', '1', '1', 'default', '3', '', '0', '2023-12-01 06:33:05', 1, NULL),
+(161, '3', '114', 'CE', '', '1', '1', 'default', '', '0', '2023-12-01 05:24:26', 1, NULL),
+(162, '3', '115', 'FF', '1', '1', 'default', '4', '', '0', '2023-12-01 06:04:46', 1, NULL),
+(163, '3', '116', 'FF', '1', '1', '3', '3', '3', '0', '2023-12-01 05:24:13', 1, NULL),
+(164, '3', '117', 'CE', '1', '1', '2', '3', '3', '0', '2023-12-01 05:24:20', 1, NULL),
+(165, '3', '119', 'CE', '1', '1', '1', '4', '', '0', '2023-12-01 05:24:17', 1, NULL),
+(166, '3', '114', 'CE', '', '1', '5', '4', '8', '0', '2023-12-01 05:26:22', 1, NULL),
+(167, '3', '114', 'CE', '1', '1', '3', '3', '4', '0', '2023-12-01 06:05:00', 1, NULL),
+(168, '3', '116', 'FF', '1', '1', '1', '4', '8', '0', '2023-12-01 06:04:43', 1, NULL),
+(169, '3', '117', 'CE', '', '', '1', 'default', '', '0', '2023-12-01 06:04:57', 1, NULL),
+(170, '3', '118', 'CE', '', '', '2', 'default', '', '0', '2023-12-01 06:04:52', 1, NULL),
+(171, '3', '119', 'CE', '1', '', '2', '5', '', '0', '2023-12-01 06:04:49', 1, NULL),
+(172, '3', '114', 'CE', '', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 06:29:47', 1, NULL),
+(173, '3', '115', 'FF', '', '1', '3', 'default', 'Select Position', '0', '2023-12-01 06:29:33', 1, NULL),
+(174, '3', '116', 'FF', '5', '1', '2', '3', '2', '0', '2023-12-01 06:29:30', 1, NULL),
+(175, '3', '117', 'CE', '', '', '2', 'default', '', '0', '2023-12-01 06:29:43', 1, NULL),
+(176, '3', '118', 'CE', '1', '', '1', '3', '2', '0', '2023-12-01 06:29:40', 1, NULL),
+(177, '3', '119', 'CE', '1', '1', 'default', '4', '', '0', '2023-12-01 06:29:36', 1, NULL),
+(178, '3', '114', 'CE', '', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 06:33:09', 1, NULL),
+(179, '3', '115', 'FF', '', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 06:33:20', 1, NULL),
+(180, '3', '116', 'FF', '', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 06:33:24', 1, NULL),
+(181, '3', '117', 'CE', '', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 06:33:12', 1, NULL),
+(182, '3', '118', 'CE', '', '', '4', 'default', '', '0', '2023-12-01 06:33:14', 1, NULL),
+(183, '3', '119', 'CE', '3', '', '8', '4', '7', '0', '2023-12-01 06:33:16', 1, NULL),
+(184, '3', '113', 'CE', '1', '1', 'default', '3', '3', '0', '2023-12-01 08:24:32', 1, NULL),
+(185, '3', '114', 'CE', '', '', '2', 'default', '', '0', '2023-12-01 08:24:36', 1, NULL),
+(186, '3', '115', 'FF', '1', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 08:24:45', 1, NULL),
+(187, '3', '116', 'FF', '1', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 08:24:42', 1, NULL),
+(188, '3', '117', 'CE', '1', '1', 'default', '2', '', '0', '2023-12-01 08:27:19', 1, NULL),
+(189, '3', '118', 'CE', '2', '1', 'default', '3', '2', '0', '2023-12-01 08:27:24', 1, NULL),
+(190, '3', '119', 'CE', '', '1', '2', 'true', 'Select Position', '0', '2023-12-01 08:27:27', 1, NULL),
+(191, '3', '113', 'CE', '', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 08:27:31', 1, NULL),
+(192, '3', '114', 'CE', '', '1', 'default', 'default', 'Select Position', '0', '2023-12-01 08:27:34', 1, NULL),
+(193, '3', '116', 'FF', '', '1', '3', 'true', '8', '0', '2023-12-01 08:27:40', 1, NULL),
+(194, '3', '115', 'FF', '1', '1', '1', 'true', '', '0', '2023-12-01 08:27:46', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -191,7 +236,7 @@ INSERT INTO `dep_tbl` (`id`, `companyid`, `department`, `status`, `datecreated`)
 (13, '1', 'ADMINISTRATION', '1', '2023-10-24 00:51:25'),
 (14, '1', 'AUDIT', '1', '2023-10-24 00:51:25'),
 (15, '1', 'PURCHASING', '1', '2023-10-24 00:51:25'),
-(16, '2', 'General', '1', '2023-10-24 00:52:15'),
+(16, '2', 'General', '0', '2023-11-28 03:14:16'),
 (17, '2', 'ENGINEERING', '1', '2023-10-24 00:54:03'),
 (18, '2', 'PID', '1', '2023-10-24 00:54:03'),
 (19, '2', 'ACCOUNTING', '1', '2023-10-24 00:54:03'),
@@ -208,7 +253,7 @@ INSERT INTO `dep_tbl` (`id`, `companyid`, `department`, `status`, `datecreated`)
 (30, '2', 'WAREHOUSE', '1', '2023-10-24 00:54:03'),
 (31, '2', 'CNC', '1', '2023-10-24 00:54:03'),
 (32, '2', 'WORLDCRAFT', '1', '2023-10-24 00:54:03'),
-(33, '3', 'General', '1', '2023-10-24 00:54:34'),
+(33, '3', 'General', '0', '2023-11-28 03:14:12'),
 (34, '3', 'ENGINEERING', '1', '2023-10-24 00:55:54'),
 (35, '3', 'PID', '1', '2023-10-24 00:55:54'),
 (36, '3', 'SALES', '1', '2023-10-24 00:55:54'),
@@ -220,7 +265,7 @@ INSERT INTO `dep_tbl` (`id`, `companyid`, `department`, `status`, `datecreated`)
 (42, '3', 'PAYROLL', '1', '2023-10-24 00:55:54'),
 (43, '3', 'PID', '1', '2023-10-24 00:55:54'),
 (44, '3', 'SERVICE', '1', '2023-10-24 00:55:54'),
-(45, '4', 'General', '1', '2023-10-24 00:56:17'),
+(45, '4', 'General', '0', '2023-11-28 03:14:09'),
 (46, '4', 'PAYROLL', '1', '2023-10-24 00:57:48'),
 (47, '4', 'COLLECTION', '1', '2023-10-24 00:57:48'),
 (48, '4', 'OPERATIONS', '1', '2023-10-24 00:57:48'),
@@ -234,11 +279,11 @@ INSERT INTO `dep_tbl` (`id`, `companyid`, `department`, `status`, `datecreated`)
 (56, '4', 'VERIFICATION', '1', '2023-10-24 00:57:48'),
 (57, '4', 'APPROVING', '1', '2023-10-24 00:57:48'),
 (58, '4', 'TRAINING', '1', '2023-10-24 00:57:48'),
-(59, '1', 'General', '1', '2023-10-24 02:36:53'),
+(59, '1', 'General', '0', '2023-11-28 03:14:05'),
 (60, 'default', '', '1', '2023-10-24 07:25:48'),
-(61, '2', 'GENERAL', '1', '2023-10-24 08:38:16'),
+(61, '2', 'GENERAL', '0', '2023-11-28 03:14:02'),
 (62, 'default', '', '0', '2023-11-15 05:27:38'),
-(63, '1', 'GENERAL', '1', '2023-11-15 07:16:56'),
+(63, '1', 'GENERAL', '0', '2023-11-28 03:13:58'),
 (64, '5', 'GENERAL', '0', '2023-11-15 05:27:33');
 
 -- --------------------------------------------------------
@@ -268,9 +313,9 @@ CREATE TABLE `employee_tbl` (
 INSERT INTO `employee_tbl` (`id`, `employeeid`, `firstname`, `lastname`, `username`, `password`, `companyid`, `departmentid`, `positionid`, `status`, `datecreated`) VALUES
 (1, '000', 'GENERAL', NULL, NULL, NULL, '1', NULL, NULL, '1', '2023-11-03 07:35:40'),
 (2, '361', 'Reygine', 'Ellorico', 'jine', '060300', '1', '4', '12', '1', '2023-11-03 07:32:09'),
-(3, '001', 'Louice', 'Sanford', 'san', '123', '1', '3', '5', '1', '2023-11-08 00:14:43'),
+(3, '001', 'Hans', 'Cruz', 'san', '123', '1', '4', '12', '1', '2023-11-20 08:19:41'),
 (4, '123', 'sadsad', 'dsadsa', 'ako', '123', '1', '2', '1', '0', '2023-11-15 05:26:35'),
-(5, '001', 'Louice', 'O', 'ako', '123', '1', '4', '12', '1', '2023-11-14 23:53:00');
+(5, '003', 'Louice', 'O', 'me', '123', '1', '4', '12', '1', '2023-11-20 08:18:13');
 
 -- --------------------------------------------------------
 
@@ -320,14 +365,13 @@ CREATE TABLE `item_tbl` (
 --
 
 INSERT INTO `item_tbl` (`id`, `assetid`, `file_name`, `assetname`, `categoriesid`, `companyid`, `date_purchase`, `locationid`, `assigned_status`, `quantity`, `status`, `date_created`, `update_date`) VALUES
-(94, '0001', '1619_redragon-predator.jpg', 'aaa', 'CE', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-16 03:49:05', NULL),
-(95, '0001', '6973_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'acaaaa', 'CE', '1', '2023-10-29', '3', '0', 1, '1', '2023-11-16 03:44:11', NULL),
-(96, '0002', '7862_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'trest', 'FF', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-16 00:22:26', NULL),
-(97, '0003', '7862_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'trest', 'FF', '1', '2023-10-29', '1', '0', 1, '0', '2023-11-15 05:34:12', NULL),
-(98, '0004', '6979_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'Chair', 'FF', '1', '2023-10-29', '1', '0', 1, '1', '2023-11-16 03:39:00', NULL),
-(99, '0005', '249_55261_ivoryboucl_01.jpg', 'chair2', 'FF', '1', '2023-10-29', '2', '1', 1, '1', '2023-11-16 03:46:34', NULL),
-(100, '0006', '249_55261_ivoryboucl_01.jpg', 'chair2', 'FF', '1', '2023-10-29', '2', '1', 1, '1', '2023-11-16 03:47:07', NULL),
-(101, '0007', '249_55261_ivoryboucl_01.jpg', 'chair2', 'FF', '1', '2023-10-29', '2', '0', 1, '1', '2023-11-16 03:40:18', NULL);
+(113, '0001', '6609_6505040_sd.jpg', 'Monitor', 'CE', '1', '2023-10-29', '2', '0', 1, '1', '2023-12-01 08:27:31', NULL),
+(114, '0002', '8920_cb0030c2-a029-47dc-9f37-c2cbc940bef0.jpg', 'CPU', 'CE', '1', '2023-10-29', '1', '0', 1, '1', '2023-12-01 08:27:34', NULL),
+(115, '0003', '1976_6505040_sd.jpg', 'MONITOR', 'FF', '1', '2023-10-29', '2', '0', 1, '1', '2023-12-01 08:27:46', NULL),
+(116, '0004', '763_800px-Set_of_fourteen_side_chairs_MET_DP110780.jpg', 'Chair', 'FF', '1', '2023-11-26', '1', '0', 1, '1', '2023-12-01 08:27:40', NULL),
+(117, '0003', '8364_s-l1600.jpg', 'CPU1', 'CE', '1', '2023-11-27', '2', '0', 1, '1', '2023-12-01 08:27:19', NULL),
+(118, '0004', '9523_redragon-predator.jpg', 'mouse', 'CE', '1', '2023-11-26', '1', '0', 1, '1', '2023-12-01 08:27:24', NULL),
+(119, '0005', '9523_redragon-predator.jpg', 'mouse', 'CE', '1', '2023-11-26', '1', '0', 1, '1', '2023-12-01 08:27:27', NULL);
 
 -- --------------------------------------------------------
 
@@ -400,26 +444,10 @@ CREATE TABLE `multfile_tbl` (
 --
 
 INSERT INTO `multfile_tbl` (`id`, `employeeid`, `itemid`, `file`, `status`, `datecreated`) VALUES
-(89, '3', '94', 'Fixed Asset Monitoring System with Barcode_4555_1699941233_1.pdf', '0', '2023-11-16 01:01:19'),
-(90, '3', '94', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_9242_1699941233_1.pdf', '1', '2023-11-15 00:53:18'),
-(91, '3', '95', 'Fixed Asset Monitoring System with Barcode_79_1699941345_1.pdf', '0', '2023-11-16 03:43:45'),
-(92, '3', '94', 'Fixed Asset Monitoring System with Barcode_9737_1699949569_.pdf', '1', '2023-11-14 08:12:49'),
-(93, '3', '95', 'Fixed Asset Monitoring System with Barcode_6742_1699949686_.pdf', '1', '2023-11-15 01:20:10'),
-(94, '3', '95', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_2770_1700009618_.pdf', '1', '2023-11-15 01:20:14'),
-(95, '3', '94', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_4611_1700009792_.pdf', '1', '2023-11-15 00:56:32'),
-(96, '3', '94', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_6032_1700009830_.pdf', '1', '2023-11-15 00:57:10'),
-(97, '3', '96', 'Fixed Asset Monitoring System with Barcode_7442_1700026374_1.pdf', '1', '2023-11-15 05:32:54'),
-(98, '3', '97', 'Fixed Asset Monitoring System with Barcode_7442_1700026374_1.pdf', '1', '2023-11-15 05:32:54'),
-(99, '3', '96', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_6829_1700026374_1.pdf', '1', '2023-11-15 05:32:54'),
-(100, '3', '97', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_6829_1700026374_1.pdf', '1', '2023-11-15 05:32:54'),
-(101, '3', '98', 'Fixed Asset Monitoring System with Barcode_4247_1700105940_1.pdf', '1', '2023-11-16 03:39:00'),
-(102, '3', '98', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1292_1700105940_1.pdf', '1', '2023-11-16 03:39:00'),
-(103, '3', '99', 'Fixed Asset Monitoring System with Barcode_3701_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
-(104, '3', '100', 'Fixed Asset Monitoring System with Barcode_3701_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
-(105, '3', '101', 'Fixed Asset Monitoring System with Barcode_3701_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
-(106, '3', '99', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1869_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
-(107, '3', '100', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1869_1700106018_1.pdf', '1', '2023-11-16 03:40:18'),
-(108, '3', '101', 'SCOPE OF WORK FIXED ASSET MONITORING SYSTEM WITH BARCODE_1869_1700106018_1.pdf', '1', '2023-11-16 03:40:18');
+(119, '3', '111', 'FIXED ASSET MONITORING WITH BARCODE SYSTEM.docx', '1', '2023-11-29 01:21:13'),
+(120, '3', '113', 'Fixed Asset Monitoring System with Barcode.pdf', '1', '2023-11-29 02:34:15'),
+(121, '3', '115', 'Fixed Asset Monitoring System with Barcode_2815_1701321130_1.pdf', '1', '2023-11-30 05:12:10'),
+(122, '3', '117', 'Fixed Asset Monitoring System with Barcode_4572_1701399621_.pdf', '1', '2023-12-01 03:00:21');
 
 -- --------------------------------------------------------
 
@@ -456,6 +484,36 @@ INSERT INTO `position_tbl` (`id`, `companyid`, `departmentid`, `position`, `stat
 (13, '1', '4', 'SYSTEMS PROGRAMMER SUPERVISOR', '1', '2023-10-27 13:52:34'),
 (14, '1', '4', 'SYSTEMS SUPPORTS STAFF', '1', '2023-10-27 13:52:34'),
 (15, '1', '1', 'test', '0', '2023-11-15 13:29:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scan_tbl`
+--
+
+CREATE TABLE `scan_tbl` (
+  `id` int(11) NOT NULL,
+  `userid` varchar(255) DEFAULT NULL,
+  `assetcode` varchar(255) DEFAULT NULL,
+  `categid` varchar(255) DEFAULT NULL,
+  `assigned_emp` varchar(255) DEFAULT NULL,
+  `companyid` varchar(255) DEFAULT NULL,
+  `departmentid` varchar(255) DEFAULT NULL,
+  `scan_status` int(50) DEFAULT 1,
+  `scan_date` date DEFAULT NULL,
+  `positionid` varchar(255) DEFAULT NULL,
+  `locationid` varchar(255) DEFAULT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `scan_tbl`
+--
+
+INSERT INTO `scan_tbl` (`id`, `userid`, `assetcode`, `categid`, `assigned_emp`, `companyid`, `departmentid`, `scan_status`, `scan_date`, `positionid`, `locationid`, `quantity`) VALUES
+(1, '3', '113', 'CE', '1', '1', '4', 1, '2023-11-30', '', 'default', 1),
+(2, '3', '114', 'CE', '3', '1', '4', 1, '2023-11-29', '11', 'default', 1),
+(8, '3', '114', 'CE', '3', '1', '4', 1, '2023-11-30', '11', 'default', 1);
 
 --
 -- Indexes for dumped tables
@@ -540,6 +598,12 @@ ALTER TABLE `position_tbl`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `scan_tbl`
+--
+ALTER TABLE `scan_tbl`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -553,13 +617,13 @@ ALTER TABLE `access_tbl`
 -- AUTO_INCREMENT for table `accrole_tbl`
 --
 ALTER TABLE `accrole_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `assigned_tbl`
 --
 ALTER TABLE `assigned_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT for table `categ_tbl`
@@ -595,7 +659,7 @@ ALTER TABLE `itemstatus_tbl`
 -- AUTO_INCREMENT for table `item_tbl`
 --
 ALTER TABLE `item_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `location_assigned`
@@ -613,13 +677,19 @@ ALTER TABLE `location_tbl`
 -- AUTO_INCREMENT for table `multfile_tbl`
 --
 ALTER TABLE `multfile_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `position_tbl`
 --
 ALTER TABLE `position_tbl`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `scan_tbl`
+--
+ALTER TABLE `scan_tbl`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

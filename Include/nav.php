@@ -1,6 +1,17 @@
 <!--**********************************
             Header start
         ***********************************-->
+<?php
+$currentDate = date("F j, Y");
+?>
+
+<style>
+	.center-text {
+		text-align: center;
+		width: 100%;
+		/* Optionally, you can set a width to center block-level elements */
+	}
+</style>
 <div class="header">
 	<div class="header-content">
 		<nav class="navbar navbar-expand">
@@ -113,34 +124,34 @@
 						<a class="nav-link" href="#" role="button" data-toggle="dropdown">
 							<img src="images/profile/pic1.jpg" width="20" alt="">
 							<div class="header-info">
-								<span><?= strtoupper($_SESSION['username'] )?></span>
+								<span><?= strtoupper($_SESSION['username']) ?></span>
 								<?php
 								$emp_id = $_SESSION["id"];
 
 								$prot = "SELECT * FROM accrole_tbl WHERE employeeid='$emp_id' AND status = 1";
 								$exe = mysqli_query($conn, $prot);
-						
+
 								while ($h2w = mysqli_fetch_array($exe)) {
-						
+
 									// echo $h2w['usertype'];
 									$condtiones = $h2w['usertype'];
-									if ($condtiones == 1) { 
-										echo '<small>Super Admin</small>' ;
-									}elseif($condtiones == 2){
-										echo '<small>FMC Accounting</small>' ;
-									}elseif($condtiones == 3){
+									if ($condtiones == 1) {
+										echo '<small>Super Admin</small>';
+									} elseif ($condtiones == 2) {
+										echo '<small>FMC Accounting</small>';
+									} elseif ($condtiones == 3) {
 										echo '<small>MSC Accounting</small>';
-									}elseif($condtiones == 4){
-										echo '<small>MBI Accounting</small>' ;
-									}elseif($condtiones == 5){
-										echo '<small>EverFirst Accounting</small>' ;
-									}elseif($condtiones == 6){
-
+									} elseif ($condtiones == 4) {
+										echo '<small>MBI Accounting</small>';
+									} elseif ($condtiones == 5) {
+										echo '<small>EverFirst Accounting</small>';
+									} elseif ($condtiones == 6) {
+										echo '<small>Employee</small>';
 									}
-						
-													// END OF WHILE
-						}
-						?>
+
+									// END OF WHILE
+								}
+								?>
 							</div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right">
@@ -172,13 +183,11 @@
 			</div>
 		</nav>
 		<div class="sub-header">
-			<div class="d-flex align-items-center flex-wrap mr-auto">
-				<h5 class="dashboard_bar">Dashboard</h5>
+			<div class="d-flex align-items-center flex-wrap mr-auto center-text">
+				<h5 class="dashboard_bar">FIXED ASSET MONITORING SYSTEM WITH BARCODING</h5>
 			</div>
 			<div class="d-flex align-items-center">
-				<a href="javascript:void(0);" class="btn btn-xs btn-primary light mr-1">Today</a>
-				<a href="javascript:void(0);" class="btn btn-xs btn-primary light mr-1">Month</a>
-				<a href="javascript:void(0);" class="btn btn-xs btn-primary light">Year</a>
+				<a href="javascript:void(0);" class="btn btn-xs btn-primary light mr-1"><?php echo $currentDate; ?></a>
 			</div>
 		</div>
 	</div>

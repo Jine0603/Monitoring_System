@@ -168,7 +168,7 @@
                 <ul aria-expanded="false">
                     <li><a href="stockdata.php">Asset Count</a></li>
                     <li><a href="barcode.php">Barcode</a></li>
-                    <li><a href="ui-badge.html">Reader</a></li>
+                    <li><a href="scanningbr.php">Scanner</a></li>
                 </ul>
             </li>
             <li class="nav-label">Report</li>
@@ -188,7 +188,7 @@
                     <span class="nav-text">Manage View</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="view_assigned.php">Assigned Asset</a></li>
+                    <li><a href="view_assigned.php">Assigned View</a></li>
                 </ul>
             </li>
         </ul>        

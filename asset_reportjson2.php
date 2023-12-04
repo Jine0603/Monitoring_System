@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "no"    => $no,
             "asset" => $rows['categoriesid'] . ' - ' . $rows['assetid'],
             "name"  => $rows['assetname'],
+            "loc"  => $rows['location'],
             "date"   => $rows['date_created'],
         );
     }

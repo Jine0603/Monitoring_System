@@ -106,15 +106,9 @@ include 'seasionindex.php';
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>Hi, welcome back!</h4>
-                            <span>Datatable</span>
+                            <h4>Asset Count</h4>
+                            <span>Display all Assigned Asset from Department</span>
                         </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
-                        </ol>
                     </div>
                 </div>
                 <!-- row -->
@@ -122,14 +116,15 @@ include 'seasionindex.php';
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Table Stripped</h4>
+                                <h4 class="card-title">Count Asset</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table id="tablea" class="table table-bordered table-striped verticle-middle table-responsive-sm">
                                         <thead>
                                             <tr>
-
+                                                <th scope="col">Department</th>
+                                                <th scope="col">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -163,9 +158,10 @@ include 'seasionindex.php';
                                                         <thead>
                                                             <tr>
                                                                 <th></th>
+                                                                <th>Categories</th>
                                                                 <th>AssetID</th>
-                                                                <th>Name</th>
-                                                                <th>Assigned</th>
+                                                                <th>Description</th>
+                                                                <th>Assigned To</th>
                                                             </tr>
                                                         </thead>
                                                     </table>
@@ -226,63 +222,56 @@ include 'seasionindex.php';
         <script>
             $(document).ready(function() {
 
-                // $('#tablea').DataTable({
-                //     serverside: false,
-                //     processing: true,
-                //     "destroy": true,
-                //     "ajax": {
-                //         "url": "stockjson.php",
-                //         "dataSrc": "",
-
-                //     },
-                //     "columns": [{
-                //             "data": "cat"
-                //         },
-                //     ]
-                // });
                 $('#tablea').DataTable({
                     serverside: false,
                     processing: true,
                     "destroy": true,
                     "ajax": {
-                        "url": "depjson.php",
+                        "url": "stockjson.php",
                         "dataSrc": "",
+
                     },
                     "columns": [{
-                            "data": "dep",
-                            "data": ""
+                            "data": "cat"
                         },
+                        {
+                            "data": "total"
+                        },
+
                     ]
                 });
 
-                // $(document).on("click", ".total_all", function() {
+                $(document).on("click", ".total_all", function() {
 
-                //     var id = $(this).data('id');
+                    var id = $(this).data('id');
 
-                //     $('#tableo').DataTable({
-                //         serverside: false,
-                //         processing: true,
-                //         "destroy": true,
-                //         "ajax": {
-                //             "url": `infomodal.php?totalall=${id}`,
-                //             "dataSrc": "",
+                    $('#tableo').DataTable({
+                        serverside: false,
+                        processing: true,
+                        "destroy": true,
+                        "ajax": {
+                            "url": `infomodal.php?totalall=${id}`,
+                            "dataSrc": "",
 
-                //         },
-                //         "columns": [{
-                //                 "data": "no"
-                //             },
-                //             {
-                //                 "data": "astid"
-                //             },
-                //             {
-                //                 "data": "name"
-                //             },
-                //             {
-                //                 "data": "assign"
-                //             },
-                //         ]
-                //     });
-                // });
+                        },
+                        "columns": [{
+                                "data": "no"
+                            },
+                            {
+                                "data": "cat"
+                            },
+                            {
+                                "data": "astid"
+                            },
+                            {
+                                "data": "name"
+                            },
+                            {
+                                "data": "assign"
+                            },
+                        ]
+                    });
+                });
 
                 // $(document).on("click", ".total_use", function() {
 

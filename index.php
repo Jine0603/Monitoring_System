@@ -24,6 +24,8 @@ if (isset($_POST['loginBtn'])) {
           // Successful login
           $_SESSION['id'] = $fetch['id'];
           $_SESSION['username'] = $fetch['username'];
+          $_SESSION['firstname'] = $fetch['firstname'];
+          $_SESSION['lastname'] = $fetch['lastname'];
           $_SESSION['usertype'] = $fetch['usertype'];
           $_SESSION['access'] = $fetch['access'];
           $_SESSION['status'] = 1; // Set status 1 for successful login
