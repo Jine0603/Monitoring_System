@@ -16,7 +16,7 @@ include 'seasionindex.php';
     <meta property="og:description" content="Zenix - Crypto Admin Dashboard">
     <meta property="og:image" content="https://zenix.dexignzone.com/xhtml/social-image.png">
     <meta name="format-detection" content="telephone=no">
-    <title>Zenix - Crypto Admin Dashboard </title>
+    <title>FIXED ASSET MONITORING SYSTEM WITH BARCODING </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Datatable -->
@@ -120,7 +120,7 @@ include 'seasionindex.php';
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
                             <h4>FMC</h4>
-                            <span>Insert the Information of Asset</span>
+                            <span>Insert/EDIT/VIEW the Information of Asset</span>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@ include 'seasionindex.php';
                                             <div class="form-group col-sm-6">
                                                 <div id="imagine"></div>
                                                 <label>Item Image </label>
-                                                <input type="file" class="form-control" id="file1" name="file1" onchange="ImagePreview(event)">
+                                                <input type="file" class="form-control" id="file1" name="file1" accept="image/jpeg, image/jpg, image/png" onchange="ImagePreview(event)">
                                                 <div class="alert alert-danger alert-dismissible fade show" role="alert" id="wrn_file" style="display:none;font-size:12px;">
                                                     Please enter the amount..
                                                 </div>
@@ -229,7 +229,7 @@ include 'seasionindex.php';
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">EDIT ITEM</h5>
+                                <h5 class="modal-title">EDIT ASSET</h5>
                                 <button type="button" id="close2" class="close" data-dismiss="modal"><span>&times;</span>
                                 </button>
                             </div>
@@ -251,7 +251,7 @@ include 'seasionindex.php';
                                                         <div class="form-row">
                                                             <div class="form-group col-sm-6">
                                                                 <input type="text" class="form-control" id="idt_edit" name="idt_edit" hidden>
-                                                                <label>AssetID</label>
+                                                                <label>Asset No</label>
                                                                 <input type="text" class="form-control" id="assetid_edit" name="assetid_edit" rows="3" placeholder="Item Name" disabled>
                                                                 <label>Asset Description</label>
                                                                 <textarea type="text" class="form-control" id="names_edit" name="names_edit" rows="3" placeholder="Item Name"></textarea>
@@ -266,7 +266,7 @@ include 'seasionindex.php';
                                                             </div>
                                                             <div class="form-group col-sm-6">
                                                                 <label for="cat_drop"> Category</label>
-                                                                <select name="category_edit" id="category_edit" class="form-control default-select">
+                                                                <select name="category_edit" id="category_edit" class="form-control default-select" disabled>
                                                                     <option value="" selected>Select Category</option>
                                                                     <?php
                                                                     $result = mysqli_query($conn, "SELECT * FROM categ_tbl");
@@ -298,7 +298,7 @@ include 'seasionindex.php';
                                                                 <input type="date" id="date_purchase_edit" name="date_purchase_edit" class="form-control">
                                                             </div>
                                                             <div class="form-group col-md-6">
-                                                                <label>Location</label>
+                                                                <label>Warehouse Location</label>
                                                                 <select name="location_edit" id="location_edit" class="form-control default-select">
                                                                     <option value="default" selected>Select Location</option>
                                                                     <?php
@@ -387,7 +387,7 @@ include 'seasionindex.php';
                                     <form>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label>AssetID</label>
+                                                <label>Asset No</label>
                                                 <input type="text" class="form-control" id="ass" name="ass" disabled>
                                             </div>
                                             <div class="form-group col-md-6">
@@ -436,6 +436,8 @@ include 'seasionindex.php';
                                                     <option selected="">Select Position
                                                     </option>
                                                 </select>
+                                                <br>
+                                                <button type="submit" name="btn_assigned" class="btn btn-primary clearme" id="btn_assigned">Assign Employee</button>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <select id="companyid" name="companyid" class="form-control default-select" hidden>
@@ -465,10 +467,12 @@ include 'seasionindex.php';
                                                     }
                                                     ?>
                                                 </select>
+                                                <br>
+                                                <br>
+                                                <button type="submit" name="btn_assigned" class="btn btn-primary clearme" id="btn_assigned2">Assign Employee</button>
                                             </div>
                                         </div>
                                         <br>
-                                        <button type="submit" name="btn_assigned" class="btn btn-primary clearme" id="btn_assigned">Assign Employee</button>
                                     </form>
                                 </div>
                             </div>
@@ -499,7 +503,7 @@ include 'seasionindex.php';
                                             <div class="pt-4">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
-                                                        <label>Asset ID</label>
+                                                        <label>Asset No</label>
                                                         <input type="text" class="form-control" id="id" name="id" hidden>
                                                         <input type="text" class="form-control" id="setid" name="setid" disabled>
                                                     </div>
@@ -513,7 +517,7 @@ include 'seasionindex.php';
                                                         <input type="text" class="form-control" id="date" name="date" disabled>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label>Location</label>
+                                                        <label>Warehouse Location</label>
                                                         <input type="text" class="form-control" id="loct" name="loct" disabled>
                                                     </div>
                                                     &nbsp;
@@ -684,19 +688,16 @@ include 'seasionindex.php';
 
     <script>
         $(document).ready(function() {
+            // FOR SELECT2 VISIBILITY POSITION
             var employeeAssignedSelect = $('#employee_assigned').select2({
                 dropdownParent: $('#assignmodal')
             });
-
-            // Initial hide/show based on selected value
             togglePositionVisibility();
 
-            // Bind change event to the employee_assigned select
             employeeAssignedSelect.on('change', function() {
                 togglePositionVisibility();
             });
 
-            // Function to toggle visibility based on the selected value
             function togglePositionVisibility() {
                 var selectedValue = $('#employee_assigned').find(':selected').val();
 
@@ -707,7 +708,7 @@ include 'seasionindex.php';
                 }
             }
 
-
+            // CLOSE CODE FOR 3 MODALS
             $('#close1').on('click', function() {
                 $('#assignmodal').modal('hide');
             });
@@ -718,6 +719,7 @@ include 'seasionindex.php';
                 $('#modal_edit').modal('hide');
             });
 
+            // GET ID FOR TABLEE
             $('#tablee').on("click", ".data", function() {
                 var id = $(this).data('id');
 
@@ -725,7 +727,6 @@ include 'seasionindex.php';
 
                 $('#sid').val(id);
             });
-
             $('#tablee').on("click", ".view", function() {
                 var id = $(this).data('id');
 
@@ -777,6 +778,7 @@ include 'seasionindex.php';
     </script>
 
     <script>
+        // FILEPOND VALIDATION IN ADD ASSET
         const inputElement = document.querySelector('#files');
         FilePond.registerPlugin(FilePondPluginImagePreview);
         const pond = FilePond.create(inputElement);
@@ -796,6 +798,7 @@ include 'seasionindex.php';
             }
         });
 
+        // FILEPOND VALIDATION IN EDIT ASSET
         const inputElement1 = document.querySelector('#filess');
         FilePond.registerPlugin(FilePondPluginImagePreview);
         const pondme = FilePond.create(inputElement1);
@@ -1104,33 +1107,6 @@ include 'seasionindex.php';
                 var locationid = $('#locationid').val();
                 var qty = $('#qty').val();
 
-                if (assetname == '' || company == '' || category == '' || file1 == undefined || date_purchase == '' || locationid == 'default') {
-                    Swal.fire({
-                        position: 'top-center',
-                        icon: 'error',
-                        title: 'Please Fill Up the FORM!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                }
-
-                $("#file1").change(function() {
-                    var file1 = this.files[0];
-                    var file1Type = file1.type;
-                    var match = ["image/jpeg", "image/png", "image/jpg"];
-                    if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
-                        Swal.fire({
-                            position: 'top-center',
-                            icon: 'error',
-                            title: 'Please select a valid image file (JPEG/JPG/PNG).',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        $("#file1").val('');
-                        return;
-                    }
-                });
-
                 var form_data = new FormData();
                 form_data.append("assetname", assetname);
                 form_data.append("company", company);
@@ -1149,31 +1125,60 @@ include 'seasionindex.php';
                     form_data.append("files[]", picture);
                 }
 
-                $.ajax({
-                    type: 'POST',
-                    url: 'add.php',
-                    data: form_data,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(response) {
-                        Swal.fire({
-                            position: 'top-center',
-                            icon: 'success',
-                            title: 'Success!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        $('#submitForm')[0].reset();
-                        clearImagePreview();
-                        for (var i = 0; i < files.length; i++) {
-                            pond.removeFile(files[i]);
-                        }
-                        $('#tablee').DataTable().ajax.reload();
-                        $("#exampleModalCenter").modal("hide");
-                    },
+                if (assetname == '' || company == '' || category == '' || file1 == undefined || date_purchase == '' || locationid == 'default') {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Please Fill Up the Form!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
 
-                });
+                    //     $("#file1").change(function() {
+                    //     var file1 = this.files[0];
+                    //     var file1Type = file1.type;
+                    //     var match = ["image/jpeg", "image/png", "image/jpg"];
+                    //     if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
+                    //         Swal.fire({
+                    //             position: 'top-center',
+                    //             icon: 'error',
+                    //             title: 'Please select a valid image file (JPEG/JPG/PNG).',
+                    //             showConfirmButton: false,
+                    //             timer: 1500
+                    //         });
+                    //         $("#file1").val('');
+                    //         return;
+                    //     }
+                    // });
+                } else {
+
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'add.php',
+                        data: form_data,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function(response) {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Success!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#submitForm')[0].reset();
+                            clearImagePreview();
+                            for (var i = 0; i < files.length; i++) {
+                                pond.removeFile(files[i]);
+                            }
+                            $('#tablee').DataTable().ajax.reload();
+                            $("#exampleModalCenter").modal("hide");
+                        },
+
+                    });
+                }
             });
 
             $(document).on('click', '.clearme', function(e) {
@@ -1281,7 +1286,20 @@ include 'seasionindex.php';
                 })
 
             });
+            $(document).on("click", ".file", function() {
 
+                // $.ajax({
+                //         url: "activitylog.php",
+                //         type: "POST",
+                //         data: {
+
+                //         },
+                //         success: function(data) {
+                //             $('#msg').html(data);
+                //         }
+                //     });
+
+            });
             $(document).on("click", ".viewdata", function() {
 
                 var orig = $(this).data('id');
@@ -1333,6 +1351,7 @@ include 'seasionindex.php';
                         },
                     ]
                 });
+
                 $('#tabas').DataTable({
                     serverside: false,
                     processing: true,
@@ -1397,14 +1416,16 @@ include 'seasionindex.php';
                             $('#msg').html(data);
                             $('#tablee').DataTable().ajax.reload();
                             $("#assignmodal").modal("hide");
-
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
                             employeeAssignedSelect.val('default').trigger('change');
                             $('#department_id').val('default');
                             $('#position').val('');
                         }
                     });
-                }
-                else if(employee_assigned == '1' && department_id != 'default') {
+                } else if (employee_assigned == '1' && department_id != 'default') {
                     $.ajax({
                         url: "add_assign.php",
                         type: "POST",
@@ -1429,13 +1450,99 @@ include 'seasionindex.php';
                             $('#msg').html(data);
                             $('#tablee').DataTable().ajax.reload();
                             $("#assignmodal").modal("hide");
-
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
                             employeeAssignedSelect.val('default').trigger('change');
                             $('#department_id').val('default');
                             $('#position').val('');
                         }
                     });
-                }else if(employee_assigned != '1' && department_id != 'default' && position != ''){
+                } else if (employee_assigned != '1' && department_id != 'default' && position != '') {
+                    $.ajax({
+                        url: "add_assign.php",
+                        type: "POST",
+                        data: {
+                            itemid: itemid,
+                            categories: categories,
+                            employee_assigned: employee_assigned,
+                            companyid: companyid,
+                            department_id: department_id,
+                            position: position,
+                            newloc: newloc,
+
+                        },
+                        beforeSend: function() {
+                            let timerInterval;
+                            Swal.fire({
+                                title: "Auto close alert!",
+                                html: "I will close in <b></b> milliseconds.",
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                    const timer = Swal.getPopup().querySelector("b");
+                                    timerInterval = setInterval(() => {
+                                        timer.textContent = `${Swal.getTimerLeft()}`;
+                                    }, 100);
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval);
+                                }
+                            }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {}
+                            });
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Success!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#msg').html(data);
+                            $('#tablee').DataTable().ajax.reload();
+                            $("#assignmodal").modal("hide");
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeAssignedSelect.val('default').trigger('change');
+                            $('#department_id').val('default');
+                            $('#position').val('');
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Please Fill Up the Assigned Form!',
+                        showConfirmButton: false,
+
+                    })
+                    $('#department_id').val('default');
+                    $('#position').val('');
+                    $('#newloc').val('default');
+                    employeeAssignedSelect.val('default').trigger('change');
+                }
+            });
+            $('#btn_assigned2').click(function(e) {
+
+                e.preventDefault();
+
+                var itemid = $('#assigned_id').val();
+                var categories = $('#cat').val();
+                var employee_assigned = $('#employee_assigned').val();
+                var companyid = $('#companyid').val();
+                var department_id = $('#department_id').val();
+                var position = $('#position').val();
+                var newloc = $('#newloc').val();
+
+
+                if (newloc != 'default') {
                     $.ajax({
                         url: "add_assign.php",
                         type: "POST",
@@ -1460,41 +1567,118 @@ include 'seasionindex.php';
                             $('#msg').html(data);
                             $('#tablee').DataTable().ajax.reload();
                             $("#assignmodal").modal("hide");
-
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
                             employeeAssignedSelect.val('default').trigger('change');
                             $('#department_id').val('default');
                             $('#position').val('');
                         }
                     });
+                } else if (employee_assigned == '1' && department_id != 'default') {
+                    $.ajax({
+                        url: "add_assign.php",
+                        type: "POST",
+                        data: {
+                            itemid: itemid,
+                            categories: categories,
+                            employee_assigned: employee_assigned,
+                            companyid: companyid,
+                            department_id: department_id,
+                            position: position,
+                            newloc: newloc,
+
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Success!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#msg').html(data);
+                            $('#tablee').DataTable().ajax.reload();
+                            $("#assignmodal").modal("hide");
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeAssignedSelect.val('default').trigger('change');
+                            $('#department_id').val('default');
+                            $('#position').val('');
+                        }
+                    });
+                } else if (employee_assigned != '1' && department_id != 'default' && position != '') {
+                    $.ajax({
+                        url: "add_assign.php",
+                        type: "POST",
+                        data: {
+                            itemid: itemid,
+                            categories: categories,
+                            employee_assigned: employee_assigned,
+                            companyid: companyid,
+                            department_id: department_id,
+                            position: position,
+                            newloc: newloc,
+
+                        },
+                        beforeSend: function() {
+                            let timerInterval;
+                            Swal.fire({
+                                title: "Auto close alert!",
+                                html: "I will close in <b></b> milliseconds.",
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                    const timer = Swal.getPopup().querySelector("b");
+                                    timerInterval = setInterval(() => {
+                                        timer.textContent = `${Swal.getTimerLeft()}`;
+                                    }, 100);
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval);
+                                }
+                            }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {}
+                            });
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Success!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#msg').html(data);
+                            $('#tablee').DataTable().ajax.reload();
+                            $("#assignmodal").modal("hide");
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeAssignedSelect.val('default').trigger('change');
+                            $('#department_id').val('default');
+                            $('#position').val('');
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Please Fill Up the Assigned Form!',
+                        showConfirmButton: false,
+
+                    })
+                    $('#department_id').val('default');
+                    $('#position').val('');
+                    $('#newloc').val('default');
+                    employeeAssignedSelect.val('default').trigger('change');
                 }
-                // if(employee_assigned == 'default' && department_id == 'default' && position == ''){
-                //     Swal.fire({
-                //         position: 'top-center',
-                //         icon: 'error',
-                //         title: 'Please Choose between Department and Locationiiiiiiiiiiiiiii!',
-                //         showConfirmButton: false,
-
-                //     })
-                //     $('#companyid').val('');
-                //     $('#department_id').val('default');
-                //     $('#position').val('');
-                //     $('#newloc').val('default');
-                //     employeeAssignedSelect.val('default').trigger('change');
-                // }
-                // else{
-                //     Swal.fire({
-                //         position: 'top-center',
-                //         icon: 'error',
-                //         title: 'Please Choose between Department and Locationiiiiiiiiiiiiiii!',
-                //         showConfirmButton: false,
-
-                //     })
-                //     $('#companyid').val('');
-                //     $('#department_id').val('default');
-                //     $('#position').val('');
-                //     $('#newloc').val('default');
-                //     employeeAssignedSelect.val('default').trigger('change');
-                // }
             });
         });
     </script>
@@ -1551,6 +1735,7 @@ include 'seasionindex.php';
         $(document).on('click', '.inactive', function(e) {
             e.preventDefault();
             var id = $(this).data('id');
+            var itemid = $(this).data('itemid');
 
             // Show the confirmation dialog
             Swal.fire({

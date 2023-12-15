@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         LEFT JOIN categ_tbl ON categ_tbl.id           = item_tbl.categoriesid
         LEFT JOIN com_tbl ON com_tbl.id               = item_tbl.companyid
         WHERE item_tbl.status = 0 AND date_created BETWEEN '$startDate' AND '$endDate' AND cateid = '$cat'";
+        
     } else if ($cat != 'default') {
 
     $sql = "SELECT item_tbl.id,location_tbl.location,categ_tbl.categories,com_tbl.company As company,item_tbl.assetid,

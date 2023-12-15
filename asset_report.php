@@ -128,7 +128,7 @@ include 'seasionindex.php';
                     <div class="col-xl-13 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">REPORT FOR ASSETS</h4>
+                                <h4 class="card-title">FILTER FOR ASSET</h4>
                             </div>
                             <div class="card-body">
                                 <div class="basic-form">
@@ -335,6 +335,17 @@ include 'seasionindex.php';
                 var endDate = $('#endDate').val();
                 var cat = $('#cat').val();
 
+                if (startDate == '' && endDate == '' && cat == 'default'){
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'No Input for Filter!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    return;
+                }
+
                 if (startDate != '' && endDate != '' && cat != 'default') {
                     $('#table2').DataTable({
                         serverside: false,
@@ -521,6 +532,7 @@ include 'seasionindex.php';
                             },
                         ]
                     });
+                    return;
                 }
             });
         });

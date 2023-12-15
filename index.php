@@ -1,5 +1,6 @@
 <?php
 include "Include/config.php";
+
 // error_reporting(0);
 session_start();
 if (isset($_SESSION["id"])) {
@@ -22,6 +23,7 @@ if (isset($_POST['loginBtn'])) {
       if ($fetch['status'] == 1) { // Check if the account is active
         if ($password == $fetch['password']) {
           // Successful login
+  
           $_SESSION['id'] = $fetch['id'];
           $_SESSION['username'] = $fetch['username'];
           $_SESSION['firstname'] = $fetch['firstname'];
@@ -29,8 +31,17 @@ if (isset($_POST['loginBtn'])) {
           $_SESSION['usertype'] = $fetch['usertype'];
           $_SESSION['access'] = $fetch['access'];
           $_SESSION['status'] = 1; // Set status 1 for successful login
-
           $_SESSION['success'] = 'primary';
+          $date = new DateTime('now', new DateTimeZone('Asia/Manila'));
+          $currentDate = $date->format("Y-m-d");
+          $time = $date->format("g:i:a");
+
+          $detail = "Login Successfully";
+
+          $accid = $fetch['id'];
+
+        $sql1 = "INSERT INTO activity_log (id_user,details,date,time,datecreated) VALUES ('$accid','$detail','$currentDate','$time','$currentDate')";
+          $query1 = mysqli_query($conn, $sql1);
 
                 header("location: user.php");
         } else {
@@ -103,7 +114,7 @@ if (isset($_POST['loginBtn'])) {
         <label for="loginPassword">Password</label>
         <i class="bi bi-eye-slash" id="togglePassword"></i>
       </div>
-      <div class="row m-t-25 text-left">
+      <!-- <div class="row m-t-25 text-left">
         <div class="col-sm-7 col-xs-12">
           <div class="checkbox-fade fade-in-primary text-left">
             <input type="checkbox" value="lsRememberMe" id="rememberMe">
@@ -113,7 +124,7 @@ if (isset($_POST['loginBtn'])) {
         <div class="col-sm-5 col-xs-12 forgot-phone text-right">
           <a href="#forgot-pw" class="text-right f-w-600 text-inverse"> Forgot Password?</a>
         </div>
-      </div>
+      </div> -->
       <br><br>
       <button class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" name="loginBtn">Sign IN</button>
     </form>

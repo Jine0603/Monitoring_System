@@ -26,6 +26,10 @@
                                                 <input type="text" class="form-control letters-only" id="lastname_edit" name="lastname_edit" placeholder="LastName">
                                             </div>
                                             <div class="form-group col-sm-6">
+                                                <label for="email_edit">Email</label>
+                                                <input type="email" class="form-control" id="email_edit" name="email_edit" placeholder="example@gmail.com" required>
+                                            </div>
+                                            <div class="form-group col-sm-6">
                                                 <label>UserName</label>
                                                 <input type="text" id="username_edit" name="username_edit" class="form-control" placeholder="UserName">
                                             </div>

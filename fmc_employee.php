@@ -141,9 +141,13 @@ include 'seasionindex.php';
                                     <div class="statusMsg"></div>
                                     <form>
                                         <div class="form-row">
-                                            <div class="form-group col-sm-12">
+                                            <div class="form-group col-sm-6">
                                                 <label>EmployeeID</label>
                                                 <input type="text" class="form-control" id="employeeid" name="employeeid" placeholder="EmployeeID">
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label>Email</label>
+                                                <input type="text" class="form-control" id="email" name="email" placeholder="example@gmail.com">
                                             </div>
                                             <div class="form-group col-sm-6">
                                                 <label>FirstName</label>
@@ -231,6 +235,7 @@ include 'seasionindex.php';
                                                 <th>No</th>
                                                 <th>EmployeeID</th>
                                                 <th>Name</th>
+                                                <th>Email</th>
                                                 <th>Department</th>
                                                 <th>Position</th>
                                                 <th>Username</th>
@@ -246,6 +251,7 @@ include 'seasionindex.php';
                                                 <th>No</th>
                                                 <th>EmployeeID</th>
                                                 <th>Name</th>
+                                                <th>Email</th>
                                                 <th>Department</th>
                                                 <th>Position</th>
                                                 <th>Username</th>
@@ -307,14 +313,11 @@ include 'seasionindex.php';
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-
     <script>
         $('#close_modal1').on('click', function() {
             $('#edit_data').modal('hide');
             $("#usertype_edit").val('').trigger('change');
         });
-
 
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
@@ -338,6 +341,9 @@ include 'seasionindex.php';
                     },
                     {
                         "data": "fname"
+                    },
+                    {
+                        "data": "mail"
                     },
                     {
                         "data": "dep"
@@ -364,15 +370,26 @@ include 'seasionindex.php';
     <script>
         $(document).on("click", "#edit", function() {
 
-            const id = $(this).data('id');
-            const employeeid = $("#employeeid_edit").val()
-            const firstname = $("#firstname_edit").val()
-            const lastname = $("#lastname_edit").val()
-            const username = $("#username_edit").val()
-            const password = $("#password_edit").val()
-            const companyid = $("#company_edit").val()
-            const departmentid = $("#departmentid_edit").val()
-            const positionid = $("#positionid_edit").val()
+            const id = $("#id_edit").val();
+            const employeeid = $("#employeeid_edit").val();
+            const firstname = $("#firstname_edit").val();
+            const lastname = $("#lastname_edit").val();
+            const email = $("#email_edit").val();
+            const username = $("#username_edit").val();
+            const password = $("#password_edit").val();
+            const companyid = $("#company_edit").val();
+            const departmentid = $("#departmentid_edit").val();
+            const positionid = $("#positionid_edit").val();
+
+            // Check if the email ends with "@gmail.com"
+            if (!email.endsWith("@gmail.com")) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Email',
+                    text: 'Please enter a valid Gmail address.',
+                });
+                return; // Do not proceed with the AJAX request
+            }
 
 
             const check = [];
@@ -384,7 +401,6 @@ include 'seasionindex.php';
 
             })
 
-
             $.ajax({
                 url: "employee_edit.php",
                 type: "POST",
@@ -393,6 +409,7 @@ include 'seasionindex.php';
                     employeeid: employeeid,
                     firstname: firstname,
                     lastname: lastname,
+                    email: email,
                     username: username,
                     password: password,
                     company: companyid,
@@ -400,7 +417,31 @@ include 'seasionindex.php';
                     positionid: positionid,
                     check
                 },
+                beforeSend: function() {
+                    let timerInterval;
+                    Swal.fire({
+                        title: "Auto close alert!",
+                        html: "I will close in <b></b> milliseconds.",
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const timer = Swal.getPopup().querySelector("b");
+                            timerInterval = setInterval(() => {
+                                timer.textContent = `${Swal.getTimerLeft()}`;
+                            }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
+                        }
+                    }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {}
+                    });
+                },
                 success: function(data) {
+
+                    $('#preloader').hide();
                     Swal.fire({
                         icon: 'success',
                         title: 'Updated',
@@ -415,6 +456,173 @@ include 'seasionindex.php';
         });
     </script>
     <script>
+        // Button for Remove to Update the status
+        $(document).on('click', '.removedata', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            // Show the confirmation dialog
+            Swal.fire({
+                title: 'Are you sure you want to Inactive the Account?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User confirmed, proceed with the AJAX request
+                    $.ajax({
+                        url: "delete_employee.php",
+                        type: "POST",
+                        cache: false,
+                        data: {
+                            id: id
+                        },
+                        success: function(response) {
+                            if (response == '1') {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Data removed successfully",
+                                    icon: "success"
+                                });
+                                $("#table1").DataTable().ajax.reload(null, false);
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Something went wrong",
+                                    icon: "error"
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("AJAX Error: " + error);
+                            Swal.fire({
+                                title: "Error",
+                                text: "An error occurred while removing data",
+                                icon: "error"
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#tested').click(function(e) {
+                e.preventDefault(e);
+
+
+                var employeeid = $('#employeeid').val();
+                var firstname = $('#firstname').val();
+                var lastname = $('#lastname').val();
+                var email = $('#email').val();
+                var username = $('#username').val();
+                var password = $('#password').val();
+                var companyid = $('#company').val();
+                var departmentid = $('#departmentid').val();
+                var positionid = $('#positionid').val();
+                var usertype = $('#usertype').val();
+                if (employeeid == '' || firstname == '' || lastname == '' || username == '' || password == '' || companyid == 'default' ||
+                    departmentid == '' || positionid == '' || usertype == '') {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Please Fill Up the FORM!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    return;
+                } else if (!email.endsWith("@gmail.com")) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Email',
+                        text: 'Please enter a valid Gmail address.',
+                    });
+                    return; // Do not proceed with the AJAX request
+                }
+
+
+
+
+                const rolerr = [];
+                $('.user_role').each(function() {
+                    if ($(this).is(':checked')) {
+                        rolerr.push($(this).val());
+
+                    }
+
+                })
+
+                        $.ajax({
+                            url: "addemp.php",
+                            type: "POST",
+                            data: {
+                                employeeid: employeeid,
+                                firstname: firstname,
+                                lastname: lastname,
+                                email: email,
+                                username: username,
+                                password: password,
+                                company: companyid,
+                                departmentid: departmentid,
+                                positionid: positionid,
+                                usertype: usertype,
+                                rolerr
+                            },
+                            beforeSend: function() {
+                                let timerInterval;
+                                Swal.fire({
+                                    title: "Please Wait!",
+                                    html: "I will close in <b></b> milliseconds.",
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: () => {
+                                        Swal.showLoading();
+                                        const timer = Swal.getPopup().querySelector("b");
+                                        timerInterval = setInterval(() => {
+                                            timer.textContent = `${Swal.getTimerLeft()}`;
+                                        }, 100);
+                                    },
+                                    willClose: () => {
+                                        clearInterval(timerInterval);
+                                    }
+                                }).then((result) => {
+                                    /* Read more about handling dismissals below */
+                                    if (result.dismiss === Swal.DismissReason.timer) {}
+                                });
+                            },
+                            success: function(data) {
+                                $('#msg').html(data);
+                                $("#edit-modal").modal({
+                                    backdrop: 'static',
+                                    keyboard: false
+                                }, 'show');
+                                $('#table1').DataTable().ajax.reload();
+                                //Clear Value 
+                                $('#employeeid').val('');
+                                $('#firstname').val('');
+                                $('#lastname').val('');
+                                $('#email').val('');
+                                $('#username').val('');
+                                $('#password').val('');
+                                $('#company').val('default');
+                                $('#departmentid').val('');
+                                $('#positionid').val('');
+                                $('#usertype').val('').trigger('change');
+                                Swal.fire({
+                                    position: 'top-center',
+                                    icon: 'success',
+                                    title: 'Success!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+
+                            }
+                        });
+                });
+
+            });
+    </script>
+    <script>
         $(document).ready(function() {
 
             // VIEW FUNCTION FOR EMPLOYEE 
@@ -424,6 +632,7 @@ include 'seasionindex.php';
                 var emp_id = $(this).data('empid');
                 var fname = $(this).data('firstname');
                 var lname = $(this).data('lastname');
+                var mail = $(this).data('email');
                 var user = $(this).data('username');
                 var pass = $(this).data('password');
                 var com = $(this).data('company');
@@ -441,6 +650,7 @@ include 'seasionindex.php';
                 $('#employeeid_edit').val(emp_id);
                 $('#firstname_edit').val(fname);
                 $('#lastname_edit').val(lname);
+                $('#email_edit').val(mail);
                 $('#username_edit').val(user);
                 $('#password_edit').val(pass);
                 $('#company_edit').val(com);
@@ -489,7 +699,6 @@ include 'seasionindex.php';
             //     $('.user_view').select2();
             //     $('.user_view').val(usertype).trigger('change');
             // });
-
 
             $('#company').on('change', function() {
                 var company = this.value;
@@ -581,139 +790,6 @@ include 'seasionindex.php';
                 // If the character doesn't match or the input length exceeds the limit, remove the last character
                 this.value = inputValue.slice(0, -1);
             }
-        });
-    </script>
-    <script>
-        // Button for Remove to Update the status
-        $(document).on('click', '.removedata', function(e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-
-            // Show the confirmation dialog
-            Swal.fire({
-                title: 'Are you sure you want to Inactive the Account?',
-                showDenyButton: true,
-                confirmButtonText: 'Yes',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // User confirmed, proceed with the AJAX request
-                    $.ajax({
-                        url: "delete_employee.php",
-                        type: "POST",
-                        cache: false,
-                        data: {
-                            id: id
-                        },
-                        success: function(response) {
-                            if (response == '1') {
-                                Swal.fire({
-                                    title: "Success",
-                                    text: "Data removed successfully",
-                                    icon: "success"
-                                });
-                                $("#table1").DataTable().ajax.reload(null, false);
-                            } else {
-                                Swal.fire({
-                                    title: "Error",
-                                    text: "Something went wrong",
-                                    icon: "error"
-                                });
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error("AJAX Error: " + error);
-                            Swal.fire({
-                                title: "Error",
-                                text: "An error occurred while removing data",
-                                icon: "error"
-                            });
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#tested').click(function(e) {
-                e.preventDefault(e);
-
-                var employeeid = $('#employeeid').val();
-                var firstname = $('#firstname').val();
-                var lastname = $('#lastname').val();
-                var username = $('#username').val();
-                var password = $('#password').val();
-                var companyid = $('#company').val();
-                var departmentid = $('#departmentid').val();
-                var positionid = $('#positionid').val();
-                var usertype = $('#usertype').val();
-                if (employeeid == '' || firstname == '' || lastname == '' || username == '' || password == '' || companyid == 'default' ||
-                    departmentid == '' || positionid == '' || usertype == '') {
-                    Swal.fire({
-                        position: 'top-center',
-                        icon: 'error',
-                        title: 'Please Fill Up the FORM!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    return;
-                }
-
-
-
-
-                const rolerr = [];
-                $('.user_role').each(function() {
-                    if ($(this).is(':checked')) {
-                        rolerr.push($(this).val());
-
-                    }
-
-                })
-                $.ajax({
-                    url: "addemp.php",
-                    type: "POST",
-                    data: {
-                        employeeid: employeeid,
-                        firstname: firstname,
-                        lastname: lastname,
-                        username: username,
-                        password: password,
-                        company: companyid,
-                        departmentid: departmentid,
-                        positionid: positionid,
-                        usertype: usertype,
-                        rolerr
-                    },
-                    success: function(data) {
-                        $('#msg').html(data);
-                        $("#edit-modal").modal({
-                            backdrop: 'static',
-                            keyboard: false
-                        }, 'show');
-                        $('#table1').DataTable().ajax.reload();
-                        //Clear Value 
-                        $('#employeeid').val('');
-                        $('#firstname').val('');
-                        $('#lastname').val('');
-                        $('#username').val('');
-                        $('#password').val('');
-                        $('#company').val('default');
-                        $('#departmentid').val('');
-                        $('#positionid').val('');
-                        $('#usertype').val('').trigger('change');
-                        Swal.fire({
-                            position: 'top-center',
-                            icon: 'success',
-                            title: 'Success!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-
-                    }
-                });
-
-            });
         });
     </script>
 

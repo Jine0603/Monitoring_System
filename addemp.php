@@ -1,6 +1,7 @@
 <?php
 include 'Include/config.php';
 include 'timezone.php';
+include 'send.php';
 global $date_now;
 
 
@@ -15,6 +16,7 @@ global $date_now;
 $employeeid   = $_POST['employeeid'];
 $firstname    = $_POST['firstname'];
 $lastname     = $_POST['lastname'];
+$email     = $_POST['email'];
 $username     = $_POST['username'];
 $password     = $_POST['password'];
 $company      = $_POST['company'];
@@ -24,12 +26,13 @@ $datecreated  = date("Y-m-d h:i A");
 
 
 
-$sql = "INSERT INTO employee_tbl (employeeid, firstname, lastname, username, password, companyid, departmentid, positionid, datecreated) 
-	VALUES ('$employeeid','$firstname','$lastname','$username','$password','$company','$departmentid','$positionid','$datecreated')";
+$sql = "INSERT INTO employee_tbl (employeeid, firstname, lastname, email, username, password, companyid, departmentid, positionid, datecreated) 
+	VALUES ('$employeeid','$firstname','$lastname','$email','$username','$password','$company','$departmentid','$positionid','$datecreated')";
 
 $query = mysqli_query($conn, $sql);
 if ($query == true) {
 	$last_id = mysqli_insert_id($conn);
+	send_email($email, $username, $password);
 
 	foreach ($_POST['rolerr'] as $temp) {
 		// $role_insert = "INSERT INTO accrole_tbl('employeeid', 'usertype','datecreated') VALUES ('$last_id','$temp','$datecreated')";
@@ -38,4 +41,6 @@ if ($query == true) {
 
 		$query1      = mysqli_query($conn, $sql1);
 	}
+
+echo json_encode($data);
 }

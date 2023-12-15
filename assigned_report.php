@@ -128,7 +128,7 @@ include 'seasionindex.php';
                     <div class="col-xl-13 col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">REPORT FOR ASSET ASSIGNED</h4>
+                                <h4 class="card-title">FILTER FOR ASSET ASSIGNED</h4>
                             </div>
                             <div class="card-body">
                                 <div class="basic-form">
@@ -161,7 +161,7 @@ include 'seasionindex.php';
                                             </div>
                                         </div>
                                         <br>
-                                                <button type="button" class="btn btn-primary form-contro" id="submitBtn">FILTER</button>
+                                        <button type="button" class="btn btn-primary form-contro" id="submitBtn">FILTER</button>
                                     </form>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@ include 'seasionindex.php';
                                                 <th>Employee</th>
                                                 <th>Department</th>
                                                 <th>Location</th>
-                                                <th>Date Created</th>
+                                                <th>Assigned Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -195,7 +195,7 @@ include 'seasionindex.php';
                                                 <th>Employee</th>
                                                 <th>Department</th>
                                                 <th>Location</th>
-                                                <th>Date Created</th>
+                                                <th>Assigned Date</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -278,54 +278,65 @@ include 'seasionindex.php';
             });
 
             $('#table2').DataTable({
-    serverside: false,
-    processing: true,
-    "destroy": true,
-    "ajax": {
-        "url": "assigned_reportjson2.php",
-        "dataSrc": "",
-        "type": 'POST',
-    },
-    dom: 'Bfrtip',
-    buttons: [
-        {
-            extend: 'excel',
-            text: 'Excel',
-            filename: function(){
-                // Generate a dynamic filename based on the current date and time
-                var currentDate = new Date();
-                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
-                return 'MULTI-LINE' + formattedDate + '_' + formattedTime;
-            },
-            customize: function (xlsx) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                serverside: false,
+                processing: true,
+                "destroy": true,
+                "ajax": {
+                    "url": "assigned_reportjson2.php",
+                    "dataSrc": "",
+                    "type": 'POST',
+                },
+                dom: 'Bfrtip',
+                buttons: [{
+                    extend: 'excel',
+                    text: 'Excel',
+                    filename: function() {
+                        // Generate a dynamic filename based on the current date and time
+                        var currentDate = new Date();
+                        var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+                        var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
+                        return 'MULTI-LINE' + formattedDate + '_' + formattedTime;
+                    },
+                    customize: function(xlsx) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
 
-                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>'+
-                             '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
-                $(sheet).find('sheetData').prepend(header);
-                
-                // Loop through each row in the sheet and customize as needed
-                $('row c', sheet).each(function () {
-                    // Add custom styling or modify data
-                    // For example, change the font color to red for all cells in column 'B'
-                    if ($(this).attr('r') > 3) {
-                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                        var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
+                            '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
+                        $(sheet).find('sheetData').prepend(header);
+
+                        // Loop through each row in the sheet and customize as needed
+                        $('row c', sheet).each(function() {
+                            // Add custom styling or modify data
+                            // For example, change the font color to red for all cells in column 'B'
+                            if ($(this).attr('r') > 3) {
+                                $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                            }
+                        });
                     }
-                });
-            }
-        },
-    ],
-    "columns": [
-        { "data": "no" },
-        { "data": "asset" },
-        { "data": "name" },
-        { "data": "employee" },
-        { "data": "dep" },
-        { "data": "loc" },
-        { "data": "date" },
-    ]
-});
+                }, ],
+                "columns": [{
+                        "data": "no"
+                    },
+                    {
+                        "data": "asset"
+                    },
+                    {
+                        "data": "name"
+                    },
+                    {
+                        "data": "employee"
+                    },
+                    {
+                        "data": "dep"
+                    },
+                    {
+                        "data": "loc"
+                    },
+                    {
+                        "data": "date"
+                    },
+                ]
+            });
         });
         $(document).ready(function() {
             // Handle form submission with Ajax
@@ -333,6 +344,17 @@ include 'seasionindex.php';
                 var startDate = $('#startDate').val();
                 var endDate = $('#endDate').val();
                 var cat = $('#cat').val();
+
+                if (startDate == '' && endDate == '' && cat == 'default'){
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'No Input for Filter!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    return;
+                }
 
                 if (startDate != '' && endDate != '' && cat != 'default') {
                     $('#table2').DataTable({
@@ -351,36 +373,34 @@ include 'seasionindex.php';
 
                         },
                         dom: 'Bfrtip',
-    buttons: [
-        {
-            extend: 'excel',
-            text: 'Excel',
-            filename: function(){
-                // Generate a dynamic filename based on the current date and time
-                var currentDate = new Date();
-                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
-                return 'MULTI-LINE' + formattedDate + '_' + formattedTime;
-            },
-            customize: function (xlsx) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                        buttons: [{
+                            extend: 'excel',
+                            text: 'Excel',
+                            filename: function() {
+                                // Generate a dynamic filename based on the current date and time
+                                var currentDate = new Date();
+                                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+                                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
+                                return 'MULTI-LINE' + formattedDate + '_' + formattedTime;
+                            },
+                            customize: function(xlsx) {
+                                var sheet = xlsx.xl.worksheets['sheet1.xml'];
 
-                // Add header information
-                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
-                             '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
-                $(sheet).find('sheetData').prepend(header);
-                
-                // Loop through each row in the sheet and customize as needed
-                $('row c', sheet).each(function () {
-                    // Add custom styling or modify data
-                    // For example, change the font color to red for all cells in column 'B'
-                    if ($(this).attr('r') > 3) {
-                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
-                    }
-                });
-            }
-        },
-    ],
+                                // Add header information
+                                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
+                                    '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
+                                $(sheet).find('sheetData').prepend(header);
+
+                                // Loop through each row in the sheet and customize as needed
+                                $('row c', sheet).each(function() {
+                                    // Add custom styling or modify data
+                                    // For example, change the font color to red for all cells in column 'B'
+                                    if ($(this).attr('r') > 3) {
+                                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                                    }
+                                });
+                            }
+                        }, ],
                         "columns": [{
 
                                 "data": "no"
@@ -422,36 +442,34 @@ include 'seasionindex.php';
 
                         },
                         dom: 'Bfrtip',
-    buttons: [
-        {
-            extend: 'excel',
-            text: 'Excel',
-            filename: function(){
-                // Generate a dynamic filename based on the current date and time
-                var currentDate = new Date();
-                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
-                return 'MULTI-LINE' + formattedDate + '_' + formattedTime;
-            },
-            customize: function (xlsx) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                        buttons: [{
+                            extend: 'excel',
+                            text: 'Excel',
+                            filename: function() {
+                                // Generate a dynamic filename based on the current date and time
+                                var currentDate = new Date();
+                                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+                                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
+                                return 'MULTI-LINE' + formattedDate + '_' + formattedTime;
+                            },
+                            customize: function(xlsx) {
+                                var sheet = xlsx.xl.worksheets['sheet1.xml'];
 
-                // Add header information
-                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
-                             '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
-                $(sheet).find('sheetData').prepend(header);
-                
-                // Loop through each row in the sheet and customize as needed
-                $('row c', sheet).each(function () {
-                    // Add custom styling or modify data
-                    // For example, change the font color to red for all cells in column 'B'
-                    if ($(this).attr('r') > 3) {
-                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
-                    }
-                });
-            }
-        },
-    ],
+                                // Add header information
+                                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
+                                    '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
+                                $(sheet).find('sheetData').prepend(header);
+
+                                // Loop through each row in the sheet and customize as needed
+                                $('row c', sheet).each(function() {
+                                    // Add custom styling or modify data
+                                    // For example, change the font color to red for all cells in column 'B'
+                                    if ($(this).attr('r') > 3) {
+                                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                                    }
+                                });
+                            }
+                        }, ],
                         "columns": [{
 
                                 "data": "no"
@@ -490,36 +508,34 @@ include 'seasionindex.php';
                             },
                         },
                         dom: 'Bfrtip',
-    buttons: [
-        {
-            extend: 'excel',
-            text: 'Excel',
-            filename: function(){
-                // Generate a dynamic filename based on the current date and time
-                var currentDate = new Date();
-                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
-                return 'MULTI-LINE' + formattedDate + '_' + formattedTime;
-            },
-            customize: function (xlsx) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                        buttons: [{
+                            extend: 'excel',
+                            text: 'Excel',
+                            filename: function() {
+                                // Generate a dynamic filename based on the current date and time
+                                var currentDate = new Date();
+                                var formattedDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+                                var formattedTime = currentDate.getHours() + '-' + currentDate.getMinutes() + '-' + currentDate.getSeconds();
+                                return 'MULTI-LINE' + formattedDate + '_' + formattedTime;
+                            },
+                            customize: function(xlsx) {
+                                var sheet = xlsx.xl.worksheets['sheet1.xml'];
 
-                // Add header information
-                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
-                             '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
-                $(sheet).find('sheetData').prepend(header);
-                
-                // Loop through each row in the sheet and customize as needed
-                $('row c', sheet).each(function () {
-                    // Add custom styling or modify data
-                    // For example, change the font color to red for all cells in column 'B'
-                    if ($(this).attr('r') > 3) {
-                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
-                    }
-                });
-            }
-        },
-    ],
+                                // Add header information
+                                var header = '<row><c s="Header" t="s"><v>FILIPINAS MULTI-CORPORATION</v></c></row>' +
+                                    '<row><c s="Header" t="s"><v>Lapsing Schedule of Fixed Assets</v></c></row>';
+                                $(sheet).find('sheetData').prepend(header);
+
+                                // Loop through each row in the sheet and customize as needed
+                                $('row c', sheet).each(function() {
+                                    // Add custom styling or modify data
+                                    // For example, change the font color to red for all cells in column 'B'
+                                    if ($(this).attr('r') > 3) {
+                                        $('c[r^="B"]', sheet).attr('s', '2'); // '2' is a style index for red font
+                                    }
+                                });
+                            }
+                        }, ],
                         "columns": [{
 
                                 "data": "no"
@@ -544,6 +560,7 @@ include 'seasionindex.php';
                             },
                         ]
                     });
+                    return;
                 }
             });
         });

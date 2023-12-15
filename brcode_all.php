@@ -326,8 +326,8 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(11.3, 75.4, 67.5, 7, 'D');
 $pdf->Text(11.4, 76, 'ASSET NAME');
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->Text(13, 78.2, $assetname);
+$pdf->SetFont('helvetica', 'B', 6);
+$pdf->Text(13, 78.8, $assetname);
 
 $pdf->StopTransform();
 }

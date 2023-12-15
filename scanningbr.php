@@ -16,7 +16,7 @@ include 'seasionindex.php';
     <meta property="og:description" content="Zenix - Crypto Admin Dashboard">
     <meta property="og:image" content="https://zenix.dexignzone.com/xhtml/social-image.png">
     <meta name="format-detection" content="telephone=no">
-    <title>Zenix - Crypto Admin Dashboard </title>
+    <title>FIXED ASSET MONITORING SYSTEM WITH BARCODING </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -172,6 +172,44 @@ include 'seasionindex.php';
                                     </form>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="scan" class="display" style="min-width: 845px">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Asset No</th>
+                                                            <th>Description</th>
+                                                            <th>Employee</th>
+                                                            <th>Department</th>
+                                                            <th>Position</th>
+                                                            <th>Location</th>
+                                                            <th>Scan Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Asset No</th>
+                                                            <th>Description</th>
+                                                            <th>Employee</th>
+                                                            <th>Department</th>
+                                                            <th>Position</th>
+                                                            <th>Location</th>
+                                                            <th>Scan Date</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -256,6 +294,8 @@ include 'seasionindex.php';
             };
             // Initialize QuaggaJS with the provided configuration
             Quagga.init(config, function(err) {
+                
+            $('#interactive canvas.drawingBuffer').css('height', '20px');
                 if (err) {
                     console.error("Error initializing Quagga:", err);
                     return;
@@ -274,10 +314,9 @@ include 'seasionindex.php';
                         type: "POST",
                         data: {
                             code: code,
-
-
                         },
                         success: function(data) {
+
                             // console.log(data);
                             var jsons = JSON.parse(data);
 
@@ -287,104 +326,124 @@ include 'seasionindex.php';
                                 // $('#description').val(jsons[j].name);
 
                                 if (jsons[j].emp == '1' && jsons[j].status_code == '200') {
-                                    if (jsons[j].date == jsons[j].currentDate) {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Barcode Scan',
-                                            text: 'This Barcode has already been scanned',
-                                        }).then(function() {
-                                        // Configuration for QuaggaJS
-                                        const config = {
-                                            inputStream: {
-                                                name: "Live",
-                                                type: "LiveStream",
-                                                target: "#interactive",
-                                            },
-                                            decoder: {
-                                                readers: ["code_128_reader"],
-                                            },
-                                        };
-                                        // Initialize QuaggaJS with the provided configuration
-                                        Quagga.init(config, function(err) {
-                                            if (err) {
-                                                console.error("Error initializing Quagga:", err);
-                                                return;
-                                            }
-                                            // Once QuaggaJS is initialized, start the scanner
-                                            Quagga.start();
-
-                                        });
-
-
-                                    });
-
-                                    }else if (jsons[j].date != jsons[j].currentDate){
-                                        Swal.fire({
+                                    Swal.fire({
                                         icon: 'success',
                                         title: 'ASSET DETAILS.',
                                         html: "<br><b><br><label for='html'>Asset Number:</label></b><br>" + jsons[j].asset +
                                             "<br><b><br><label for='html'>Description:</label></b><br>" + jsons[j].name +
                                             "<br><b><br><label for='html'>Department :</label></b><br>" + jsons[j].depp +
                                             "",
-                                    }).then(function() {
+                                        allowOutsideClick: false,
+                                        showCancelButton: true,
+                                        cancelButtonText: "Close",
+                                        showConfirmButton: "Ok",
+                                    }).then(function(response) {
                                         // Configuration for QuaggaJS
-                                        const config = {
-                                            inputStream: {
-                                                name: "Live",
-                                                type: "LiveStream",
-                                                target: "#interactive",
-                                            },
-                                            decoder: {
-                                                readers: ["code_128_reader"],
-                                            },
-                                        };
-                                        // Initialize QuaggaJS with the provided configuration
-                                        Quagga.init(config, function(err) {
-                                            if (err) {
-                                                console.error("Error initializing Quagga:", err);
-                                                return;
-                                            }
-                                            // Once QuaggaJS is initialized, start the scanner
-                                            Quagga.start();
+                                        if (response.isConfirmed) {
+                                            $.ajax({
+                                                url: "count_scan.php",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: {
+                                                    code: code,
+                                                },
+                                                success: function(data1) {
+                                              
+                                                    if (data1.code_error == '500') {
+                                                    console.log(data1);
+                                                       
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Barcode Scan',
+                                                            text: 'This Barcode has already been scanned',
+                                                        }).then(function() {
+                                                            // Configuration for QuaggaJS
+                                                            const config = {
+                                                                inputStream: {
+                                                                    name: "Live",
+                                                                    type: "LiveStream",
+                                                                    target: "#interactive",
+                                                                },
+                                                                decoder: {
+                                                                    readers: ["code_128_reader"],
+                                                                },
+                                                            };
+                                                            // Initialize QuaggaJS with the provided configuration
+                                                            Quagga.init(config, function(err) {
+                                                                if (err) {
+                                                                    console.error("Error initializing Quagga:", err);
+                                                                    return;
+                                                                }
+                                                                // Once QuaggaJS is initialized, start the scanner
+                                                                Quagga.start();
 
-                                        });
+                                                            });
 
+
+                                                        });
+                                                    } else{
+                                                        $('#scan').DataTable().ajax.reload();
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Information has Been Saved',
+                                                            text: 'ATM Has Been counted and Saved',
+                                                        }).then(function() {
+
+                                                            const config = {
+                                                                inputStream: {
+                                                                    name: "Live",
+                                                                    type: "LiveStream",
+                                                                    target: "#interactive",
+                                                                },
+                                                                decoder: {
+                                                                    readers: ["code_128_reader"],
+                                                                },
+                                                            };
+                                                            // Initialize QuaggaJS with the provided configuration
+                                                            Quagga.init(config, function(err) {
+                                                                if (err) {
+                                                                    console.error("Error initializing Quagga:", err);
+                                                                    return;
+                                                                }
+                                                                // Once QuaggaJS is initialized, start the scanner
+                                                                Quagga.start();
+
+                                                            });
+
+                                                        });
+
+                                                    }
+
+                                                }
+                                            });
+                                        } else {
+
+                                            // Configuration for QuaggaJS
+                                            const config = {
+                                                inputStream: {
+                                                    name: "Live",
+                                                    type: "LiveStream",
+                                                    target: "#interactive",
+                                                },
+                                                decoder: {
+                                                    readers: ["code_128_reader"],
+                                                },
+                                            };
+                                            // Initialize QuaggaJS with the provided configuration
+                                            Quagga.init(config, function(err) {
+                                                if (err) {
+                                                    console.error("Error initializing Quagga:", err);
+                                                    return;
+                                                }
+                                                // Once QuaggaJS is initialized, start the scanner
+                                                Quagga.start();
+
+                                            });
+                                        }
 
                                     });
-                                    }
-                                } else if (jsons[j].loc != 'default' && jsons[j].status_code == '200'){
-                                    if (jsons[j].date == jsons[j].currentDate) {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Barcode Scan',
-                                            text: 'This Barcode has already been scanned',
-                                        }).then(function() {
-                                        // Configuration for QuaggaJS
-                                        const config = {
-                                            inputStream: {
-                                                name: "Live",
-                                                type: "LiveStream",
-                                                target: "#interactive",
-                                            },
-                                            decoder: {
-                                                readers: ["code_128_reader"],
-                                            },
-                                        };
-                                        // Initialize QuaggaJS with the provided configuration
-                                        Quagga.init(config, function(err) {
-                                            if (err) {
-                                                console.error("Error initializing Quagga:", err);
-                                                return;
-                                            }
-                                            // Once QuaggaJS is initialized, start the scanner
-                                            Quagga.start();
 
-                                        });
-
-
-                                    });
-
-                                    }else if (jsons[j].date != jsons[j].currentDate){
+                                } else if (jsons[j].loc != 'default' && jsons[j].status_code == '200') {
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'ASSET DETAILS.',
@@ -392,68 +451,117 @@ include 'seasionindex.php';
                                             "<br><b><br><label for='html'>Description:</label></b><br>" + jsons[j].name +
                                             "<br><b><br><label for='html'>Location:</label></b><br>" + jsons[j].locat +
                                             "",
-                                    }).then(function() {
-
-
+                                        allowOutsideClick: false,
+                                        showCancelButton: true,
+                                        cancelButtonText: "Close",
+                                        showConfirmButton: "Ok",
+                                    }).then(function(response) {
                                         // Configuration for QuaggaJS
-                                        const config = {
-                                            inputStream: {
-                                                name: "Live",
-                                                type: "LiveStream",
-                                                target: "#interactive",
-                                            },
-                                            decoder: {
-                                                readers: ["code_128_reader"],
-                                            },
-                                        };
-                                        // Initialize QuaggaJS with the provided configuration
-                                        Quagga.init(config, function(err) {
-                                            if (err) {
-                                                console.error("Error initializing Quagga:", err);
-                                                return;
-                                            }
-                                            // Once QuaggaJS is initialized, start the scanner
-                                            Quagga.start();
+                                        if (response.isConfirmed) {
+                                            $.ajax({
+                                                url: "count_scan.php",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: {
+                                                    code: code,
+                                                },
+                                                success: function(data1) {
 
-                                        });
+                                                    if (data1.code_error == '500') {
+                                                    console.log(data1);
+                                                       
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Barcode Scan',
+                                                            text: 'This Barcode has already been scanned',
+                                                        }).then(function() {
+                                                            // Configuration for QuaggaJS
+                                                            const config = {
+                                                                inputStream: {
+                                                                    name: "Live",
+                                                                    type: "LiveStream",
+                                                                    target: "#interactive",
+                                                                },
+                                                                decoder: {
+                                                                    readers: ["code_128_reader"],
+                                                                },
+                                                            };
+                                                            // Initialize QuaggaJS with the provided configuration
+                                                            Quagga.init(config, function(err) {
+                                                                if (err) {
+                                                                    console.error("Error initializing Quagga:", err);
+                                                                    return;
+                                                                }
+                                                                // Once QuaggaJS is initialized, start the scanner
+                                                                Quagga.start();
 
+                                                            });
+
+
+                                                        });
+                                                    } else{
+                                                        $('#scan').DataTable().ajax.reload();
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Information has Been Saved',
+                                                            text: 'ATM Has Been counted and Saved',
+                                                        }).then(function() {
+                                                            $('#scan').DataTable().ajax.reload();
+
+                                                            const config = {
+                                                                inputStream: {
+                                                                    name: "Live",
+                                                                    type: "LiveStream",
+                                                                    target: "#interactive",
+                                                                },
+                                                                decoder: {
+                                                                    readers: ["code_128_reader"],
+                                                                },
+                                                            };
+                                                            // Initialize QuaggaJS with the provided configuration
+                                                            Quagga.init(config, function(err) {
+                                                                if (err) {
+                                                                    console.error("Error initializing Quagga:", err);
+                                                                    return;
+                                                                }
+                                                                // Once QuaggaJS is initialized, start the scanner
+                                                                Quagga.start();
+
+                                                            });
+
+                                                        });
+
+                                                    }
+
+                                                }
+                                            });
+                                        } else {
+                                            // Configuration for QuaggaJS
+                                            const config = {
+                                                inputStream: {
+                                                    name: "Live",
+                                                    type: "LiveStream",
+                                                    target: "#interactive",
+                                                },
+                                                decoder: {
+                                                    readers: ["code_128_reader"],
+                                                },
+                                            };
+                                            // Initialize QuaggaJS with the provided configuration
+                                            Quagga.init(config, function(err) {
+                                                if (err) {
+                                                    console.error("Error initializing Quagga:", err);
+                                                    return;
+                                                }
+                                                // Once QuaggaJS is initialized, start the scanner
+                                                Quagga.start();
+
+                                            });
+                                        }
 
                                     });
-                                }
 
-                                }else if (jsons[j].emp != '1' && jsons[j].status_code == '200') {
-                                    if (jsons[j].date == jsons[j].currentDate) {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Barcode Scan',
-                                            text: 'This Barcode has already been scanned',
-                                        }).then(function() {
-                                        // Configuration for QuaggaJS
-                                        const config = {
-                                            inputStream: {
-                                                name: "Live",
-                                                type: "LiveStream",
-                                                target: "#interactive",
-                                            },
-                                            decoder: {
-                                                readers: ["code_128_reader"],
-                                            },
-                                        };
-                                        // Initialize QuaggaJS with the provided configuration
-                                        Quagga.init(config, function(err) {
-                                            if (err) {
-                                                console.error("Error initializing Quagga:", err);
-                                                return;
-                                            }
-                                            // Once QuaggaJS is initialized, start the scanner
-                                            Quagga.start();
-
-                                        });
-
-
-                                    });
-
-                                    }else if (jsons[j].date != jsons[j].currentDate){
+                                } else if (jsons[j].emp != '1' && jsons[j].status_code == '200') {
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'ASSET DETAILS.',
@@ -463,36 +571,115 @@ include 'seasionindex.php';
                                             "<br><b><br><label for='html'>Department :</label></b><br>" + jsons[j].depp +
                                             "<br><b><br><label for='html'>Position:</label></b><br>" + jsons[j].pos +
                                             "",
-                                    }).then(function() {
-
+                                        allowOutsideClick: false,
+                                        showCancelButton: true,
+                                        cancelButtonText: "Close",
+                                        showConfirmButton: "Ok",
+                                    }).then(function(response) {
 
                                         // Configuration for QuaggaJS
-                                        const config = {
-                                            inputStream: {
-                                                name: "Live",
-                                                type: "LiveStream",
-                                                target: "#interactive",
-                                            },
-                                            decoder: {
-                                                readers: ["code_128_reader"],
-                                            },
-                                        };
-                                        // Initialize QuaggaJS with the provided configuration
-                                        Quagga.init(config, function(err) {
-                                            if (err) {
-                                                console.error("Error initializing Quagga:", err);
-                                                return;
-                                            }
-                                            // Once QuaggaJS is initialized, start the scanner
-                                            Quagga.start();
+                                        if (response.isConfirmed) {
+                                            $.ajax({
+                                                url: "count_scan.php",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: {
+                                                    code: code,
+                                                },
+                                                success: function(data1) {
+                                                    if (data1.code_error == '500') {
+                                                    console.log(data1);
+                                                       
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Barcode Scan',
+                                                            text: 'This Barcode has already been scanned',
+                                                        }).then(function() {
+                                                            // Configuration for QuaggaJS
+                                                            const config = {
+                                                                inputStream: {
+                                                                    name: "Live",
+                                                                    type: "LiveStream",
+                                                                    target: "#interactive",
+                                                                },
+                                                                decoder: {
+                                                                    readers: ["code_128_reader"],
+                                                                },
+                                                            };
+                                                            // Initialize QuaggaJS with the provided configuration
+                                                            Quagga.init(config, function(err) {
+                                                                if (err) {
+                                                                    console.error("Error initializing Quagga:", err);
+                                                                    return;
+                                                                }
+                                                                // Once QuaggaJS is initialized, start the scanner
+                                                                Quagga.start();
 
-                                        });
+                                                            });
+
+
+                                                        });
+                                                    }else {
+                                                        $('#scan').DataTable().ajax.reload();
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            title: 'Information has Been Saved',
+                                                            text: 'ATM Has Been counted and Saved',
+                                                        }).then(function() {
+
+                                                            const config = {
+                                                                inputStream: {
+                                                                    name: "Live",
+                                                                    type: "LiveStream",
+                                                                    target: "#interactive",
+                                                                },
+                                                                decoder: {
+                                                                    readers: ["code_128_reader"],
+                                                                },
+                                                            };
+                                                            // Initialize QuaggaJS with the provided configuration
+                                                            Quagga.init(config, function(err) {
+                                                                if (err) {
+                                                                    console.error("Error initializing Quagga:", err);
+                                                                    return;
+                                                                }
+                                                                // Once QuaggaJS is initialized, start the scanner
+                                                                Quagga.start();
+
+                                                            });
+
+                                                        });
+
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            // Configuration for QuaggaJS
+                                            const config = {
+                                                inputStream: {
+                                                    name: "Live",
+                                                    type: "LiveStream",
+                                                    target: "#interactive",
+                                                },
+                                                decoder: {
+                                                    readers: ["code_128_reader"],
+                                                },
+                                            };
+                                            // Initialize QuaggaJS with the provided configuration
+                                            Quagga.init(config, function(err) {
+                                                if (err) {
+                                                    console.error("Error initializing Quagga:", err);
+                                                    return;
+                                                }
+                                                // Once QuaggaJS is initialized, start the scanner
+                                                Quagga.start();
+
+                                            });
+                                        }
 
 
                                     });
-                                }
-                                }
-                                else if (jsons[j].emp == 'Invalid' && jsons[j].status_code == '404') {
+                                } else if (jsons[j].emp == 'Invalid' && jsons[j].status_code == '404') {
 
                                     Swal.fire({
                                         icon: 'error',
@@ -539,6 +726,47 @@ include 'seasionindex.php';
                 });
             });
 
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $('#scan').DataTable({
+                serverside: false,
+                processing: true,
+                "destroy": true,
+                "ajax": {
+                    "url": "asset_count.php",
+                    "dataSrc": "",
+
+                },
+                "columns": [{
+
+                        "data": "no"
+                    }, {
+
+                        "data": "id"
+                    },
+                    {
+                        "data": "itemname"
+                    },
+                    {
+                        "data": "name"
+                    },
+                    {
+                        "data": "dep"
+                    },
+                    {
+                        "data": "pos"
+                    },
+                    {
+                        "data": "loc"
+                    },
+                    {
+                        "data": "date1"
+                    },
+                ]
+            });
         });
     </script>
 </body>

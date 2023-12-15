@@ -53,7 +53,6 @@ if (isset($_POST['id']) || isset($_FILES['file2']) || isset($_POST['assetname_ed
                     $uploadStatus = 0;
                     $response['message'] = 'Sorry, only ' . implode('/', $allowTypes) . ' files are allowed to upload.';
                 }
-                print_r($uploadedFile);
             }
             if ($uploadStatus == 1) {
                 // Include the database config file 

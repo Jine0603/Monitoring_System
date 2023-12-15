@@ -25,6 +25,9 @@ if (isset($_FILES['file1']) || isset($_POST['assetname']) || isset($_POST['compa
     $date_purchase = $_POST['date_purchase'];
     $locationid = $_POST['locationid'];
     $qty = $_POST['qty'];
+    $date = new DateTime('now', new DateTimeZone('Asia/Manila'));
+    $currentDate = $date->format("Y-m-d");
+    $time = $date->format("g:i:a");
 
 
     // Check whether submitted data is not empty 
@@ -66,6 +69,7 @@ if (isset($_FILES['file1']) || isset($_POST['assetname']) || isset($_POST['compa
                 $query1 = mysqli_query($conn, $sql2);
                 $rows = mysqli_fetch_assoc($query1);
                 $lastid = $rows['assetid'];
+                $cat = $rows['categoriesid'];
                 $int = (int)$lastid + 1;
 
 
@@ -84,6 +88,11 @@ if (isset($_FILES['file1']) || isset($_POST['assetname']) || isset($_POST['compa
                     
                     $last_id = mysqli_insert_id($conn);
                     array_push($storageid, $last_id);
+                    
+                    $detail = "ADD ASSET NO."." ".$category. " - " .$asid;
+
+                    $sql1 = "INSERT INTO activity_log (id_user,details,date,time,datecreated) VALUES ('$accid','$detail','$currentDate','$time','$currentDate')";
+                    $query2 = mysqli_query($conn, $sql1);
                     // var_dump($asid);
                 }
                 if ($insert) {
@@ -114,7 +123,7 @@ if (isset($_FILES['file1']) || isset($_POST['assetname']) || isset($_POST['compa
                                 foreach ($storageid as $value) {
 
                                     // $fie = json_encode($storagefile, JSON_FORCE_OBJECT);
-                                    $sql1 = "INSERT INTO `multfile_tbl`(`employeeid`, `itemid`, `file`,`datecreated`) VALUES
+                                    $sql1 = "INSERT INTO `multfile_tbl`(`userid1`, `itemid`, `file`,`datecreated`) VALUES
                                     ('$employeeid','$value','$filename','$date_now')";
                                     $query = mysqli_query($conn, $sql1);
                                     
@@ -125,6 +134,7 @@ if (isset($_FILES['file1']) || isset($_POST['assetname']) || isset($_POST['compa
                             // }
                         }
                     }
+
                 }
             }
         }

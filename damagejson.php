@@ -41,7 +41,7 @@ while ($rows = mysqli_fetch_assoc($query)) {
         "stas"      => $status,
         "datep"    => $rows['date_created'] ,
         "locat"     => $rows['location'] ,
-        "act"    => $act1.'  '.$act2,
+        "act"    => $act1,
     );
 }
 

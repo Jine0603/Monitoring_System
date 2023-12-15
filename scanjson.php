@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $sql = "SELECT assigned_tbl.id,categ_tbl.description,location_assigned.location,item_tbl.file_name,item_tbl.assetid,item_tbl.assetname,employee_tbl.employeeid,employee_tbl.firstname,employee_tbl.lastname,com_tbl.company,
     dep_tbl.department,position_tbl.position As position,assigned_tbl.acc_id,
-    assigned_tbl.item_id,assigned_tbl.employee_assigned,assigned_tbl.companyid,assigned_tbl.locationid,assigned_tbl.departmentid,assigned_tbl.positionid,assigned_tbl.status,assigned_tbl.cateid,assigned_tbl.assigned_date,assigned_tbl.scan_date
+    assigned_tbl.item_id,assigned_tbl.employee_assigned,assigned_tbl.companyid,assigned_tbl.locationid,assigned_tbl.departmentid,assigned_tbl.positionid,assigned_tbl.status,assigned_tbl.cateid,assigned_tbl.assigned_date,assigned_tbl.scan
     FROM assigned_tbl
     LEFT  JOIN employee_tbl ON employee_tbl.id           = assigned_tbl.employee_assigned
     LEFT  JOIN location_assigned ON location_assigned.id = assigned_tbl.locationid
@@ -27,8 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rows  = mysqli_fetch_assoc($query);
     $id = $rows['id'];
     // $name = $rows['assetname'];
-    $date = $rows['scan_date'];
-
+    $date = $rows['scan'];
     $emp = $rows['employee_assigned'];
     $loc = $rows['locationid'];
     // $com = $rows['companyid'];
@@ -66,12 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $status_code = '200';
     }
 
-    // $is_scanned = 0;
-    if ($date == '') {
+     // $is_scanned = 0;
+     if ($date == '') {
 
       $currentDate = date("Y-m-d");
 
-      $insert = "UPDATE assigned_tbl SET scan_date = '$currentDate' WHERE id = '$id'";
+      $insert = "UPDATE assigned_tbl SET scan = '$currentDate' WHERE id = '$id'";
       $result = mysqli_query($conn, $insert);
       if ($result) {
       } else {
@@ -95,13 +94,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else if ($date != $currentDate) {
       $currentDate = date("Y-m-d");
       // Assuming 'assigned_tbl' is the table name and 'scan_date' is the date column name
-      $up = "UPDATE assigned_tbl SET scan_date = '$currentDate' WHERE id = '$id'";
+      $up = "UPDATE assigned_tbl SET scan = '$currentDate' WHERE id = '$id'";
       $result1 = mysqli_query($conn, $up);
       if ($result1) {
       } else {
         echo "Error updating date: " . mysqli_error($conn);
       }
     }
+
 
     // // $result = mysqli_query($conn, $insert);
     //     if ($result) {
@@ -119,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pos = '';
     $emp = 'Invalid';
     $locat = '';
+    $loc = '';
     $date = '';
     $currentDate = '';
     $status_code = '404';
@@ -133,12 +134,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     "pos"         => $pos,
     "locat"       => $locat,
     "loc"         => $loc,
-    "status_code" => $status_code,
     "date"        => $date,
     "currentDate" => $currentDate,
-
-
-
+    "status_code" => $status_code,
   );
 }
 // Send the data back to the client

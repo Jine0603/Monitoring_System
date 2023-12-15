@@ -16,7 +16,7 @@ include 'seasionindex.php';
     <meta property="og:description" content="Zenix - Crypto Admin Dashboard">
     <meta property="og:image" content="https://zenix.dexignzone.com/xhtml/social-image.png">
     <meta name="format-detection" content="telephone=no">
-    <title>Zenix - Crypto Admin Dashboard </title>
+    <title>FIXED ASSET MONITORING SYSTEM WITH BARCODING </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Datatable -->
@@ -29,18 +29,18 @@ include 'seasionindex.php';
 </head>
 
 <body>
-    
-	<style>
-		.hide {
-			display: none;
-		}
-	</style>
-	<script>
-		function toggleImage() {
-        var logo2 = document.getElementById("logo2");
-        logo2.classList.toggle("hide");
-    }
-	</script>
+
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleImage() {
+            var logo2 = document.getElementById("logo2");
+            logo2.classList.toggle("hide");
+        }
+    </script>
 
     <style>
         .round-image-container {
@@ -87,20 +87,20 @@ include 'seasionindex.php';
             Nav header start
         ***********************************-->
         <div class="nav-header">
-			<a href="user.php" class="brand-logo">
-				<img src="images/logo1.jpg" alt="Your Brand Name">
-				&nbsp;
-				&nbsp;
-				&nbsp;
-				<img id="logo2" src="images/name.png" alt="Your Brand Name" style="width: 60%; height: 60%;">
-			</a>
+            <a href="user.php" class="brand-logo">
+                <img src="images/logo1.jpg" alt="Your Brand Name">
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <img id="logo2" src="images/name.png" alt="Your Brand Name" style="width: 60%; height: 60%;">
+            </a>
 
-			<div class="nav-control" onclick="toggleImage()">
-				<div class="hamburger">
-					<span class="line"></span><span class="line"></span><span class="line"></span>
-				</div>
-			</div>
-		</div>
+            <div class="nav-control" onclick="toggleImage()">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
         <!--**********************************
             Nav header end
         ***********************************-->
@@ -145,10 +145,10 @@ include 'seasionindex.php';
                                                 <input type="text" class="form-control" id="ass" name="ass" disabled>
                                             </div>
                                             <div class="form-group col-md-6">
-                                            <input type="radio" name="type" id="showdepart" onChange="showdep();">Department</input>
+                                                <input type="radio" name="type" id="showdepart" onChange="showdep();">Department</input>
                                             </div>
                                             <div class="form-group col-md-6">
-                                            <input type="radio" name="type" id="showlocat" onClick="showloc();">Location</input>
+                                                <input type="radio" name="type" id="showlocat" onClick="showloc();">Location</input>
                                             </div>
                                             <div class="form-group col-md-12" id="showmeme" style="display: none;">
                                                 <input type="text" class="form-control" id="assigned_id" name="assigned_id" hidden>
@@ -185,11 +185,14 @@ include 'seasionindex.php';
                                                     <option selected="">Select Department
                                                     </option>
                                                 </select>
+
+                                                <br>
+                                                <button type="submit" name="btnassigned" class="btn btn-primary submitBtn" id="btnassigned">Update Assigned</button>
                                             </div>
                                             <div class="form-group col-md-12" id="memeshow" style="display: none;">
-                                            <label>Assigned Location</label>
-                                            <select id="newloc" name="newloc" class="form-control default-select">
-                                            <option value="default" selected>Select Location</option>
+                                                <label>Assigned Location</label>
+                                                <select id="newloc" name="newloc" class="form-control default-select">
+                                                    <option value="default" selected>Select Location</option>
                                                     <?php
                                                     $result = mysqli_query($conn, "SELECT * FROM location_assigned");
                                                     while ($row = mysqli_fetch_array($result)) {
@@ -200,6 +203,8 @@ include 'seasionindex.php';
                                                     }
                                                     ?>
                                                 </select>
+                                                <br>
+                                                <button type="submit" name="btnassigned" class="btn btn-primary submitBtn" id="btnassigned1">Update Assigned</button>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <select id="companyid" name="companyid" class="form-control default-select" hidden>
@@ -216,8 +221,6 @@ include 'seasionindex.php';
                                                 <input type="text" class="form-control" id="cat" name="cat" hidden>
                                             </div>
                                         </div>
-                                        <br>
-                                        <button type="submit" name="btnassigned" class="btn btn-primary submitBtn" id="btnassigned">Update Assigned</button>
                                     </form>
                                 </div>
                             </div>
@@ -288,11 +291,11 @@ include 'seasionindex.php';
                                                             <thead>
                                                                 <tr>
                                                                     <th>No</th>
-                                                                    <th>Location</th>
                                                                     <th>EmployeeID</th>
                                                                     <th>Employee Assigned</th>
                                                                     <th>Department</th>
                                                                     <th>Position</th>
+                                                                    <th>Location</th>
                                                                     <th>Date of Assigned</th>
                                                                 </tr>
                                                             </thead>
@@ -300,12 +303,12 @@ include 'seasionindex.php';
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr>
-                                                                <th>No</th>
-                                                                <th>Location</th>
+                                                                    <th>No</th>
                                                                     <th>EmployeeID</th>
                                                                     <th>Employee Assigned</th>
                                                                     <th>Department</th>
                                                                     <th>Position</th>
+                                                                    <th>Location</th>
                                                                     <th>Date of Assigned</th>
                                                             </tfoot>
                                                         </table>
@@ -410,8 +413,8 @@ include 'seasionindex.php';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-                // your checkbox
-                var checkbox = document.getElementById("showdepart");
+        // your checkbox
+        var checkbox = document.getElementById("showdepart");
         var check = document.getElementById("showlocat");
 
         // your div
@@ -496,9 +499,9 @@ include 'seasionindex.php';
 
             $(document).on("click", ".total_all", function() {
 
-                    var id = $(this).data('id');
+                var id = $(this).data('id');
 
-                });
+            });
         });
     </script>
     <script>
@@ -559,9 +562,6 @@ include 'seasionindex.php';
                 "columns": [{
 
                         "data": "no"
-                    }, 
-                    {
-                        "data": "loc"
                     },
                     {
                         "data": "emp"
@@ -576,6 +576,9 @@ include 'seasionindex.php';
                         "data": "pos"
                     },
                     {
+                        "data": "loc"
+                    },
+                    {
                         "data": "date"
                     },
                 ]
@@ -588,24 +591,24 @@ include 'seasionindex.php';
         var employeeSelect = $('#employee').select2({
             dropdownParent: $('#edit_assigned')
         });
-            // Initial hide/show based on selected value
+        // Initial hide/show based on selected value
+        togglePositionVisibility();
+
+        // Bind change event to the employee_assigned select
+        employeeSelect.on('change', function() {
             togglePositionVisibility();
+        });
 
-            // Bind change event to the employee_assigned select
-            employeeSelect.on('change', function() {
-                togglePositionVisibility();
-            });
+        // Function to toggle visibility based on the selected value
+        function togglePositionVisibility() {
+            var selectedValue = $('#employee').find(':selected').val();
 
-            // Function to toggle visibility based on the selected value
-            function togglePositionVisibility() {
-                var selectedValue = $('#employee').find(':selected').val();
-
-                if (selectedValue === '1') {
-                    $('#Position, #positionid').hide();
-                } else {
-                    $('#Position, #positionid').show();
-                }
+            if (selectedValue === '1') {
+                $('#Position, #positionid').hide();
+            } else {
+                $('#Position, #positionid').show();
             }
+        }
         $('#close1').on('click', function() {
             $('#edit_assigned').modal('hide');
         });
@@ -636,116 +639,314 @@ include 'seasionindex.php';
         });
     </script>
     <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
             $('#btnassigned').click(function(e) {
-            e.preventDefault();
+                e.preventDefault();
 
-            const idassign = $('#id_assign').val();
-            const asset = $('#ida').val();
-            const categ = $('#cat').val();
-            const emplo = $('#employee').val();
-            const company = $('#companyid').val();
-            const depart = $('#departmentid').val();
-            const posi = $('#positionid').val();
-            const newloc = $('#newloc').val();
+                const idassign = $('#id_assign').val();
+                const asset = $('#ida').val();
+                const categ = $('#cat').val();
+                const emplo = $('#employee').val();
+                const company = $('#companyid').val();
+                const depart = $('#departmentid').val();
+                const posi = $('#positionid').val();
+                const newloc = $('#newloc').val();
 
 
                 if (newloc != 'default') {
                     $.ajax({
-                url: "edit_assigned.php",
-                type: "POST",
-                data: {
-                    idassign: idassign,
-                    asset: asset,
-                    categ: categ,
-                    emplo: emplo,
-                    company: company,
-                    depart: depart,
-                    posi: posi,
-                    newloc:newloc,
+                        url: "edit_assigned.php",
+                        type: "POST",
+                        data: {
+                            idassign: idassign,
+                            asset: asset,
+                            categ: categ,
+                            emplo: emplo,
+                            company: company,
+                            depart: depart,
+                            posi: posi,
+                            newloc: newloc,
 
-                },
-                success: function(data) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Updated',
-                        text: 'Your Information have been Updated !',
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Updated',
+                                text: 'Your Information have been Updated !',
+                            });
+                            $("#edit_assigned").modal("hide");
+                            $('#tablel').DataTable().ajax.reload();
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeSelect.val('default').trigger('change');
+                            $('#departmentid').val('default');
+                            $('#positionid').val('');
+                            $('#newloc').val('default');
+                        }
+
                     });
-                    $("#edit_assigned").modal("hide");
-                    $('#tablel').DataTable().ajax.reload();
-                    employeeSelect.val('default').trigger('change');
-                    $('#departmentid').val('default');
-                    $('#positionid').val('');
-                    $('#newloc').val('default');
-                }
-
-            });
-                }
-                else if(emplo == '1' && depart != 'default') {
+                } else if (emplo == '1' && depart != 'default') {
                     $.ajax({
-                url: "edit_assigned.php",
-                type: "POST",
-                data: {
-                    idassign: idassign,
-                    asset: asset,
-                    categ: categ,
-                    emplo: emplo,
-                    company: company,
-                    depart: depart,
-                    posi: posi,
-                    newloc:newloc,
+                        url: "edit_assigned.php",
+                        type: "POST",
+                        data: {
+                            idassign: idassign,
+                            asset: asset,
+                            categ: categ,
+                            emplo: emplo,
+                            company: company,
+                            depart: depart,
+                            posi: posi,
+                            newloc: newloc,
 
-                },
-                success: function(data) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Updated',
-                        text: 'Your Information have been Updated !',
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Updated',
+                                text: 'Your Information have been Updated !',
+                            });
+                            $("#edit_assigned").modal("hide");
+                            $('#tablel').DataTable().ajax.reload();
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeSelect.val('default').trigger('change');
+                            $('#departmentid').val('default');
+                            $('#positionid').val('');
+                            $('#newloc').val('default');
+                        }
+
                     });
-                    $("#edit_assigned").modal("hide");
-                    $('#tablel').DataTable().ajax.reload();
-                    employeeSelect.val('default').trigger('change');
-                    $('#departmentid').val('default');
-                    $('#positionid').val('');
-                    $('#newloc').val('default');
-                }
-
-            });
-                }else if(emplo != '1' && depart != 'default' && posi != ''){
+                } else if (emplo != '1' && depart != 'default' && posi != '') {
                     $.ajax({
-                url: "edit_assigned.php",
-                type: "POST",
-                data: {
-                    idassign: idassign,
-                    asset: asset,
-                    categ: categ,
-                    emplo: emplo,
-                    company: company,
-                    depart: depart,
-                    posi: posi,
-                    newloc:newloc,
+                        url: "edit_assigned.php",
+                        type: "POST",
+                        data: {
+                            idassign: idassign,
+                            asset: asset,
+                            categ: categ,
+                            emplo: emplo,
+                            company: company,
+                            depart: depart,
+                            posi: posi,
+                            newloc: newloc,
 
-                },
-                success: function(data) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Updated',
-                        text: 'Your Information have been Updated !',
+                        },
+                        beforeSend: function() {
+                            let timerInterval;
+                            Swal.fire({
+                                title: "Auto close alert!",
+                                html: "I will close in <b></b> milliseconds.",
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                    const timer = Swal.getPopup().querySelector("b");
+                                    timerInterval = setInterval(() => {
+                                        timer.textContent = `${Swal.getTimerLeft()}`;
+                                    }, 100);
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval);
+                                }
+                            }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {}
+                            });
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Updated',
+                                text: 'Your Information have been Updated !',
+                            });
+                            $("#edit_assigned").modal("hide");
+                            $('#tablel').DataTable().ajax.reload();
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeSelect.val('default').trigger('change');
+                            $('#departmentid').val('default');
+                            $('#positionid').val('');
+                            $('#newloc').val('default');
+                        }
+
                     });
-                    $("#edit_assigned").modal("hide");
-                    $('#tablel').DataTable().ajax.reload();
-                    employeeSelect.val('default').trigger('change');
-                    $('#departmentid').val('default');
-                    $('#positionid').val('');
+                }else {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Please Fill Up the Assigned Form!',
+                        showConfirmButton: false,
+
+                    })
+                    $('#department_id').val('default');
+                    $('#position').val('');
                     $('#newloc').val('default');
+                    employeeAssignedSelect.val('default').trigger('change');
                 }
+
 
             });
+            $('#btnassigned1').click(function(e) {
+                e.preventDefault();
+
+                const idassign = $('#id_assign').val();
+                const asset = $('#ida').val();
+                const categ = $('#cat').val();
+                const emplo = $('#employee').val();
+                const company = $('#companyid').val();
+                const depart = $('#departmentid').val();
+                const posi = $('#positionid').val();
+                const newloc = $('#newloc').val();
+
+
+                if (newloc != 'default') {
+                    $.ajax({
+                        url: "edit_assigned.php",
+                        type: "POST",
+                        data: {
+                            idassign: idassign,
+                            asset: asset,
+                            categ: categ,
+                            emplo: emplo,
+                            company: company,
+                            depart: depart,
+                            posi: posi,
+                            newloc: newloc,
+
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Updated',
+                                text: 'Your Information have been Updated !',
+                            });
+                            $("#edit_assigned").modal("hide");
+                            $('#tablel').DataTable().ajax.reload();
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeSelect.val('default').trigger('change');
+                            $('#departmentid').val('default');
+                            $('#positionid').val('');
+                            $('#newloc').val('default');
+                        }
+
+                    });
+                } else if (emplo == '1' && depart != 'default') {
+                    $.ajax({
+                        url: "edit_assigned.php",
+                        type: "POST",
+                        data: {
+                            idassign: idassign,
+                            asset: asset,
+                            categ: categ,
+                            emplo: emplo,
+                            company: company,
+                            depart: depart,
+                            posi: posi,
+                            newloc: newloc,
+
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Updated',
+                                text: 'Your Information have been Updated !',
+                            });
+                            $("#edit_assigned").modal("hide");
+                            $('#tablel').DataTable().ajax.reload();
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeSelect.val('default').trigger('change');
+                            $('#departmentid').val('default');
+                            $('#positionid').val('');
+                            $('#newloc').val('default');
+                        }
+
+                    });
+                } else if (emplo != '1' && depart != 'default' && posi != '') {
+                    $.ajax({
+                        url: "edit_assigned.php",
+                        type: "POST",
+                        data: {
+                            idassign: idassign,
+                            asset: asset,
+                            categ: categ,
+                            emplo: emplo,
+                            company: company,
+                            depart: depart,
+                            posi: posi,
+                            newloc: newloc,
+
+                        },
+                        beforeSend: function() {
+                            let timerInterval;
+                            Swal.fire({
+                                title: "Auto close alert!",
+                                html: "I will close in <b></b> milliseconds.",
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                    const timer = Swal.getPopup().querySelector("b");
+                                    timerInterval = setInterval(() => {
+                                        timer.textContent = `${Swal.getTimerLeft()}`;
+                                    }, 100);
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval);
+                                }
+                            }).then((result) => {
+                                /* Read more about handling dismissals below */
+                                if (result.dismiss === Swal.DismissReason.timer) {}
+                            });
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Updated',
+                                text: 'Your Information have been Updated !',
+                            });
+                            $("#edit_assigned").modal("hide");
+                            $('#tablel').DataTable().ajax.reload();
+                            $("#showdepart").prop("checked", false); // Uncheck showdepart
+                            $("#showlocat").prop("checked", false); // Uncheck showlocat
+                            showdep(); // Hide inputs based on showdepart
+                            showloc(); // Hide inputs based on showlocat
+                            employeeSelect.val('default').trigger('change');
+                            $('#departmentid').val('default');
+                            $('#positionid').val('');
+                            $('#newloc').val('default');
+                        }
+
+                    });
+                }else {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'error',
+                        title: 'Please Fill Up the Assigned Form!',
+                        showConfirmButton: false,
+
+                    })
+                    $('#department_id').val('default');
+                    $('#position').val('');
+                    $('#newloc').val('default');
+                    employeeAssignedSelect.val('default').trigger('change');
                 }
 
-            
+
+            });
         });
-    });
     </script>
     <script>
         // Button for Remove to Update the status
@@ -768,7 +969,7 @@ include 'seasionindex.php';
                         cache: false,
                         data: {
                             id: id,
-                            assid:assid
+                            assid: assid
                         },
                         success: function(response) {
                             if (response == '1') {

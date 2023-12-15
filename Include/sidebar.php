@@ -64,8 +64,8 @@
                             <span class="nav-text">Asset List</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="555.php">Assigned List</a></li>
-                            <li><a href="555.php">Damage List</a></li>
+                            <li><a href="assignedlist_admin.php">Assigned List</a></li>
+                            <li><a href="damage.php">Damage List</a></li>
                         </ul>
                     </li>
                     <li class="nav-label">Inventory</li>
@@ -91,18 +91,18 @@
             <?php } else if ($condtiones == 6) { ?>
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Main Menu</li>
-                    <li><a href="admin.php" class="ai-icon" aria-expanded="false">
+                    <li><a href="employee.php" class="ai-icon" aria-expanded="false">
                             <i class="flaticon-144-layout"></i>
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-label">Viewing</li>
+                    <li class="nav-label">Assigned for User</li>
                     <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                             <i class="flaticon-077-menu-1"></i>
-                            <span class="nav-text">Manage View</span>
+                            <span class="nav-text">Assigned View</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="view_assigned.php">Assigned View</a></li>
+                            <li><a href="view_assigned.php">Assigned Asset (Employee)</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -173,22 +173,23 @@
             </li>
             <li class="nav-label">Report</li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                    <i class="flaticon-003-diamond"></i>
+                    <i class="flaticon-044-file"></i>
                     <span class="nav-text">Manage Report</span>
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="asset_report.php">Asset Report</a></li>
                     <li><a href="assigned_report.php">Assigned Report</a></li>
+                    <li><a href="count_report.php">Count Report</a></li>
                     <li><a href="damage_report.php">Damage Report</a></li>
                 </ul>
             </li>
-            <li class="nav-label">Asset View</li>
+            <li class="nav-label">Assigned for User</li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-053-heart"></i>
-                    <span class="nav-text">Manage View</span>
+                    <span class="nav-text">Assigned View</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="view_assigned.php">Assigned View</a></li>
+                    <li><a href="view_assigned.php">Assigned Asset (Accounting)</a></li>
                 </ul>
             </li>
         </ul>        
