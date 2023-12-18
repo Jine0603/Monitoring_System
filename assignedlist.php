@@ -121,7 +121,7 @@ include 'seasionindex.php';
                         </div>
                     </div>
                 </div>
-                <!-- ASSIGN MODAL -->
+                <!-- RE-ASSIGN MODAL -->
                 <div class="modal fade" id="edit_assigned">
                     <div class="modal-dialog modal-dialog-centered" role="dialog" tabindex="-1">
                         <div class="modal-content">
@@ -154,7 +154,7 @@ include 'seasionindex.php';
                                                 <input type="text" class="form-control" id="assigned_id" name="assigned_id" hidden>
                                                 <label>Asset Name</label>
                                                 <select class="js-example-basic-single" name="employee" id="employee">
-                                                    <option value="default" selected>Select Employee</option>
+                                                    <option value="" selected>Select Employee</option>
                                                     <?php
                                                     $result = mysqli_query($conn, "SELECT * FROM employee_tbl WHERE companyid = '1' AND status = '1'");
                                                     while ($row = mysqli_fetch_array($result)) {
@@ -181,7 +181,7 @@ include 'seasionindex.php';
                                                 </select>
                                                 &nbsp;
                                                 <label id="Position">Position</label>
-                                                <select id="positionid" name="positionid" class="form-control default-select" placeholder="Select Position">
+                                                <select id="positionid" name="positionid" class="form-control default-select">
                                                     <option selected="">Select Department
                                                     </option>
                                                 </select>
@@ -338,7 +338,6 @@ include 'seasionindex.php';
                                                 <th>Location</th>
                                                 <th>Employee</th>
                                                 <th>Department</th>
-                                                <th>Position</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -354,7 +353,6 @@ include 'seasionindex.php';
                                                 <th>Location</th>
                                                 <th>Employee</th>
                                                 <th>Department</th>
-                                                <th>Position</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -484,9 +482,6 @@ include 'seasionindex.php';
                     },
                     {
                         "data": "dep"
-                    },
-                    {
-                        "data": "pos"
                     },
                     {
                         "data": "sta"
@@ -670,9 +665,11 @@ include 'seasionindex.php';
                         },
                         success: function(data) {
                             Swal.fire({
+                                position: 'top-center',
                                 icon: 'success',
-                                title: 'Updated',
-                                text: 'Your Information have been Updated !',
+                                title: 'Asset No have been Re-Assigned',
+                                showConfirmButton: false,
+                                timer: 1500
                             });
                             $("#edit_assigned").modal("hide");
                             $('#tablel').DataTable().ajax.reload();
@@ -704,9 +701,11 @@ include 'seasionindex.php';
                         },
                         success: function(data) {
                             Swal.fire({
+                                position: 'top-center',
                                 icon: 'success',
-                                title: 'Updated',
-                                text: 'Your Information have been Updated !',
+                                title: 'Asset No have been Re-Assigned',
+                                showConfirmButton: false,
+                                timer: 1500
                             });
                             $("#edit_assigned").modal("hide");
                             $('#tablel').DataTable().ajax.reload();
@@ -823,9 +822,11 @@ include 'seasionindex.php';
                         },
                         success: function(data) {
                             Swal.fire({
+                                position: 'top-center',
                                 icon: 'success',
-                                title: 'Updated',
-                                text: 'Your Information have been Updated !',
+                                title: 'Asset No have been Re-Assigned',
+                                showConfirmButton: false,
+                                timer: 1500
                             });
                             $("#edit_assigned").modal("hide");
                             $('#tablel').DataTable().ajax.reload();
@@ -857,9 +858,11 @@ include 'seasionindex.php';
                         },
                         success: function(data) {
                             Swal.fire({
+                                position: 'top-center',
                                 icon: 'success',
-                                title: 'Updated',
-                                text: 'Your Information have been Updated !',
+                                title: 'Asset No have been Re-Assigned',
+                                showConfirmButton: false,
+                                timer: 1500
                             });
                             $("#edit_assigned").modal("hide");
                             $('#tablel').DataTable().ajax.reload();

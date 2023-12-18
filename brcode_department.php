@@ -1,6 +1,6 @@
 <?php
 include 'Include/config.php';
-$ref_num = $_GET['id'];
+$br_id = $_GET['id'];
 //============================================================+
 // File name   : example_1d_html.php
 // Version     : 1.0.000
@@ -54,8 +54,8 @@ $pdf->SetFont('helvetica', '', 10);
 
 // define barcode style
 $style = array(
-    'position' => 'C',
-    'align' => 'C',
+    // 'position' => 'L',
+    // 'align' => 'L',
     'stretch' => true,
     'fitwidth' => true,
     'cellfitalign' => '',
@@ -71,6 +71,7 @@ $style = array(
     
 );
 
+
 $sql = "SELECT assigned_tbl.id,categ_tbl.description,location_assigned.location,item_tbl.file_name,item_tbl.assetid,item_tbl.assetname,item_tbl.date_purchase,employee_tbl.employeeid,employee_tbl.firstname,employee_tbl.lastname,com_tbl.company,
 dep_tbl.department,position_tbl.position As position,assigned_tbl.acc_id,
 assigned_tbl.item_id,assigned_tbl.employee_assigned,assigned_tbl.companyid,assigned_tbl.locationid,assigned_tbl.departmentid,assigned_tbl.positionid,assigned_tbl.status,assigned_tbl.cateid,assigned_tbl.assigned_date
@@ -82,7 +83,7 @@ LEFT  JOIN com_tbl ON com_tbl.id                     = assigned_tbl.companyid
 LEFT  JOIN dep_tbl ON dep_tbl.id                     = assigned_tbl.departmentid
 LEFT  JOIN position_tbl ON position_tbl.id           = assigned_tbl.positionid
 LEFT  JOIN item_tbl ON item_tbl.id                   = assigned_tbl.item_id
-WHERE assigned_tbl.id = '$ref_num'";
+WHERE assigned_tbl.id = '$br_id'";
 
 $query = mysqli_query($conn, $sql);
 $rows = mysqli_fetch_assoc($query);
@@ -92,84 +93,89 @@ $rows = mysqli_fetch_assoc($query);
     $assetname = $rows['assetname'];
     $date_purchase = $rows['date_purchase'];
     $assigned = $rows['firstname'].' '.$rows['lastname'];
-
-
-    $pdf->Text(100, 94, $ref_num);
+    $employee_assigned = $rows['employee_assigned'];
+    $loca = $rows['locationid'];
+    $location = $rows['location'];
 
 
 // output the barcode as HTML object
 // set font
 $pdf->SetFont('helvetica', 'B', 5);
 
-// add a page
+    
+// Add a page
 $pdf->AddPage();
 // Start Transformation
-$pdf->write1DBarcode($assetid, 'C128', 20, 111, '', 11, 0.5, $style, 'N');
-$pdf->StartTransform();
-// Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
-$pdf->SetXY(111, 46.5);
-$pdf->Image('images/logome.jpg', '', '', 70, 10, '', '', 'T', false, 300, '', false, false, array(0, 0, 0, 0.5), false, false, false);
 
-$pdf->SetLineWidth(0.1);
-$pdf->Line(107, 58, 185, 58); // Adjust the coordinates as needed
-
-// New Text below the line
-$pdf->SetFont('helvetica', 'B', 10); // Set the new font
-$pdf->Text(108, 59, '827 EDSA, Quezon City . 410-1155 . 929-9911');
-
-// Reset font to previous settings
+ $pdf->StartTransform();
+// // Reset font to previous settings
 $pdf->SetFont('helvetica', '', 5);
 
 // FORM 
-$pdf->ScaleXY(170, -15, 75);
-$pdf->Rect(48, 55.5, 63.5, 47.5, 'D');
+$pdf->ScaleXY(150, -15, 73);
+$pdf->Rect(60, 60, 63.5, 49, 'D');
+
+// Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
+$pdf->SetXY(71, 62);
+$pdf->Image('images/logome.jpg', '', '', 40, 6, '', '', 'T', false, 200, '', false, false, array(0, 0, 0, 0.5), false, false, false);
+
+$pdf->SetLineWidth(0.1);
+$pdf->Line(70, 69, 112, 69); // Adjust the coordinates as needed
+
+// New Text below the line
+$pdf->SetFont('helvetica', 'B', 5); // Set the new font
+$pdf->Text(71, 69.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+
+$pdf->write1DBarcode($assetid, 'C128', 67, 100.5, '', 9, 0.4, $style, 'N');
 // 1st Column
-$pdf->Text(50, 70.3, 'COMPANY');
+$pdf->SetFont('helvetica', '', 5);
+$pdf->Text(62, 75.5, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
-$pdf->Rect(50, 70, 33, 7, 'D');
+$pdf->Rect(62.1, 75, 33, 7, 'D');
+$pdf->SetFont('helvetica', 'B', 4.6);
+$pdf->Text(62.5, 79, $company);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(98, 75.3, 28.2, 7.5, 'D');
+$pdf->Text(98, 75.5, 'DEPARTMENT');
+$pdf->SetFont('helvetica', 'B', 5.5);
+$pdf->Text(99, 79.5, $department);
+
+// 2nd column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(62.9, 82.8, 41.6, 7, 'D');
+$pdf->Text(63, 83, 'TAG NO/ASSET NO');
+$pdf->SetFont('helvetica', 'B', 6.5);
+$pdf->Text(64, 86, $assetid);
+
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(94, 50, 70);
+$pdf->Rect(108, 83.6, 23.1, 7.5, 'D');
+$pdf->Text(108, 84, 'DATE PURCHASE');
+$pdf->SetFont('helvetica', 'B', 6.5);
+$pdf->Text(109, 87.5, $date_purchase);
+
+// 3rd Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(63.7, 91.1, 67.4, 7, 'D');
+$pdf->Text(64, 91.4, 'SERIAL NO');
+
+// 4th Column
+$pdf->SetFont('helvetica', '', 5);
+$pdf->ScaleXY(100, 50, 80);
+$pdf->Rect(63.7, 98.1, 67.4, 7, 'D');
+$pdf->Text(63.7, 98.4, 'ASSET NAME');
 $pdf->SetFont('helvetica', 'B', 6);
-$pdf->Text(51, 73, $company);
-
-$pdf->SetFont('helvetica', '', 5);
-$pdf->ScaleXY(94, 50, 70);
-$pdf->Rect(85.1, 70, 28.3, 7.5, 'D');
-$pdf->Text(85, 70.4, 'DEPARTMENT');
-$pdf->SetFont('helvetica', 'B', 8);
-$pdf->Text(87, 73, $department);
-
-// // 2nd column
-$pdf->SetFont('helvetica', '', 5);
-$pdf->ScaleXY(100, 50, 80);
-$pdf->Rect(50, 77.5, 41.7, 7, 'D');
-$pdf->Text(50, 77.9, 'TAG NO/ASSET NO');
-$pdf->SetFont('helvetica', 'B', 8);
-$pdf->Text(51, 80.5, $assetid);
-
-$pdf->SetFont('helvetica', '', 5);
-$pdf->ScaleXY(94, 50, 70);
-$pdf->Rect(94.4, 78, 23, 7.4, 'D');
-$pdf->Text(94.2, 78.5, 'DATE PURCHASE');
-$pdf->SetFont('helvetica', 'B', 8);
-$pdf->Text(95, 81.5, $date_purchase);
-
-// // 3rd Column
-$pdf->SetFont('helvetica', '', 5);
-$pdf->ScaleXY(100, 50, 80);
-$pdf->Rect(50, 85.4, 67.5, 7, 'D');
-$pdf->Text(50, 85.8, 'SERIAL NO');
-
-// // 4th Column
-$pdf->SetFont('helvetica', '', 5);
-$pdf->ScaleXY(100, 50, 80);
-$pdf->Rect(50, 92.5, 67.5, 7, 'D');
-$pdf->Text(50, 93, 'DATE PURCHASE');
-$pdf->SetFont('helvetica', 'B', 9);
-$pdf->Text(51, 95.3, $assetname);
-
+$pdf->Text(64, 102, $assetname);
 
 $pdf->StopTransform();
 
-// $pdf->Cell(0, 0, '---------------------------------------------------------------------------CUT HERE------------------------------------------------------------------------------', 0, 1);
+
+
+
 
 $pdf->Output('GenerateBCode.pdf', 'I');
 

@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         LEFT  JOIN item_tbl ON item_tbl.id                   = scan_tbl.item_id
         WHERE date_created BETWEEN '$startDate' AND '$endDate'";
     } else {
-
         $sql = "SELECT scan_tbl.id,categ_tbl.description,location_assigned.location,item_tbl.file_name,item_tbl.assetid,item_tbl.assetname,employee_tbl.employeeid,employee_tbl.firstname,employee_tbl.lastname,com_tbl.company,
         dep_tbl.department,position_tbl.position As position,scan_tbl.acc_id,
         scan_tbl.item_id,scan_tbl.employee_assigned,scan_tbl.companyid,scan_tbl.locationid,scan_tbl.departmentid,scan_tbl.positionid,scan_tbl.status,scan_tbl.cateid,scan_tbl.scan_date
@@ -43,16 +42,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     while ($rows = mysqli_fetch_assoc($query)) {
         $no++;
 
+    $emp = $rows['employee_assigned'];
+    $loc = $rows['locationid'];
+
+    if($emp == 1){
         $data[] = array(
             "no"       => $no,
-            "id"       => $rows['cateid'] . ' - ' . $rows['assetid'],
-            "itemname" => $rows['assetname'],
-            "name"     => $rows['lastname'] . ' ' . $rows['firstname'],
-            "dep"      => $rows['department'],
-            "pos"      => $rows['position'],
-            "loc"      => $rows['location'],
             "date1"    => $rows['scan_date'],
+            "id"       => $rows['cateid'] . ' - ' . $rows['assetid'],
+            "itemname" => $rows['assetname'] . ' - ' . $rows['department'] .' Department',
+            "loc"      => $rows['department'] .' Department',
         );
+    }else if($emp != 1){
+        $data[] = array(
+            "no"       => $no,
+            "date1"    => $rows['scan_date'],
+            "id"       => $rows['cateid'] . ' - ' . $rows['assetid'],
+            "itemname" => $rows['assetname'] . ' - ' . $rows['lastname'] . ' ' . $rows['firstname'],
+            "loc"      => $rows['department'] .' Department',
+        );
+
+    }else if($loc != 'default'){
+        $data[] = array(
+            "no"       => $no,
+            "date1"    => $rows['scan_date'],
+            "id"       => $rows['cateid'] . ' - ' . $rows['assetid'],
+            "itemname" => $rows['assetname'] . ' - ' . $rows['location'],
+            "loc"      => $rows['location'],
+        );
+
+    }
     }
 
       // Send the data back to the client

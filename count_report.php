@@ -177,13 +177,11 @@ include 'seasionindex.php';
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Asset No</th>
-                                                <th>Description</th>
-                                                <th>Employee</th>
-                                                <th>Department</th>
-                                                <th>Position</th>
-                                                <th>Location</th>
                                                 <th>Scan Date</th>
+                                                <th>Asset No</th>
+                                                <th>Description - Assigned</th>
+                                                <th>Location</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -191,13 +189,10 @@ include 'seasionindex.php';
                                         <tfoot>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Asset No</th>
-                                                <th>Description</th>
-                                                <th>Employee</th>
-                                                <th>Department</th>
-                                                <th>Position</th>
-                                                <th>Location</th>
                                                 <th>Scan Date</th>
+                                                <th>Asset No</th>
+                                                <th>Description - Assigned</th>
+                                                <th>Location</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -320,25 +315,16 @@ include 'seasionindex.php';
                         "data": "no"
                     }, {
 
+                        "data": "date1"
+                    },
+                    {
                         "data": "id"
                     },
                     {
                         "data": "itemname"
                     },
                     {
-                        "data": "name"
-                    },
-                    {
-                        "data": "dep"
-                    },
-                    {
-                        "data": "pos"
-                    },
-                    {
                         "data": "loc"
-                    },
-                    {
-                        "data": "date1"
                     },
                 ]
             });
@@ -410,27 +396,19 @@ include 'seasionindex.php';
                         "columns": [{
 
                                 "data": "no"
-                            }, {
+                            },
+                            {
 
+                                "data": "date1"
+                            },
+                            {
                                 "data": "id"
                             },
                             {
                                 "data": "itemname"
                             },
                             {
-                                "data": "name"
-                            },
-                            {
-                                "data": "dep"
-                            },
-                            {
-                                "data": "pos"
-                            },
-                            {
                                 "data": "loc"
-                            },
-                            {
-                                "data": "date1"
                             },
                         ]
                     });
@@ -482,27 +460,19 @@ include 'seasionindex.php';
                         "columns": [{
 
                                 "data": "no"
-                            }, {
+                            },
+                            {
 
+                                "data": "date1"
+                            },
+                            {
                                 "data": "id"
                             },
                             {
                                 "data": "itemname"
                             },
                             {
-                                "data": "name"
-                            },
-                            {
-                                "data": "dep"
-                            },
-                            {
-                                "data": "pos"
-                            },
-                            {
                                 "data": "loc"
-                            },
-                            {
-                                "data": "date1"
                             },
                         ]
                     });
@@ -551,27 +521,19 @@ include 'seasionindex.php';
                         "columns": [{
 
                                 "data": "no"
-                            }, {
+                            },
+                            {
 
+                                "data": "date1"
+                            },
+                            {
                                 "data": "id"
                             },
                             {
                                 "data": "itemname"
                             },
                             {
-                                "data": "name"
-                            },
-                            {
-                                "data": "dep"
-                            },
-                            {
-                                "data": "pos"
-                            },
-                            {
                                 "data": "loc"
-                            },
-                            {
-                                "data": "date1"
                             },
                         ]
                     });

@@ -108,7 +108,7 @@ $pdf->SetFont('helvetica', '', 5);
 
 // FORM 
 $pdf->ScaleXY(170, -15, 73);
-$pdf->Rect(48, 55.5, 63.5, 47, 'D');
+$pdf->Rect(48, 55.5, 63.5, 49, 'D');
 
 // Scale by 150% centered by (50,80) which is the lower left corner of the rectangle
 $pdf->SetXY(58.5, 57);
@@ -121,13 +121,13 @@ $pdf->Line(58, 63.5, 99, 63.5); // Adjust the coordinates as needed
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
 $pdf->Text(59, 64, '827 EDSA, Quezon City . 410-1155 . 929-9911');
 
-$pdf->write1DBarcode($assetid, 'C128', 51, 93.5, '', 9, 0.4, $style, 'N');
+$pdf->write1DBarcode($assetid, 'C128', 55, 94.5, '', 9, 0.4, $style, 'N');
 // 1st Column
 $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(50, 70.3, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(50, 70, 38, 6.5, 'D');
-$pdf->SetFont('helvetica', 'B', 6);
+$pdf->SetFont('helvetica', 'B', 5.2);
 $pdf->Text(51, 73, $company);
 
 $pdf->SetFont('helvetica', '', 5);
@@ -155,8 +155,8 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(50, 84.4, 43, 6.5, 'D');
 $pdf->Text(50, 84.8, 'ASSET DESCRIPTION');
-$pdf->SetFont('helvetica', 'B', 7.8);
-$pdf->Text(51, 87.3, $assetname);
+$pdf->SetFont('helvetica', 'B', 4);
+$pdf->Text(51, 88, $assetname);
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
@@ -175,8 +175,8 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(69.1, 93.7, 57.4, 7, 'D');
 $pdf->Text(69, 94.5, 'ASSIGNED TO');
-$pdf->SetFont('helvetica', 'B', 7.8);
-$pdf->Text(70, 96.8, $assigned);
+$pdf->SetFont('helvetica', 'B', 6.5);
+$pdf->Text(70, 97, $assigned);
 
 $pdf->StopTransform();
 
