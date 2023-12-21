@@ -168,7 +168,6 @@ include 'seasionindex.php';
                                             <div class="form-group col-sm-6">
                                                 <label>Company</label>
                                                 <select id="company" name="company" class="form-control default-select">
-                                                    <option value="default" selected>Select Company</option>
                                                     <?php
                                                     $result = mysqli_query($conn, "SELECT * FROM com_tbl WHERE id = 1");
                                                     while ($row = mysqli_fetch_array($result)) {
@@ -183,7 +182,16 @@ include 'seasionindex.php';
                                             <div class="form-group col-sm-6">
                                                 <label>Department</label>
                                                 <select id="departmentid" name="departmentid" class="form-control default-select">
-                                                    <option selected="">Select Department</option>
+                                                <option value="default" selected>Select Company</option>
+                                                    <?php
+                                                    $result = mysqli_query($conn, "SELECT * FROM dep_tbl WHERE companyid = '1' AND status = '1'");
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                    ?>
+                                                        <option value="<?php echo $row['id']; ?>">
+                                                            <?php echo $row["department"]; ?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                             <div class="form-group col-sm-6">
@@ -235,7 +243,6 @@ include 'seasionindex.php';
                                                 <th>No</th>
                                                 <th>EmployeeID</th>
                                                 <th>Name</th>
-                                                <th>Email</th>
                                                 <th>Department</th>
                                                 <th>Position</th>
                                                 <th>Username</th>
@@ -251,7 +258,6 @@ include 'seasionindex.php';
                                                 <th>No</th>
                                                 <th>EmployeeID</th>
                                                 <th>Name</th>
-                                                <th>Email</th>
                                                 <th>Department</th>
                                                 <th>Position</th>
                                                 <th>Username</th>
@@ -341,9 +347,6 @@ include 'seasionindex.php';
                     },
                     {
                         "data": "fname"
-                    },
-                    {
-                        "data": "mail"
                     },
                     {
                         "data": "dep"
@@ -592,10 +595,11 @@ include 'seasionindex.php';
                             },
                             success: function(data) {
                                 $('#msg').html(data);
-                                $("#edit-modal").modal({
-                                    backdrop: 'static',
-                                    keyboard: false
-                                }, 'show');
+                                $("#edit-modal").modal("hide");
+                                // $("#edit-modal").modal({
+                                //     backdrop: 'static',
+                                //     keyboard: false
+                                // }, 'show');
                                 $('#table1').DataTable().ajax.reload();
                                 //Clear Value 
                                 $('#employeeid').val('');
@@ -604,8 +608,8 @@ include 'seasionindex.php';
                                 $('#email').val('');
                                 $('#username').val('');
                                 $('#password').val('');
-                                $('#company').val('default');
-                                $('#departmentid').val('');
+                                // $('#company').val('');
+                                $('#departmentid').val('default');
                                 $('#positionid').val('');
                                 $('#usertype').val('').trigger('change');
                                 Swal.fire({

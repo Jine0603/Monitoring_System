@@ -26,6 +26,7 @@ if (isset($_POST['id']) || isset($_FILES['file2']) || isset($_POST['assetname_ed
     $category_edit      = $_POST['category_edit'];
     $date_purchase_edit = $_POST['date_purchase_edit'];
     $locationid_edit    = $_POST['locationid_edit'];
+    
 
     // Check whether submitted data is not empty 
     if (!empty($assetname_edit)) { 
@@ -66,7 +67,8 @@ if (isset($_POST['id']) || isset($_FILES['file2']) || isset($_POST['assetname_ed
                 companyid     = '$company_edit',
                 date_purchase = '$date_purchase_edit',
                 locationid    = '$locationid_edit',
-                file_name     = '$uploadedFile'
+                file_name     = '$uploadedFile',
+                update_date = '$date_now'
                 WHERE 
                 id = '$id'";
                     $query = mysqli_query($conn, $sql);

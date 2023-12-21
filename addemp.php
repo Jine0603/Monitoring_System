@@ -27,12 +27,12 @@ $datecreated  = date("Y-m-d h:i A");
 
 
 $sql = "INSERT INTO employee_tbl (employeeid, firstname, lastname, email, username, password, companyid, departmentid, positionid, datecreated) 
-	VALUES ('$employeeid','$firstname','$lastname','$email','$username','$password','$company','$departmentid','$positionid','$datecreated')";
+	VALUES ('$employeeid','$firstname','$lastname','$email','$username','$password','$company','$departmentid','$positionid','$date_now')";
 
 $query = mysqli_query($conn, $sql);
 if ($query == true) {
 	$last_id = mysqli_insert_id($conn);
-	send_email($email, $username, $password);
+	// send_email($email, $username, $password);
 
 	foreach ($_POST['rolerr'] as $temp) {
 		// $role_insert = "INSERT INTO accrole_tbl('employeeid', 'usertype','datecreated') VALUES ('$last_id','$temp','$datecreated')";

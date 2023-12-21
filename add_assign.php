@@ -17,8 +17,8 @@ $date = new DateTime('now', new DateTimeZone('Asia/Manila'));
 $currentDate = $date->format("Y-m-d");
 $time = $date->format("g:i:a");
 
-$sql = "INSERT INTO assigned_tbl (acc_id, item_id, cateid, employee_assigned, companyid, departmentid, positionid,locationid)
-VALUES ('$accid','$iditem','$catego','$employee_assigned','$companyid','$department_id','$position','$newloc')";
+$sql = "INSERT INTO assigned_tbl (acc_id, item_id, cateid, employee_assigned, companyid, departmentid, positionid,locationid,assigned_date)
+VALUES ('$accid','$iditem','$catego','$employee_assigned','$companyid','$department_id','$position','$newloc','$date_now')";
 
 $query = mysqli_query($conn, $sql);
 

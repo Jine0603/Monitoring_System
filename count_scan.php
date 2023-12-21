@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $sql = "SELECT assigned_tbl.id,categ_tbl.description,location_assigned.location,item_tbl.file_name,item_tbl.assetid,item_tbl.assetname,employee_tbl.employeeid,employee_tbl.firstname,employee_tbl.lastname,com_tbl.company,
   dep_tbl.department,position_tbl.position As position,assigned_tbl.acc_id,
-  assigned_tbl.item_id,assigned_tbl.employee_assigned,assigned_tbl.companyid,assigned_tbl.locationid,assigned_tbl.departmentid,assigned_tbl.positionid,assigned_tbl.status,assigned_tbl.cateid,assigned_tbl.assigned_date,assigned_tbl.scan
+  assigned_tbl.item_id,assigned_tbl.employee_assigned,assigned_tbl.companyid,assigned_tbl.locationid,assigned_tbl.departmentid,assigned_tbl.positionid,assigned_tbl.status,assigned_tbl.cateid,assigned_tbl.assigned_date
   FROM assigned_tbl
   LEFT  JOIN employee_tbl ON employee_tbl.id           = assigned_tbl.employee_assigned
   LEFT  JOIN location_assigned ON location_assigned.id = assigned_tbl.locationid
@@ -52,10 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     LEFT  JOIN position_tbl ON position_tbl.id           = scan_tbl.positionid
     LEFT  JOIN item_tbl ON item_tbl.id                   = scan_tbl.item_id
     WHERE scan_tbl.status                            = 1 AND CONCAT(categoriesid,'-',assetid) = '$code' AND DATE_FORMAT(scan_date, '%Y-%m-%d') = '$currentDate'";
-    $sql_tbl_scan_query = mysqli_query($conn, $sqlQ);
+    $scan_query = mysqli_query($conn, $sqlQ);
 
-    if (mysqli_num_rows($sql_tbl_scan_query) > 0) {
-      $count  = mysqli_fetch_assoc($sql_tbl_scan_query);
+    if (mysqli_num_rows($scan_query) > 0) {
+      $count  = mysqli_fetch_assoc($scan_query);
       $date = $count['scan_date'];
       $currentDate = date("Y-m-d");
 

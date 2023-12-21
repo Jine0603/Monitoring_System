@@ -34,7 +34,7 @@ while ($h2w = mysqli_fetch_array($exe)) {
 	<meta name="format-detection" content="telephone=no">
 	<title>FIXED ASSET MONITORING SYSTEM WITH BARCODING </title>
 	<!-- Favicon icon -->
-	<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="images/logo1.jpg">
 	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
 	<link href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
 	<link href="vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
@@ -238,7 +238,7 @@ while ($h2w = mysqli_fetch_array($exe)) {
 		<!--**********************************
             Footer start
         ***********************************-->
-		<?php include 'Include/footer.php'; ?>
+		<!-- <?php include 'Include/footer.php'; ?> -->
 		<!--**********************************
             Footer end
         ***********************************-->

@@ -166,12 +166,12 @@
                     <span class="nav-text">Manage Inventory</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="stockdata.php">Asset Count</a></li>
+                    <li><a href="stockdata.php">Asset Count (Department)</a></li>
                     <li><a href="barcode.php">Barcode</a></li>
                     <li><a href="scanningbr.php">Scanner</a></li>
                 </ul>
             </li>
-            <li class="nav-label">Report</li>
+            <li class="nav-label">Reports</li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-044-file"></i>
                     <span class="nav-text">Manage Report</span>
@@ -183,15 +183,13 @@
                     <li><a href="damage_report.php">Damage Report</a></li>
                 </ul>
             </li>
-            <li class="nav-label">Assigned for User</li>
-            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+            <li class="nav-label">Assigned Asset for User</li>
+            <li><a href="view_assigned.php" class="ai-icon" aria-expanded="false">
                     <i class="flaticon-053-heart"></i>
                     <span class="nav-text">Assigned View</span>
                 </a>
-                <ul aria-expanded="false">
-                    <li><a href="view_assigned.php">Assigned Asset (Accounting)</a></li>
-                </ul>
             </li>
+
         </ul>        
         <?php } ?>
         <?php

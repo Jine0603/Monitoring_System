@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $startDate = $_POST['startDate'] ?? '';
     $endDate   = $_POST['endDate'] ?? '';
     $cat       = $_POST['cat'] ?? '';
+    $currentDate = date("Y-m-d");
 
     if ($startDate != '' && $endDate != '' && $cat != 'default') {
         $sql = "SELECT scan_tbl.id,categ_tbl.description,location_assigned.location,item_tbl.file_name,item_tbl.assetid,item_tbl.assetname,employee_tbl.employeeid,employee_tbl.firstname,employee_tbl.lastname,com_tbl.company,
@@ -20,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         LEFT  JOIN dep_tbl ON dep_tbl.id                     = scan_tbl.departmentid
         LEFT  JOIN position_tbl ON position_tbl.id           = scan_tbl.positionid
         LEFT  JOIN item_tbl ON item_tbl.id                   = scan_tbl.item_id
-        WHERE scan_date BETWEEN '$startDate' AND '$endDate' AND cateid = '$cat'";
+        WHERE scan_tbl.scan_date BETWEEN '$startDate' AND '$endDate' AND scan_tbl.cateid = '$cat'";
         
     } else if ($cat != 'default') {
 
@@ -35,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     LEFT  JOIN dep_tbl ON dep_tbl.id                     = scan_tbl.departmentid
     LEFT  JOIN position_tbl ON position_tbl.id           = scan_tbl.positionid
     LEFT  JOIN item_tbl ON item_tbl.id                   = scan_tbl.item_id
-    WHERE cateid = '$cat'";
+    WHERE scan_tbl.scan_date = '$currentDate' AND scan_tbl.cateid = '$cat'";
     }
     $query = mysqli_query($conn, $sql);
     $data  = array();
@@ -72,8 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "itemname" => $rows['assetname'] . ' - ' . $rows['location'],
             "loc"      => $rows['location'],
         );
-        }
     }
+}
 
       // Send the data back to the client
     echo json_encode($data);

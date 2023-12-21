@@ -24,14 +24,15 @@ $sql = "UPDATE employee_tbl
         password     = '$password',
         companyid    = '$company',
         departmentid = '$departmentid',
-        positionid   = '$positionid'
+        positionid   = '$positionid',
+        update_date  = '$datecreated'
         WHERE 
         id = '$id'";
 
 $query = mysqli_query($conn, $sql);
 
 if ($query == true) {
-    send_email($email, $username, $password);
+    // send_email($email, $username, $password);
 
  $fetch_id = "SELECT * FROM employee_tbl WHERE employeeid = '$employeeid'";
  $execut   = mysqli_query($conn, $fetch_id);

@@ -18,7 +18,7 @@ include 'seasionindex.php';
     <meta name="format-detection" content="telephone=no">
     <title>FIXED ASSET MONITORING SYSTEM WITH BARCODING </title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo1.jpg">
     <!-- Datatable -->
     <link href="vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
@@ -169,7 +169,7 @@ include 'seasionindex.php';
         <!--**********************************
             Footer start
         ***********************************-->
-        <?php include 'Include/footer.php'; ?>
+        <!-- <?php include 'Include/footer.php'; ?> -->
         <!--**********************************
             Footer end
         ***********************************-->

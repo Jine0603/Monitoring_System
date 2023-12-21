@@ -51,7 +51,8 @@ if (isset($_POST['id']) || isset($_POST['orgfilename']) || isset($_FILES['file2'
             companyid     = '$company_edit',
             date_purchase = '$date_purchase_edit',
             locationid    = '$locationid_edit',
-            file_name    = '$orgfilename'
+            file_name    = '$orgfilename',
+            update_date = '$date_now'
             WHERE 
             id = '$id'";
 

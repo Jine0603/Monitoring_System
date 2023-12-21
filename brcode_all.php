@@ -103,6 +103,9 @@ $rows = mysqli_fetch_assoc($query);
     $employee_assigned = $rows['employee_assigned'];
     $loca = $rows['locationid'];
     $location = $rows['location'];
+    $fetchcompany = 'Multi-Line Building System,Inc.(CEBU)';
+    $asset = 'SEAGATE SKYHAWK 6TB SURVEILLANCE HARD DRIVE SEAGATE SKYHAWK 6TB SURVEILLANCE HARD DRIVE';
+
 
 
 // output the barcode as HTML object
@@ -136,7 +139,7 @@ if ($employee_assigned == ''){
     
     // New Text below the line
     $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-    $pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+    $pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 929-9911');
     
     $pdf->write1DBarcode($assetid, 'C128', 21, 80.5, '', 9, 0.4, $style, 'N');
     // 1st Column
@@ -144,22 +147,43 @@ if ($employee_assigned == ''){
     $pdf->Text(15.5, 55.3, 'COMPANY');
     $pdf->ScaleXY(100, 50, 80);
     $pdf->Rect(15.8, 55, 33, 7, 'D');
-    $pdf->SetFont('helvetica', 'B', 4.6);
-    $pdf->Text(16, 59, $company);
+
+
+    if ($company == 'Multi-Line Building System,Inc.(CEBU)') {
+        $companyname = "<p>Multi-Line Building System,Inc.<br>(CEBU)</p>";
+        $pdf->SetFont('helvetica', 'B', 5.2);
+        $pdf->writeHtmlCell(0, 0, 17, 57.5, $companyname, 0, 1, 0, true, '', true);
+
+    } else if ($company == 'Multi-Line Structure Corp.(CEBU)'){
+        $companyname = "<p>Multi-Line Structure Corp.<br>(CEBU)</p>";
+        $pdf->SetFont('helvetica', 'B', 5.2);
+        $pdf->writeHtmlCell(0, 0, 17, 57.5, $companyname, 0, 1, 0, true, '', true);
+    } else if ($company == 'Multi-Line Building System,Inc.(DAVAO)'){
+        $companyname = "<p>Multi-Line Building System,Inc.<br>(DAVAO)</p>";
+        $pdf->SetFont('helvetica', 'B', 5.2);
+        $pdf->writeHtmlCell(0, 0, 17, 57.5, $companyname, 0, 1, 0, true, '', true);
+    }else if ($company == 'Multi-Line Structure Corp.(DAVAO)'){
+        $companyname = "<p>Multi-Line Structure Corp.<br>(DAVAO)</p>";
+        $pdf->SetFont('helvetica', 'B', 5.2);
+        $pdf->writeHtmlCell(0, 0, 17, 57.5, $companyname, 0, 1, 0, true, '', true);
+    }else{
+        $pdf->SetFont('helvetica', 'B', 6);
+        $pdf->Text(16, 58.8, $company);
+    }
     
     $pdf->SetFont('helvetica', '', 5);
     $pdf->ScaleXY(94, 50, 70);
     $pdf->Rect(48.7, 54, 28.3, 7.5, 'D');
     $pdf->Text(48.5, 54.5, 'LOCATION');
-    $pdf->SetFont('helvetica', 'B', 4);
-    $pdf->Text(49, 58.5, $location);
+    $pdf->SetFont('helvetica', 'B', 6);
+    $pdf->Text(49, 58, $location);
     
     // 2nd column
     $pdf->SetFont('helvetica', '', 5);
     $pdf->ScaleXY(100, 50, 80);
     $pdf->Rect(13.6, 61.5, 41.7, 7, 'D');
     $pdf->Text(13.5, 62, 'TAG NO/ASSET NO');
-    $pdf->SetFont('helvetica', 'B', 6.5);
+    $pdf->SetFont('helvetica', 'B', 7);
     $pdf->Text(15, 64.9, $assetid);
     
     $pdf->SetFont('helvetica', '', 5);
@@ -179,9 +203,21 @@ if ($employee_assigned == ''){
     $pdf->SetFont('helvetica', '', 5);
     $pdf->ScaleXY(100, 50, 80);
     $pdf->Rect(11.3, 75.4, 67.5, 7, 'D');
-    $pdf->Text(11.4, 76, 'ASSET NAME');
-    $pdf->SetFont('helvetica', 'B', 5.5);
-    $pdf->Text(12, 79, $assetname);
+    $pdf->Text(11.4, 75.8, 'ASSET DESCRIPTION');
+    // $pdf->SetFont('helvetica', 'B', 5.5);
+    // $pdf->Text(12, 79, $assetname);
+
+    
+    if (strlen($assetname) < 50) {
+        // Character limit not exceeded, use default style
+        $pdf->SetFont('helvetica', 'B', 5.5);
+        $pdf->Text(12, 79, $assetname);
+    } else {
+        // Character limit exceeded, apply a different style with a slash
+        $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 55) . "<br>" . substr($assetname, 55) . "</p>";
+        $pdf->SetFont('helvetica', 'B', 5.2);
+        $pdf->writeHtmlCell(0, 0, 12, 77.8, $assetHtml, 0, 1, 0, true, '', true);
+    }
     
     $pdf->StopTransform();
 }else if ($employee_assigned != 1){
@@ -203,7 +239,7 @@ $pdf->Line(24.8, 49, 66.8, 49); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 20, 79, '', 9, 0.4, $style, 'N');
 
@@ -212,7 +248,7 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(15.5, 55.3, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(15.8, 55, 38, 6.5, 'D');
-$pdf->SetFont('helvetica', 'B', 5.2);
+$pdf->SetFont('helvetica', 'B', 6);
 $pdf->Text(17, 58.5, $company);
 
 $pdf->SetFont('helvetica', '', 5);
@@ -240,8 +276,20 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(11.3, 67.3, 43, 6.5, 'D');
 $pdf->Text(11.4, 67.8, 'ASSET DESCRIPTION');
-$pdf->SetFont('helvetica', 'B', 4);
+// $pdf->SetFont('helvetica', 'B', 4);
+// $pdf->Text(12, 71, $assetname);
+
+if (strlen($assetname) > 50) {
+
+    // Character limit exceeded, apply a different style with a slash
+    $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 50) . "<br>" . substr($assetname, 50) . "</p>";
+    $pdf->SetFont('helvetica', 'B', 4);
+    $pdf->writeHtmlCell(0, 0, 12, 70, $assetHtml, 0, 1, 0, true, '', true);
+} else {
+// Character limit not exceeded, use default style
+$pdf->SetFont('helvetica', 'B', 4.6);
 $pdf->Text(12, 71, $assetname);
+}
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
@@ -261,7 +309,7 @@ $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(25.3, 74.3, 57.3, 6.9, 'D');
 $pdf->Text(25.2, 74.8, 'ASSIGNED TO');
 $pdf->SetFont('helvetica', 'B', 7);
-$pdf->Text(27, 77.6, $assigned);
+$pdf->Text(27, 77.6, 'MORATAL, MARK GIL BEYS JAY');
 
 $pdf->StopTransform();
 }else if ($employee_assigned == 1){
@@ -282,7 +330,7 @@ $pdf->Line(24.8, 49, 66.8, 49); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(25.8, 49.5, '827 EDSA, Quezon City . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 21, 80.5, '', 9, 0.4, $style, 'N');
 // 1st Column
@@ -290,8 +338,31 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(15.5, 55.3, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(15.8, 55, 33, 7, 'D');
-$pdf->SetFont('helvetica', 'B', 4.6);
-$pdf->Text(16, 59, $company);
+// $pdf->SetFont('helvetica', 'B', 4.6);
+// $pdf->Text(16, 59, $company);
+
+if ($company == 'Multi-Line Building System,Inc.(CEBU)') {
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 17, 57.5, $companyname, 0, 1, 0, true, '', true);
+
+} else if ($company == 'Multi-Line Structure Corp.(CEBU)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 17, 57.5, $companyname, 0, 1, 0, true, '', true);
+} else if ($company == 'Multi-Line Building System,Inc.(DAVAO)'){
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 17, 57.5, $companyname, 0, 1, 0, true, '', true);
+}else if ($company == 'Multi-Line Structure Corp.(DAVAO)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 17, 57.5, $companyname, 0, 1, 0, true, '', true);
+}else{
+    $pdf->SetFont('helvetica', 'B', 6);
+    $pdf->Text(16, 58.8, $company);
+}
+
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
@@ -305,7 +376,7 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(13.6, 61.5, 41.7, 7, 'D');
 $pdf->Text(13.5, 62, 'TAG NO/ASSET NO');
-$pdf->SetFont('helvetica', 'B', 6);
+$pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(15, 65, $assetid);
 
 $pdf->SetFont('helvetica', '', 5);
@@ -325,9 +396,17 @@ $pdf->Text(11.4, 69, 'SERIAL NO');
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(11.3, 75.4, 67.5, 7, 'D');
-$pdf->Text(11.4, 76, 'ASSET NAME');
-$pdf->SetFont('helvetica', 'B', 6);
-$pdf->Text(13, 78.8, $assetname);
+$pdf->Text(11.4, 76, 'ASSET DESCRIPTION');
+    if (strlen($assetname) < 50) {
+        // Character limit not exceeded, use default style
+        $pdf->SetFont('helvetica', 'B', 5.5);
+        $pdf->Text(12, 79, $assetname);
+    } else {
+        // Character limit exceeded, apply a different style with a slash
+        $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 55) . "<br>" . substr($assetname, 55) . "</p>";
+        $pdf->SetFont('helvetica', 'B', 5.2);
+        $pdf->writeHtmlCell(0, 0, 12, 77.8, $assetHtml, 0, 1, 0, true, '', true);
+    }
 
 $pdf->StopTransform();
 }
@@ -349,7 +428,7 @@ $pdf->Line(95, 49, 137, 49); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 92, 80.5, '', 9, 0.4, $style, 'N');
 
@@ -358,29 +437,50 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(86.3, 55.3, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(86.6, 55, 33, 7, 'D');
-$pdf->SetFont('helvetica', 'B', 4.6);
-$pdf->Text(87, 59, $company);
+// $pdf->SetFont('helvetica', 'B', 4.6);
+// $pdf->Text(87, 59, $company);
+if ($company == 'Multi-Line Building System,Inc.(CEBU)') {
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 57.5, $companyname, 0, 1, 0, true, '', true);
+
+} else if ($company == 'Multi-Line Structure Corp.(CEBU)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 57.5, $companyname, 0, 1, 0, true, '', true);
+} else if ($company == 'Multi-Line Building System,Inc.(DAVAO)'){
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 57.5, $companyname, 0, 1, 0, true, '', true);
+}else if ($company == 'Multi-Line Structure Corp.(DAVAO)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 57.5, $companyname, 0, 1, 0, true, '', true);
+}else{
+    $pdf->SetFont('helvetica', 'B', 6);
+    $pdf->Text(87, 58.8, $company);
+}
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(124, 54, 28.3, 7.5, 'D');
 $pdf->Text(124, 54.5, 'LOCATION');
-$pdf->SetFont('helvetica', 'B', 4);
-$pdf->Text(124, 58.5, $location);
+$pdf->SetFont('helvetica', 'B', 6);
+$pdf->Text(124, 58, $location);
 
 // 2nd column
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(89, 61.5, 41.7, 7, 'D');
 $pdf->Text(88.7, 62, 'TAG NO/ASSET NO');
-$pdf->SetFont('helvetica', 'B', 6);
+$pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(90, 65, $assetid);
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(135.8, 61, 23.1, 7.4, 'D');
 $pdf->Text(135.7, 61.5, 'DATE PURCHASE');
-$pdf->SetFont('helvetica', 'B', 6);
+$pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(136.7, 65, $date_purchase);
 
 // 3rd Column
@@ -393,9 +493,19 @@ $pdf->Text(91.4, 69, 'SERIAL NO');
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(91.5, 75.4, 67.4, 7, 'D');
-$pdf->Text(91.5, 76, 'ASSET NAME');
-$pdf->SetFont('helvetica', 'B', 5.5);
-$pdf->Text(92, 79, $assetname);
+$pdf->Text(91.5, 75.8, ' ASSET DESCRIPTION');
+// $pdf->SetFont('helvetica', 'B', 5.5);
+// $pdf->Text(92, 79, $assetname);
+if (strlen($assetname) < 55) {
+    // Character limit not exceeded, use default style
+    $pdf->SetFont('helvetica', 'B', 5.5);
+    $pdf->Text(92, 79, $assetname);
+} else {
+    // Character limit exceeded, apply a different style with a slash
+    $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 55) . "<br>" . substr($assetname, 55) . "</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 92, 77.8, $assetHtml, 0, 1, 0, true, '', true);
+}
 
 
 $pdf->StopTransform();
@@ -414,7 +524,7 @@ $pdf->StopTransform();
     
     // New Text below the line
     $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-    $pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+    $pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 929-9911');
     
     $pdf->write1DBarcode($assetid, 'C128', 91.5, 79, '', 9, 0.4, $style, 'N');
     // 1st Column
@@ -451,8 +561,20 @@ $pdf->StopTransform();
     $pdf->ScaleXY(100, 50, 80);
     $pdf->Rect(91.5, 67.3, 43, 6.5, 'D');
     $pdf->Text(91.3, 67.8, 'ASSET DESCRIPTION');
-    $pdf->SetFont('helvetica', 'B', 4.1);
+    // $pdf->SetFont('helvetica', 'B', 4.1);
+    // $pdf->Text(92, 71, $assetname);
+
+    if (strlen($assetname) > 52) {
+
+        // Character limit exceeded, apply a different style with a slash
+        $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 52) . "<br>" . substr($assetname, 52) . "</p>";
+        $pdf->SetFont('helvetica', 'B', 4);
+        $pdf->writeHtmlCell(0, 0, 92, 70, $assetHtml, 0, 1, 0, true, '', true);
+    } else {
+    // Character limit not exceeded, use default style
+    $pdf->SetFont('helvetica', 'B', 4.6);
     $pdf->Text(92, 71, $assetname);
+    }
     
     $pdf->SetFont('helvetica', '', 5);
     $pdf->ScaleXY(94, 50, 70);
@@ -490,7 +612,7 @@ $pdf->Line(95, 49, 137, 49); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(96.5, 49.5, '827 EDSA, Quezon City . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 92, 80.5, '', 9, 0.4, $style, 'N');
 
@@ -499,14 +621,34 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(86.3, 55.3, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(86.6, 55, 33, 7, 'D');
-$pdf->SetFont('helvetica', 'B', 4.6);
-$pdf->Text(87, 58.5, $company);
+
+if ($company == 'Multi-Line Building System,Inc.(CEBU)') {
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 57.5, $companyname, 0, 1, 0, true, '', true);
+
+} else if ($company == 'Multi-Line Structure Corp.(CEBU)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 57.5, $companyname, 0, 1, 0, true, '', true);
+} else if ($company == 'Multi-Line Building System,Inc.(DAVAO)'){
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 57.5, $companyname, 0, 1, 0, true, '', true);
+}else if ($company == 'Multi-Line Structure Corp.(DAVAO)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 57.5, $companyname, 0, 1, 0, true, '', true);
+}else{
+    $pdf->SetFont('helvetica', 'B', 6);
+    $pdf->Text(87, 58.8, $company);
+}
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(124, 54, 28.3, 7.5, 'D');
 $pdf->Text(124, 54.5, 'DEPARTMENT');
-$pdf->SetFont('helvetica', 'B', 5.5);
+$pdf->SetFont('helvetica', 'B', 6);
 $pdf->Text(125, 58, $department);
 
 // 2nd column
@@ -514,7 +656,7 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(89, 61.5, 41.7, 7, 'D');
 $pdf->Text(88.7, 62, 'TAG NO/ASSET NO');
-$pdf->SetFont('helvetica', 'B', 6);
+$pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(90, 65, $assetid);
 
 $pdf->SetFont('helvetica', '', 5);
@@ -534,10 +676,17 @@ $pdf->Text(91.4, 69, 'SERIAL NO');
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(91.5, 75.4, 67.4, 7, 'D');
-$pdf->Text(91.5, 76, 'ASSET NAME');
-$pdf->SetFont('helvetica', 'B', 5.5);
-$pdf->Text(92, 79, $assetname);
-
+$pdf->Text(91.5, 76, 'ASSET DESCRIPTION');
+if (strlen($assetname) < 55) {
+    // Character limit not exceeded, use default style
+    $pdf->SetFont('helvetica', 'B', 5.5);
+    $pdf->Text(92, 79, $assetname);
+} else {
+    // Character limit exceeded, apply a different style with a slash
+    $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 55) . "<br>" . substr($assetname, 55) . "</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 92, 77.8, $assetHtml, 0, 1, 0, true, '', true);
+}
 
 $pdf->StopTransform();
 }
@@ -561,7 +710,7 @@ $pdf->StopTransform();
         
         // New Text below the line
         $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-        $pdf->Text(25.8, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+        $pdf->Text(25.8, 104.5, '827 EDSA, Quezon City . 929-9911');
 
         $pdf->write1DBarcode($assetid, 'C128', 21, 135.5, '', 9, 0.4, $style, 'N');
         
@@ -570,29 +719,51 @@ $pdf->StopTransform();
         $pdf->Text(15.5, 110.7, 'COMPANY');
         $pdf->ScaleXY(100, 50, 80);
         $pdf->Rect(15.8, 110.5, 33, 7, 'D');
-        $pdf->SetFont('helvetica', 'B', 4.6);
-        $pdf->Text(16, 114.5, $company);
+        // $pdf->SetFont('helvetica', 'B', 4.6);
+        // $pdf->Text(16, 114.5, $company);
+
+        if ($company == 'Multi-Line Building System,Inc.(CEBU)') {
+            $companyname = "<p>Multi-Line Building System,Inc.<br>(CEBU)</p>";
+            $pdf->SetFont('helvetica', 'B', 5.2);
+            $pdf->writeHtmlCell(0, 0, 16.5, 113, $companyname, 0, 1, 0, true, '', true);
+        
+        } else if ($company == 'Multi-Line Structure Corp.(CEBU)'){
+            $companyname = "<p>Multi-Line Structure Corp.<br>(CEBU)</p>";
+            $pdf->SetFont('helvetica', 'B', 5.2);
+            $pdf->writeHtmlCell(0, 0, 16.5, 114, $companyname, 0, 1, 0, true, '', true);
+        } else if ($company == 'Multi-Line Building System,Inc.(DAVAO)'){
+            $companyname = "<p>Multi-Line Building System,Inc.<br>(DAVAO)</p>";
+            $pdf->SetFont('helvetica', 'B', 5.2);
+            $pdf->writeHtmlCell(0, 0, 16.5, 114, $companyname, 0, 1, 0, true, '', true);
+        }else if ($company == 'Multi-Line Structure Corp.(DAVAO)'){
+            $companyname = "<p>Multi-Line Structure Corp.<br>(DAVAO)</p>";
+            $pdf->SetFont('helvetica', 'B', 5.2);
+            $pdf->writeHtmlCell(0, 0, 16.5, 114, $companyname, 0, 1, 0, true, '', true);
+        }else{
+            $pdf->SetFont('helvetica', 'B', 6);
+            $pdf->Text(16, 114, $company);
+        }
         
         $pdf->SetFont('helvetica', '', 5);
         $pdf->ScaleXY(94, 50, 70);
         $pdf->Rect(48.7, 113, 28.3, 7.5, 'D');
         $pdf->Text(48.5, 113.5, 'LOCATION');
-        $pdf->SetFont('helvetica', 'B', 4);
-        $pdf->Text(49, 117.5, $location);
+        $pdf->SetFont('helvetica', 'B', 6);
+        $pdf->Text(49, 117, $location);
         
         // 2nd column
         $pdf->SetFont('helvetica', '', 5);
         $pdf->ScaleXY(100, 50, 80);
         $pdf->Rect(13.6, 120.5, 41.7, 7, 'D');
         $pdf->Text(13.5, 121, 'TAG NO/ASSET NO');
-        $pdf->SetFont('helvetica', 'B', 6.5);
+        $pdf->SetFont('helvetica', 'B', 7);
         $pdf->Text(15, 123.8, $assetid);
         
         $pdf->SetFont('helvetica', '', 5);
         $pdf->ScaleXY(94, 50, 70);
         $pdf->Rect(55.6, 123.7, 23.1, 7.5, 'D');
         $pdf->Text(55.5, 124, 'DATE PURCHASE');
-        $pdf->SetFont('helvetica', 'B', 6.5);
+        $pdf->SetFont('helvetica', 'B', 7);
         $pdf->Text(56.5, 127.5, $date_purchase);
         
         // 3rd Column
@@ -605,9 +776,21 @@ $pdf->StopTransform();
         $pdf->SetFont('helvetica', '', 5);
         $pdf->ScaleXY(100, 50, 80);
         $pdf->Rect(11.3, 138.2, 67.4, 7, 'D');
-        $pdf->Text(11.4, 138.5, 'ASSET NAME');
-        $pdf->SetFont('helvetica', 'B', 5);
-        $pdf->Text(12, 142, $assetname);
+        $pdf->Text(11.4, 138.5, 'ASSET DESCRIPTION');
+        // $pdf->SetFont('helvetica', 'B', 5);
+        // $pdf->Text(12, 142, $assetname);
+
+        if (strlen($assetname) < 55) {
+            // Character limit not exceeded, use default style
+            $pdf->SetFont('helvetica', 'B', 5.5);
+            $pdf->Text(12, 142, $assetname);
+        } else {
+            // Character limit exceeded, apply a different style with a slash
+            $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 55) . "<br>" . substr($assetname, 55) . "</p>";
+            $pdf->SetFont('helvetica', 'B', 5.2);
+            $pdf->writeHtmlCell(0, 0, 12, 140.5, $assetHtml, 0, 1, 0, true, '', true);
+        }
+        
         
         $pdf->StopTransform();
     
@@ -626,7 +809,7 @@ $pdf->Line(24.8, 104, 66.8, 104); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(25.8, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(25.8, 104.5, '827 EDSA, Quezon City . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 21, 134.5, '', 9, 0.4, $style, 'N');
 
@@ -664,8 +847,20 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(11.3, 130.1, 43, 6.5, 'D');
 $pdf->Text(11.4, 130.5, 'ASSET DESCRIPTION');
-$pdf->SetFont('helvetica', 'B', 4);
+// $pdf->SetFont('helvetica', 'B', 4);
+// $pdf->Text(12, 133.8, $assetname);
+
+if (strlen($assetname) > 52) {
+
+    // Character limit exceeded, apply a different style with a slash
+    $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 52) . "<br>" . substr($assetname, 52) . "</p>";
+    $pdf->SetFont('helvetica', 'B', 4);
+    $pdf->writeHtmlCell(0, 0, 12, 133, $assetHtml, 0, 1, 0, true, '', true);
+} else {
+// Character limit not exceeded, use default style
+$pdf->SetFont('helvetica', 'B', 4.6);
 $pdf->Text(12, 133.8, $assetname);
+}
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
@@ -705,7 +900,7 @@ $pdf->Line(24.8, 104, 66.8, 104); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(25.8, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(25.8, 104.5, '827 EDSA, Quezon City . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 21, 135.5, '', 9, 0.4, $style, 'N');
 
@@ -714,9 +909,27 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(15.5, 110.7, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(15.8, 110.5, 33, 7, 'D');
-$pdf->SetFont('helvetica', 'B', 4.6);
-$pdf->Text(16, 114.3, $company);
+if ($company == 'Multi-Line Building System,Inc.(CEBU)') {
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 16.5, 113, $companyname, 0, 1, 0, true, '', true);
 
+} else if ($company == 'Multi-Line Structure Corp.(CEBU)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 16.5, 114, $companyname, 0, 1, 0, true, '', true);
+} else if ($company == 'Multi-Line Building System,Inc.(DAVAO)'){
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 16.5, 114, $companyname, 0, 1, 0, true, '', true);
+}else if ($company == 'Multi-Line Structure Corp.(DAVAO)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 16.5, 114, $companyname, 0, 1, 0, true, '', true);
+}else{
+    $pdf->SetFont('helvetica', 'B', 6);
+    $pdf->Text(16, 114, $company);
+}
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(48.7, 113, 28.3, 7.5, 'D');
@@ -729,7 +942,7 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(13.6, 120.5, 41.7, 7, 'D');
 $pdf->Text(13.5, 121, 'TAG NO/ASSET NO');
-$pdf->SetFont('helvetica', 'B', 6);
+$pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(15, 124, $assetid);
 
 $pdf->SetFont('helvetica', '', 5);
@@ -749,9 +962,17 @@ $pdf->Text(11.4, 131.5, 'SERIAL NO');
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(11.3, 138.2, 67.4, 7, 'D');
-$pdf->Text(11.4, 138.5, 'ASSET NAME');
-$pdf->SetFont('helvetica', 'B', 5.5);
-$pdf->Text(12, 142, $assetname);
+$pdf->Text(11.4, 138.5, 'ASSET DESCRIPTION');
+if (strlen($assetname) < 55) {
+    // Character limit not exceeded, use default style
+    $pdf->SetFont('helvetica', 'B', 5.5);
+    $pdf->Text(12, 142, $assetname);
+} else {
+    // Character limit exceeded, apply a different style with a slash
+    $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 55) . "<br>" . substr($assetname, 55) . "</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 12, 140.5, $assetHtml, 0, 1, 0, true, '', true);
+}
 
 $pdf->StopTransform();
 }
@@ -773,7 +994,7 @@ $pdf->Line(95, 104, 137, 104); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 92, 135.7, '', 9, 0.4, $style, 'N');
 
@@ -782,29 +1003,52 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(86.3, 110.7, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(86.6, 110.5, 33, 7, 'D');
-$pdf->SetFont('helvetica', 'B', 4.6);
-$pdf->Text(87, 114.5, $company);
+// $pdf->SetFont('helvetica', 'B', 4.6);
+// $pdf->Text(87, 114.5, $company);
+
+if ($company == 'Multi-Line Building System,Inc.(CEBU)') {
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 113, $companyname, 0, 1, 0, true, '', true);
+
+} else if ($company == 'Multi-Line Structure Corp.(CEBU)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 113, $companyname, 0, 1, 0, true, '', true);
+} else if ($company == 'Multi-Line Building System,Inc.(DAVAO)'){
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 113, $companyname, 0, 1, 0, true, '', true);
+}else if ($company == 'Multi-Line Structure Corp.(DAVAO)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 113, $companyname, 0, 1, 0, true, '', true);
+}else{
+    $pdf->SetFont('helvetica', 'B', 6);
+    $pdf->Text(87, 114, $company);
+}
+
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(124, 113, 28.3, 7.5, 'D');
 $pdf->Text(124, 113.5, 'LOCATION');
-$pdf->SetFont('helvetica', 'B', 4);
-$pdf->Text(124, 117.5, $location);
+$pdf->SetFont('helvetica', 'B', 6);
+$pdf->Text(124, 117, $location);
 
 // 2nd column
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(89, 120.5, 41.7, 7, 'D');
 $pdf->Text(88.7, 121, 'TAG NO/ASSET NO');
-$pdf->SetFont('helvetica', 'B', 6.5);
+$pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(90, 123.8, $assetid);
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
 $pdf->Rect(135.8, 123.7, 23.1, 7.4, 'D');
 $pdf->Text(135.7, 124, 'DATE PURCHASE');
-$pdf->SetFont('helvetica', 'B', 6);
+$pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(136.7, 127.5, $date_purchase);
 
 // 3rd Column
@@ -817,9 +1061,21 @@ $pdf->Text(91.4, 131.5, 'SERIAL NO');
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(91.5, 138.2, 67.4, 7, 'D');
-$pdf->Text(91.5, 138.5, 'ASSET NAME');
-$pdf->SetFont('helvetica', 'B', 5.5);
-$pdf->Text(92, 141.8, $assetname);
+$pdf->Text(91.5, 138.5, 'ASSET DESCRIPTION');
+// $pdf->SetFont('helvetica', 'B', 5.5);
+// $pdf->Text(92, 141.8, $assetname);
+
+if (strlen($assetname) > 55) {
+
+        // Character limit exceeded, apply a different style with a slash
+        $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 55) . "<br>" . substr($assetname, 55) . "</p>";
+        $pdf->SetFont('helvetica', 'B', 5.2);
+        $pdf->writeHtmlCell(0, 0, 92, 140.5, $assetHtml, 0, 1, 0, true, '', true);
+} else {
+    // Character limit not exceeded, use default style
+    $pdf->SetFont('helvetica', 'B', 5.5);
+    $pdf->Text(92, 141.8, $assetname);
+}
 
 $pdf->StopTransform();
 }else if ($employee_assigned != 1){
@@ -836,7 +1092,7 @@ $pdf->Line(95, 104, 137, 104); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 929-9911');
 
 $pdf->write1DBarcode($assetid, 'C128', 91, 134.5, '', 9, 0.4, $style, 'N');
 // 1st Column
@@ -867,14 +1123,27 @@ $pdf->Rect(134.5, 123.2, 24.4, 6.9, 'D');
 $pdf->Text(134.1, 123.5, 'ASSET NO');
 $pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(135, 127, $assetid);
-
 // 3rd Column
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(91.5, 130.1, 43, 6.5, 'D');
 $pdf->Text(91.3, 130.5, 'ASSET DESCRIPTION');
-$pdf->SetFont('helvetica', 'B', 4);
-$pdf->Text(93, 133.7, $assetname);
+// $pdf->SetFont('helvetica', 'B', 4);
+// $pdf->Text(93, 133.7, $name);
+
+
+
+if (strlen($assetname) > 52) {
+
+    // Character limit exceeded, apply a different style with a slash
+    $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 52) . "<br>" . substr($assetname, 52) . "</p>";
+    $pdf->SetFont('helvetica', 'B', 4);
+    $pdf->writeHtmlCell(0, 0, 93, 133, $assetHtml, 0, 1, 0, true, '', true);
+} else {
+// Character limit not exceeded, use default style
+$pdf->SetFont('helvetica', 'B', 4.6);
+$pdf->Text(93, 134, $assetname);
+}
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
@@ -921,7 +1190,7 @@ $pdf->Line(95, 104, 137, 104); // Adjust the coordinates as needed
 
 // New Text below the line
 $pdf->SetFont('helvetica', 'B', 5); // Set the new font
-$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 410-1155 . 929-9911');
+$pdf->Text(96.5, 104.5, '827 EDSA, Quezon City . 929-9911');
 
 
 $pdf->write1DBarcode($assetid, 'C128', 91, 135.7, '', 9, 0.4, $style, 'N');
@@ -931,8 +1200,27 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->Text(86.3, 110.7, 'COMPANY');
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(86.6, 110.5, 33, 7, 'D');
-$pdf->SetFont('helvetica', 'B', 4.6);
-$pdf->Text(87, 114.5, $company);
+if ($company == 'Multi-Line Building System,Inc.(CEBU)') {
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 113, $companyname, 0, 1, 0, true, '', true);
+
+} else if ($company == 'Multi-Line Structure Corp.(CEBU)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(CEBU)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 113, $companyname, 0, 1, 0, true, '', true);
+} else if ($company == 'Multi-Line Building System,Inc.(DAVAO)'){
+    $companyname = "<p>Multi-Line Building System,Inc.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 113, $companyname, 0, 1, 0, true, '', true);
+}else if ($company == 'Multi-Line Structure Corp.(DAVAO)'){
+    $companyname = "<p>Multi-Line Structure Corp.<br>(DAVAO)</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 87.5, 113, $companyname, 0, 1, 0, true, '', true);
+}else{
+    $pdf->SetFont('helvetica', 'B', 6);
+    $pdf->Text(87, 114, $company);
+}
 
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(94, 50, 70);
@@ -946,7 +1234,7 @@ $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(89, 120.5, 41.7, 7, 'D');
 $pdf->Text(88.7, 121, 'TAG NO/ASSET NO');
-$pdf->SetFont('helvetica', 'B', 6.5);
+$pdf->SetFont('helvetica', 'B', 7);
 $pdf->Text(90, 124, $assetid);
 
 $pdf->SetFont('helvetica', '', 5);
@@ -966,9 +1254,18 @@ $pdf->Text(91.4, 131.5, 'SERIAL NO');
 $pdf->SetFont('helvetica', '', 5);
 $pdf->ScaleXY(100, 50, 80);
 $pdf->Rect(91.5, 138.2, 67.4, 7, 'D');
-$pdf->Text(91.5, 138.5, 'ASSET NAME');
+$pdf->Text(91.5, 138.5, 'ASSET DESCRIPTION');
+if (strlen($assetname) > 55) {
+
+    // Character limit exceeded, apply a different style with a slash
+    $assetHtml = "<p style='margin-left:50px'>" . substr($assetname, 0, 55) . "<br>" . substr($assetname, 55) . "</p>";
+    $pdf->SetFont('helvetica', 'B', 5.2);
+    $pdf->writeHtmlCell(0, 0, 92, 140.5, $assetHtml, 0, 1, 0, true, '', true);
+} else {
+// Character limit not exceeded, use default style
 $pdf->SetFont('helvetica', 'B', 5.5);
 $pdf->Text(92, 141.8, $assetname);
+}
 
 $pdf->StopTransform();
 }

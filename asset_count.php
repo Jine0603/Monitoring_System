@@ -28,7 +28,6 @@ while ($rows = mysqli_fetch_assoc($query)) {
         "itemname" => $rows['assetname'],
         "name"     => $rows['lastname'].' '.$rows['firstname'],
         "dep"      => $rows['department'],
-        "pos"      => $rows['position'],
         "loc"      => $rows['location'],
         "date1"    => $rows['scan_date'],
     );

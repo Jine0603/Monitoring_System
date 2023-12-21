@@ -18,7 +18,7 @@ include 'seasionindex.php';
     <meta name="format-detection" content="telephone=no">
     <title>FIXED ASSET MONITORING SYSTEM WITH BARCODING </title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo1.jpg">
     <!-- Datatable -->
     <link href="vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
@@ -129,7 +129,7 @@ include 'seasionindex.php';
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">ADD ITEM</h5>
+                                <h5 class="modal-title">ADD ASSET</h5>
                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                 </button>
                             </div>
@@ -485,7 +485,7 @@ include 'seasionindex.php';
                     <div class="modal-dialog modal-dialog-centered" role="dialog" tabindex="-1">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Assign Employee</h5>
+                                <h5 class="modal-title">ASSET DETAILS</h5>
                                 <button type="button" id="closess" class="close" data-dismiss="modal"><span>&times;</span></button>
                             </div>
                             <div class="modal-body">
@@ -597,7 +597,7 @@ include 'seasionindex.php';
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">ASSET ITEM</h4>
-                                <button type="button" class="btn btn-primary mb-2 align-items-center clearme" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter" id="generateIDButton">ADD ITEM</button>
+                                <button type="button" class="btn btn-primary mb-2 align-items-center clearme" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter" id="generateIDButton">ADD ASSET</button>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -644,7 +644,7 @@ include 'seasionindex.php';
         <!--**********************************
             Footer start
         ***********************************-->
-        <?php include 'Include/footer.php'; ?>
+        <!-- <?php include 'Include/footer.php'; ?> -->
         <!--**********************************
             Footer end
         ***********************************-->
@@ -1124,17 +1124,60 @@ include 'seasionindex.php';
                     var picture = files[index].file;
                     form_data.append("files[]", picture);
                 }
+                
 
-                if (assetname == '' || company == '' || category == '' || file1 == undefined || date_purchase == '' || locationid == 'default') {
-                    Swal.fire({
-                        position: 'top-center',
-                        icon: 'error',
-                        title: 'Please Fill Up the Form!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+                if (assetname == '') {
+                    var msg1 = 'No asset name specified!';
+                } else if (company == '') {
+                    var msg1 = 'No Company specified!';
+                } else if (category == '') {
+                    var msg1 = 'No Categories specified!';
+                } else if (file1 == undefined) {
+                    var msg1 = 'No Asset Image specified!';
+                } else if (date_purchase == '') {
+                    var msg1 = 'No Date Purchase specified!';
+                } else if (locationid == 'default') {
+                    var msg1 = 'No Location specified!';
+                }else{
 
-                    //     $("#file1").change(function() {
+                    $.ajax({
+                    type: 'POST',
+                    url: 'add.php',
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(response) {
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: 'Success!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $('#submitForm')[0].reset();
+                        clearImagePreview();
+                        for (var i = 0; i < files.length; i++) {
+                            pond.removeFile(files[i]);
+                        }
+                        $('#tablee').DataTable().ajax.reload();
+                        $("#exampleModalCenter").modal("hide");
+                    },
+
+                });
+            }
+
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Incomplete <br>' + msg1,
+                    showConfirmButton: false,
+                    timer: 2000
+                }) 
+                
+
+                
+                                    //     $("#file1").change(function() {
                     //     var file1 = this.files[0];
                     //     var file1Type = file1.type;
                     //     var match = ["image/jpeg", "image/png", "image/jpg"];
@@ -1150,35 +1193,7 @@ include 'seasionindex.php';
                     //         return;
                     //     }
                     // });
-                } else {
 
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'add.php',
-                        data: form_data,
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function(response) {
-                            Swal.fire({
-                                position: 'top-center',
-                                icon: 'success',
-                                title: 'Success!',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            $('#submitForm')[0].reset();
-                            clearImagePreview();
-                            for (var i = 0; i < files.length; i++) {
-                                pond.removeFile(files[i]);
-                            }
-                            $('#tablee').DataTable().ajax.reload();
-                            $("#exampleModalCenter").modal("hide");
-                        },
-
-                    });
-                }
             });
 
             $(document).on('click', '.clearme', function(e) {

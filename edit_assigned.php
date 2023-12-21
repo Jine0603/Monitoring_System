@@ -27,8 +27,8 @@ $sql1 = "UPDATE assigned_tbl
 
 if ($execute == true) {
 
-    $sql2 = "INSERT INTO assigned_tbl (acc_id, item_id, cateid, employee_assigned, companyid, departmentid, positionid,locationid) 
-    VALUES ('$accid','$asset','$categ','$emplo','$company','$depart','$posi','$newloc')";
+    $sql2 = "INSERT INTO assigned_tbl (acc_id, item_id, cateid, employee_assigned, companyid, departmentid, positionid,locationid, assigned_date) 
+    VALUES ('$accid','$asset','$categ','$emplo','$company','$depart','$posi','$newloc','$date_now')";
 
     $query = mysqli_query($conn, $sql2);
 

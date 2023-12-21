@@ -4,29 +4,32 @@ include 'Include/config.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Retrieve the selected date range from the Ajax request
-    $startDate = $_POST['startDate'] ?? '';
-    $endDate = $_POST['endDate'] ?? '';
-    $cat = $_POST['cat'] ?? '';
+    $startDate = mysqli_real_escape_string($conn, $_POST['startDate']);
+    $endDate   = mysqli_real_escape_string($conn, $_POST['endDate']);
+    $cat       = mysqli_real_escape_string($conn, $_POST['cat']);
 
-    if ($startDate != '' && $endDate != '' && $cat != 'default'){
-            $sql = "SELECT item_tbl.id,location_tbl.location,categ_tbl.categories,com_tbl.company As companyid,item_tbl.assetid,
-    item_tbl.file_name,item_tbl.assetname,item_tbl.companyid,item_tbl.categoriesid,item_tbl.date_purchase,item_tbl.locationid,item_tbl.assigned_status,item_tbl.status,item_tbl.date_created
-    FROM item_tbl
-    LEFT JOIN location_tbl ON location_tbl.id = item_tbl.locationid
-    LEFT JOIN categ_tbl ON categ_tbl.id           = item_tbl.categoriesid
-    LEFT JOIN com_tbl ON com_tbl.id               = item_tbl.companyid
-    WHERE item_tbl.assigned_status = 0 AND item_tbl.status = 1 AND date_created BETWEEN '$startDate' AND '$endDate' AND categoriesid  = '$cat'";
 
-    }
-    else if ($cat != 'default'){
-        
     $sql = "SELECT item_tbl.id,location_tbl.location,categ_tbl.categories,com_tbl.company As companyid,item_tbl.assetid,
     item_tbl.file_name,item_tbl.assetname,item_tbl.companyid,item_tbl.categoriesid,item_tbl.date_purchase,item_tbl.locationid,item_tbl.assigned_status,item_tbl.status,item_tbl.date_created
     FROM item_tbl
     LEFT JOIN location_tbl ON location_tbl.id = item_tbl.locationid
     LEFT JOIN categ_tbl ON categ_tbl.id           = item_tbl.categoriesid
-    LEFT JOIN com_tbl ON com_tbl.id               = item_tbl.companyid
-    WHERE item_tbl.assigned_status = 0 AND item_tbl.status = 1 AND categoriesid  = '$cat'";
+    LEFT JOIN com_tbl ON com_tbl.id               = item_tbl.companyid";
+    $conditions = [];
+
+    if ($startDate != '' && $endDate != '') {
+        $conditions[] = "item_tbl.date_created BETWEEN '$startDate' AND '$endDate' AND item_tbl.status = '1' AND item_tbl.assigned_status = '0'";
+    }
+
+    if ($cat != 'default') {
+        $conditions[] = "item_tbl.categoriesid = '$cat' AND item_tbl.status = '1' AND item_tbl.assigned_status = '0'";
+    }else {
+        $conditions[] = "item_tbl.status = '1' AND item_tbl.assigned_status = '0'";
+    }
+
+    // Combine conditions into the WHERE clause
+    if (!empty($conditions)) {
+        $sql .= " WHERE " . implode(" AND ", $conditions);
     }
     $query = mysqli_query($conn, $sql);
     $data = array();

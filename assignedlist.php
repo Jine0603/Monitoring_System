@@ -18,7 +18,7 @@ include 'seasionindex.php';
     <meta name="format-detection" content="telephone=no">
     <title>FIXED ASSET MONITORING SYSTEM WITH BARCODING </title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/logo1.jpg">
     <!-- Datatable -->
     <link href="vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
@@ -232,14 +232,14 @@ include 'seasionindex.php';
                     <div class="modal-dialog modal-dialog-centered" role="dialog" tabindex="-1">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Assign Employee</h5>
+                                <h5 class="modal-title">ASSET DETAILS</h5>
                                 <button type="button" id="close2" class="close" data-dismiss="modal"><span>&times;</span></button>
                             </div>
                             <div class="modal-body">
                                 <div class="default-tab">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" data-toggle="tab" href="#home"><i class="la la-home mr-2"></i>Asset Details</a>
+                                            <a class="nav-link active" data-toggle="tab" href="#home"><i class="la la-home mr-2"></i>Asset Info</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" data-toggle="tab" href="#profile"><i class="la la-user mr-2"></i> Asset History</a>
@@ -373,7 +373,7 @@ include 'seasionindex.php';
         <!--**********************************
             Footer start
         ***********************************-->
-        <?php include 'Include/footer.php'; ?>
+        <!-- <?php include 'Include/footer.php'; ?> -->
         <!--**********************************
             Footer end
         ***********************************-->
